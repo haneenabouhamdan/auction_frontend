@@ -1,0 +1,187 @@
+  .card-user{
+    margin-top: 50px;
+    margin-right:20px;
+    text-align: left;
+    width:90%;
+    height: auto;
+    padding: .4375rem .75rem;
+    font-size: .8125rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #e1e5eb;
+    font-weight: 300;
+    border-radius: .35rem;
+    box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+  }
+
+  .editProfile button{
+    color: #fff;
+      border-color:#32b69b;
+      background-color: #32b69b;
+      box-shadow: none;
+      font-weight: 400;
+      font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+      border: 1px solid transparent;
+      padding: .5625rem 1rem;
+      font-size: .75rem;
+      line-height: 1.125;
+      border-radius: .25rem;
+  }
+  .editProfile Input{
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: textfield;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    font: 400 14.3333px Arial;
+  }
+  .editProfile label{
+    text-align: -webkit-match-parent;
+    font-weight: 300;
+    display: inline-block;
+    margin-bottom: .5rem;
+    color:gray;
+    font-size:1rem;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  }
+.smallCard{
+    margin-top: 50px;
+    margin-left:30px;
+    text-align: center;
+    height: auto;
+    padding: .4375rem .75rem;
+    font-size: .8125rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #e1e5eb;
+    font-weight: 300;
+    border-radius: .35rem; 
+    width:350px;
+    float:right;
+    box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+  
+}
+.image{
+  width: 200px;
+  height: 200px;
+  vertical-align: middle;
+  border-radius: 50%!important;
+}
+.country{
+  height: 30px;
+  display: inline-block;
+  text-align: start;
+  color:gray;
+  margin-right: 10px;
+  appearance: textfield;
+  margin-bottom: 10px;
+  margin-top:10px;
+  background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  font: 400 14.3333px Arial;
+}
+.reg{
+  margin-left: 5px;
+}
+.XsmallCard{
+  margin-top: 30px;
+  text-align: center;
+  height: auto;
+  padding: .4375rem .75rem;
+  font-size: .8125rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #e1e5eb;
+  font-weight: 300;
+  border-radius: .35rem; 
+  width:200px;
+  box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+}
+.imageA{
+  width: 120px;
+  height:120px;
+  vertical-align: middle;
+  border-radius: 50%!important;
+}
+.Col{
+  max-width:200px;
+  margin-right: 10px;
+}
+.search-sec{
+  padding: 2rem;
+}
+.search-slt{
+  display: block;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #55595c;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  height: calc(3rem + 2px) !important;
+  border-radius:0;
+}
+.wrn-btn{
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: capitalize;
+  height: calc(3rem + 2px) !important;
+  border-radius:0;
+}
+@media (min-width: 992px){
+  .search-sec{
+      position: relative;
+      top: -114px;
+      background: rgba(26, 70, 104, 0.51);
+  }
+}
+
+@media (max-width: 992px){
+  .search-sec{
+      background: #1A4668;
+  }
+}
+.range{
+  width:200px;
+}
+.Coll{
+  max-width:400px;
+  margin-right: 10px;
+}
+.MsmallCard{
+  margin-top: 30px;
+  text-align: center;
+  height: auto;
+  padding: .4375rem .75rem;
+  font-size: .8125rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #e1e5eb;
+  font-weight: 300;
+  border-radius: .35rem; 
+  width:350px;
+  box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+}
+.dialogAct{
+  position:"fixed";
+  margin-top:"300px";
+  background-color:#32b69b!important
+}
+.desc{
+  font-size: medium;
+}
