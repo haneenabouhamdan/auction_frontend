@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import '../style/loginform.css';
+import { CardBody, Row ,Card,CardHeader,Input,Button} from 'reactstrap';
+import '../style/User.css';
 class PaymentDetails extends React.Component{
     constructor(props){
         super(props);
@@ -111,22 +113,34 @@ class PaymentDetails extends React.Component{
     }
     render(){
         return( 
-        <div className="credit">
-        <form action="#">
-        <h2 style={{color:"#595959"}}>Please enter your Credit details</h2>
-        <input type="text" onChange={this.handleChange} value={this.state.credit_card} name="credit_card" placeholder="Credit Card number"></input>
-        <label className="message">{ this.state.credit_card_error }</label>
-        <input type="text" onChange={this.handleChange} value={this.state.name} name="name" placeholder="Name" />
-        <label className="message">{ this.state.paymentErr}</label>
-        <input type="date" onChange={this.handleChange} value={this.state.expiration} name="expiration" placeholder="Expiration date" />
-        <label className="message">{ this.state.expiration_date_error}</label>
-        <input type="number" onChange={this.handleChange} value={this.state.cvv} name="cvv" placeholder="cvv" />
-        <label className="message">{ this.state.cvvError}</label>
-        <br />
-        <button onClick={this.onSubmit}>Submit</button>
-        <br/>
-        </form>
-        </div>
+            <div>
+                <Card className="meduimCard">
+                <CardHeader style={{backgroundColor:"white", height:"100px"}}>
+                <h2> Please enter your Credit details</h2>
+                </CardHeader>
+                <CardBody >
+                    <Row style={{marginTop:"10px"}}>
+                    <Input type="text" onChange={this.handleChange} value={this.state.credit_card} name="credit_card" placeholder="Credit Card number"></Input>
+                     <label className="message">{ this.state.credit_card_error }</label>
+                    </Row>
+                    <Row style={{marginTop:"10px"}}>
+                    <Input type="text" onChange={this.handleChange} value={this.state.name} name="name" placeholder="Name" />
+                      <label className="message">{ this.state.paymentErr}</label>
+                    </Row>
+                    <Row style={{marginTop:"10px"}}>
+                    <Input type="date" onChange={this.handleChange} value={this.state.expiration} name="expiration" placeholder="Expiration date" />
+                    <label className="message">{ this.state.expiration_date_error}</label>
+                    </Row>
+                    <Row style={{marginTop:"10px"}}>
+                    <Input type="number" onChange={this.handleChange} value={this.state.cvv} name="cvv" placeholder="cvv" />
+                    <label className="message">{ this.state.cvvError}</label>
+                    </Row>
+                    <Row style={{marginTop:"10px",textAlign:"center"}}>
+                    <button onClick={this.onSubmit} style={{backgroundColor:"rgb(18, 165, 140)",color:"white",border:"0",width:"100px",height:"40px"}}>Submit</button>
+                    </Row>
+                </CardBody>
+            </Card>
+            </div>
         )
     }
 }

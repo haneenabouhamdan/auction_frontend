@@ -5,11 +5,11 @@ class UserSidebar extends React.Component{
 render(){
     return (
 <div id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-        <li class="sidebar-brand">
+      <ul className="sidebar-nav">
+        <li className="sidebar-brand">
           <a href="#">
             <h4>
-          <MDBIcon fas icon="home" /> Mazad</h4>
+          <MDBIcon fas icon="home" /> D.P.M</h4>
           <hr style={{color:'white',backgroundColor:'white'}}/>
           </a>
         </li>

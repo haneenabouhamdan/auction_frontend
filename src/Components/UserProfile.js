@@ -36,6 +36,8 @@ class UserProfile extends React.Component {
           balance:"",
           date_of_birth:"",
           email:"",
+          country:"",
+          state:"",
           openD:false,
           password_confirmation:""
         }
@@ -49,6 +51,8 @@ class UserProfile extends React.Component {
                email:response.data.email,
                password:response.data.password,
                phone:response.data.phone,
+               country:response.data.coutry,
+               state:response.data.state,
                balance:response.data.balance,
                date_of_birth:response.data.date_of_birth,
                image:response.data.image
@@ -63,7 +67,15 @@ class UserProfile extends React.Component {
       this.setState({
         openD:true
       })
-
+    }
+    onChangeRegion = (val) =>{
+      // console.log(val);
+      this.setState({
+        state:val})
+    }
+    onChangeCountry = (val) =>{
+      this.setState({
+        country:val})
     }
   
     addImage=(file)=>
@@ -85,7 +97,18 @@ class UserProfile extends React.Component {
           })
           this.handleClose();
     }
+    
+    onChangeRegion = (val) =>{
+      console.log(val);
+      this.setState({
+        state:val})
+    }
+    onChangeCountry = (val) =>{
+      this.setState({
+        country:val})
+    }
     editProfile=()=>{
+
         let formData1={
             fist_name:this.state.first_name,
             last_name:this.state.last_name,
@@ -93,14 +116,20 @@ class UserProfile extends React.Component {
             phone:this.state.phone,
             password:this.state.password,
             balance:this.state.balance,
+            country:this.state.country,
+            state:this.state.state,
             date_of_birth:this.state.date_of_birth,
         }
+        console.log(formData1);
           axios.defaults.withCredentials=true;
+          axios.get("/sanctum/csrf-cookie").then(response => {
              axios.post('/api/users/edit',formData1).then((response)=>{
               console.log(response);
             })
-        }
+        })
+      }
     render(){
+      if(sessionStorage.getItem('loggedIn')){
         return(
             <div className="editProfile">
             <Row className="row"> 
@@ -132,7 +161,7 @@ class UserProfile extends React.Component {
                 <CardBody>
                 
                     <Row>
-                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/> My Bids</Col>
+                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/><a href="/myBids">My Bids</a></Col>
                         <Col><MDBIcon icon="trophy" style={{color:"#ffbb33"}}/> Won Bids</Col>
                         <Col><MDBIcon icon="heart" style={{color:"#cc3300"}}/> Favorites</Col>
                     </Row>
@@ -226,7 +255,7 @@ class UserProfile extends React.Component {
                         <Row>
                       <Col className="px-1">
                       <label>Address</label>
-                      <ListCountries/>
+                      <ListCountries  country={this.onChangeCountry} state={this.onChangeRegion}/>
                       <br/>
                       </Col>
                     </Row>
@@ -274,6 +303,11 @@ class UserProfile extends React.Component {
               </Row>
             </div>
         )
+      }
+      else{
+        {this.props.history.push('/login')}
+        return(<div></div>)
+      }
     }
 } export default UserProfile;    
     

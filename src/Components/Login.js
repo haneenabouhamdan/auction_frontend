@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import {MDBIcon } from "mdbreact";
 import '../style/loginform.css';
+import ListCountries from './ListCountries';
 class Login extends React.Component{
   constructor(props){
     super(props);
@@ -19,6 +20,10 @@ class Login extends React.Component{
       password_confirmation:"",
       passConfErr:"",
       phone:"",
+      balance:"",
+      balanceErr:"",
+      country:"",
+      state:"",
       date_of_birth:"",
       date_of_birth_error:"",
       
@@ -49,7 +54,7 @@ class Login extends React.Component{
   validatePhoneNumber(input_str) {
     var re = /^[\+]?\d{11}$/;
 
-    console.log(re.test(input_str));
+    // console.log(re.test(input_str));
 }
  onSubmitt = e =>{
     e.preventDefault();
@@ -76,6 +81,17 @@ class Login extends React.Component{
               passErr: '',
           });
       }
+      if(this.state.balance <= 0){
+        this.setState({
+            balanceErr: 'Please enter a valid Balance',
+        });
+        error.push("Password error");
+              
+        }else{
+            this.setState({
+                balanceErr: '',
+            });
+        }
       if(this.state.first_name === ''){
         this.setState({
             firstNameErr: 'Please enter your first name',
@@ -143,6 +159,7 @@ class Login extends React.Component{
             });
         } 
     axios.defaults.withCredentials=true;
+    console.log(this.state.country)
     axios.get("/sanctum/csrf-cookie").then(response => {
       axios.post("/register",this.state).then(res => {
         sessionStorage.setItem('loggedIn',true);
@@ -154,6 +171,15 @@ class Login extends React.Component{
         console.log(res.config['data']);
       });
     });
+  }
+  onChangeRegion = (val) =>{
+    console.log(val);
+    this.setState({
+      state:val})
+  }
+  onChangeCountry = (val) =>{
+    this.setState({
+      country:val})
   }
   onSubmit = e => {
     e.preventDefault();
@@ -232,33 +258,49 @@ class Login extends React.Component{
     <div className="form-container sign-up-container">
       <form action="#">
         <h1 style={{color:"#595959"}}>Sign Up</h1>
+     
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="signature" style={{padding: "10px",marginTop:"10px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.first_name} name ="first_name" placeholder="First Name"  /></div>
         <label className="message">{ this.state.firstNameErr }</label>
+
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="signature" style={{padding: "10px",marginTop:"10px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.last_name} name ="last_name"  placeholder="Last Name"/></div>
         <label className="message">{ this.state.lastNameErr}</label>
+
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="envelope" style={{padding: "10px",marginTop:"10px"}}/>
         <input type="email" onChange={this.handleChange} value={this.state.email} name="email" placeholder="Email" /></div>
         <label className="message">{ this.state.emailErr}</label>
+
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="phone-alt" style={{padding: "10px",marginTop:"10px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.phone} name="phone" placeholder="Phone" /></div>
         <label className="message">{ this.state.phoneErr}</label>
+
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="calendar-alt" style={{padding: "10px",marginTop:"10px"}}/>
         <input type="date" onChange={this.handleChange} value={this.state.date_of_birth} name="date_of_birth" placeholder="Date of birth" /></div>
         <label className="message">{ this.state.date_of_birth_error}</label>
+
+        <div style={{display:"flex"}}>
+        <MDBIcon fas icon="map-marked-alt" style={{padding: "5px",marginTop:"10px"}}/>
+        <ListCountries country={this.onChangeCountry} state={this.onChangeRegion}/>
+        </div>
+        
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="lock" style={{padding: "10px",marginTop:"10px"}}/>
-        <input type="password" onChange={this.handleChange} value={this.state.password} name="password" placeholder="Password" /></div>
+        <MDBIcon fas icon="hand-holding-usd" style={{padding: "10px",marginTop:"10px"}}/>
+        <input type="text" onChange={this.handleChange} value={this.state.balance} name ="balance" placeholder="Balance"  /></div>
+        <label className="message">{ this.state.balanceErr }</label>
+
+        <div style={{display:"flex",width:"400px"}}>
+        <MDBIcon fas icon="user-lock" style={{padding: "10px",marginTop:"10px"}}/>
+        <input type="password" onChange={this.handleChange} value={this.state.password} name="password" placeholder="Password" />
         <label className="message">{ this.state.passErr}</label>
-        <div style={{display:"flex",width:"350px"}}>
+        
         <MDBIcon fas icon="lock" style={{padding: "10px",marginTop:"10px"}}/>
-        <input type="password" onChange={this.handleChange} value={this.state.password_confirmation} name="password_confirmation" placeholder=" Confirm Password" /></div>
+        <input type="password" onChange={this.handleChange} value={this.state.password_confirmation} name="password_confirmation" placeholder="Confirm Password" /></div>
          <label className="message">{ this.state.passErr}</label>
         {/* <a onClick={this.handleClickOpen}>
          Choose Location

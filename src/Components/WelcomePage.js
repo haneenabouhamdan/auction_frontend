@@ -6,7 +6,11 @@ import Slideshow from '../Components/Slideshow'
 import welcome from '../images/welcome.jpeg'
 import { MDBIcon } from 'mdbreact';
 import MainCategories from './MainCategories';
-import Maps from './Maps';
+// import Maps from './Maps';
+import { Map } from "./Map";
+import { MapProvider } from "./mapHook";
+import  SearchableMap from "./mymap";
+
 // import InitMap from '../Components/Maps';
 class welcomePage extends React.Component{
     constructor(props){
@@ -25,10 +29,12 @@ class welcomePage extends React.Component{
                    <button style={{backgroundColor:'transparent',color:"white",fontStyle:"bold",height:"52px",width:"52px",marginBottom:"2px",border:"0"}}><MDBIcon icon="search"></MDBIcon></button>
                    </div>
                    <MainCategories/>
+                 
+                {/* <SearchableMap/> */}
                    
                {/* <Slideshow/> */}
                {/* <Categories/> */}
-                {/* <Maps/> */}
+                {/* <Map/> */}
             </div>
         )
     }
