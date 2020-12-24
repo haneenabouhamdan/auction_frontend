@@ -14,7 +14,7 @@ render(){
           </a>
         </li>
         <li>
-          <a href="#">My Bids</a>
+          <a href="/myauctions">My Bids</a>
         </li>
         <li>
           <a href="#">Winning Bids</a>

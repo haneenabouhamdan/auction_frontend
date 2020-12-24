@@ -54,7 +54,7 @@ class Login extends React.Component{
   validatePhoneNumber(input_str) {
     var re = /^[\+]?\d{11}$/;
 
-    // console.log(re.test(input_str));
+    console.log(re.test(input_str));
 }
  onSubmitt = e =>{
     e.preventDefault();

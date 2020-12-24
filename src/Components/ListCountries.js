@@ -10,19 +10,21 @@ class ListCountries extends React.Component {
   }
  
   selectCountry (val) {
+    this.passCountry(val);
     this.setState({ country: val });
   }
  
   selectRegion (val) {
+    this.passRegion(val);
     this.setState({ region: val });
 
   }
-  // passCountry (val){
-  //   this.props.country=val;
-  // }
-  // passRegion(val){
-  //   this.props.region=val;
-  // }
+  passCountry (val){
+    this.props.country(val);
+  }
+  passRegion(val){
+    this.props.state(val);
+  }
   componentDidMount() {
     axios.defaults.withCredentials=true;
       axios.get('/api/user').then((response)=>{

@@ -107,8 +107,8 @@ class UserProfile extends React.Component {
       this.setState({
         country:val})
     }
-    editProfile=()=>{
-
+    editProfile = ()=>{
+      console.log("t")
         let formData1={
             fist_name:this.state.first_name,
             last_name:this.state.last_name,
@@ -161,7 +161,7 @@ class UserProfile extends React.Component {
                 <CardBody>
                 
                     <Row>
-                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/><a href="/myBids">My Bids</a></Col>
+                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/>My Bids</Col>
                         <Col><MDBIcon icon="trophy" style={{color:"#ffbb33"}}/> Won Bids</Col>
                         <Col><MDBIcon icon="heart" style={{color:"#cc3300"}}/> Favorites</Col>
                     </Row>

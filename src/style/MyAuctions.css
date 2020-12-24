@@ -1,0 +1,64 @@
+#dropdown{
+    background-color: #32b69b! important;
+    width:"17%";
+    position: relative;
+    margin-left:"100px";
+}
+.navauc{
+    height:59px!important;
+    
+}
+.inputs{
+    display: inline;
+    margin-top: 10px;
+    margin-left: 10px;
+    width:220px;
+    color:grey;
+}
+.input{
+    margin-left: 10px;
+    width:450px;
+    margin-top: 10px;   
+}
+.inputt{
+    margin-left: 10px;
+    width:200px;
+    margin-top: 10px;   
+}
+.inputs2{
+    display: inline;
+    width:145px;
+    margin-left: 8px;
+    margin-top: 10px;
+}
+.area{
+    width:145px;
+    float:left;
+    margin-top: 10px;
+}
+.inputs3{
+    display:inline-table;
+    width:220px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.check{
+    margin-left:10px;
+}
+.services{
+    display: inline;
+    margin-left: 30px;
+    color: grey;
+    margin-top: 10px;
+    float: left;
+    position: relative;
+}
+.map{
+    
+    width:450px;
+}
+.loc{
+    color:grey;
+    margin-top: 20px;
+    font-size: large;
+}
