@@ -94,7 +94,6 @@ input[type="date"]:before {
 	background-color: white;
 	border: none;
 	padding: 6px 15px;
-	margin: 4px 0;
 	width: 100%;
 }
 .credit{
@@ -135,6 +134,7 @@ input[type="date"]:before {
 .sign-in-container {
 	left: 0;
 	width: 50%;
+	height: 100%;
 	z-index: 2;
 }
 
@@ -145,6 +145,7 @@ input[type="date"]:before {
 .sign-up-container {
 	left: 0;
 	width: 50%;
+	height: 100%;
 	opacity: 0;
 	z-index: 1;
 }

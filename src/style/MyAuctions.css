@@ -2,7 +2,12 @@
     background-color: #32b69b! important;
     width:"17%";
     position: relative;
-    margin-left:"100px";
+    float: left;
+    /* margin-right:"600px"; */
+}
+.img button{
+    background-color: #32b69b! important;
+    color:white;
 }
 .navauc{
     height:59px!important;
@@ -61,4 +66,28 @@
     color:grey;
     margin-top: 20px;
     font-size: large;
+}
+#myaucnav{
+    height:60px;
+    width:100%;
+    border:0;
+    position:top;
+    display:inline-flex;
+    box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+}
+#btn-logout{
+    width:70px;
+    margin-top:10px;
+    height:40px;
+    background-color:white;
+    color:#32b69b;
+    border:0;
+}
+#dropdowntype{
+    width:450px;
+    background-color: white!important;
+    color:grey;
+}
+.drop{
+    color:grey!important;
 }

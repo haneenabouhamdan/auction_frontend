@@ -1,15 +1,10 @@
 import React from 'react';
 import Navbar from '../Components/Navbar'
-import Categories from '../Components/Categories'
-// import Map from '../Components/Maps'
 import Slideshow from '../Components/Slideshow'
 import welcome from '../images/welcome.jpeg'
 import { MDBIcon } from 'mdbreact';
 import MainCategories from './MainCategories';
-// import Maps from './Maps';
-import { Map } from "./Map";
-import { MapProvider } from "./mapHook";
-import  SearchableMap from "./mymap";
+import  SearchableMap from "./Mymap";
 
 // import InitMap from '../Components/Maps';
 class welcomePage extends React.Component{
@@ -33,8 +28,6 @@ class welcomePage extends React.Component{
                 {/* <SearchableMap/> */}
                    
                {/* <Slideshow/> */}
-               {/* <Categories/> */}
-                {/* <Map/> */}
             </div>
         )
     }

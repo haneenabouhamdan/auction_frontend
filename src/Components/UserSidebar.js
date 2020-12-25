@@ -14,6 +14,9 @@ render(){
           </a>
         </li>
         <li>
+        <a href="/userprofile">Dashboard</a>
+        </li>
+        <li>
           <a href="/myauctions">My Bids</a>
         </li>
         <li>

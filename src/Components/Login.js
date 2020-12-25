@@ -81,6 +81,17 @@ class Login extends React.Component{
               passErr: '',
           });
       }
+      if(this.state.country === ''){
+        this.setState({
+            CountryErr: 'Please enter your country',
+        });
+        error.push("Password error");
+              
+        }else{
+            this.setState({
+                CountryErr: '',
+            });
+        }
       if(this.state.balance <= 0){
         this.setState({
             balanceErr: 'Please enter a valid Balance',
@@ -260,46 +271,45 @@ class Login extends React.Component{
         <h1 style={{color:"#595959"}}>Sign Up</h1>
      
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="signature" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="signature" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.first_name} name ="first_name" placeholder="First Name"  /></div>
         <label className="message">{ this.state.firstNameErr }</label>
 
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="signature" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="signature" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.last_name} name ="last_name"  placeholder="Last Name"/></div>
         <label className="message">{ this.state.lastNameErr}</label>
 
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="envelope" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="envelope" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="email" onChange={this.handleChange} value={this.state.email} name="email" placeholder="Email" /></div>
         <label className="message">{ this.state.emailErr}</label>
 
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="phone-alt" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="phone-alt" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.phone} name="phone" placeholder="Phone" /></div>
         <label className="message">{ this.state.phoneErr}</label>
 
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="calendar-alt" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="calendar-alt" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="date" onChange={this.handleChange} value={this.state.date_of_birth} name="date_of_birth" placeholder="Date of birth" /></div>
         <label className="message">{ this.state.date_of_birth_error}</label>
 
         <div style={{display:"flex"}}>
-        <MDBIcon fas icon="map-marked-alt" style={{padding: "5px",marginTop:"10px"}}/>
-        <ListCountries country={this.onChangeCountry} state={this.onChangeRegion}/>
-        </div>
+        <MDBIcon fas icon="map-marked-alt" style={{padding: "10px",marginRight:"15px",marginTop:"5px"}}/>
+        <ListCountries country={this.onChangeCountry} state={this.onChangeRegion}/></div>
+        <label className="message">{ this.state.CountryErr }</label>
         
         <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="hand-holding-usd" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="hand-holding-usd" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.balance} name ="balance" placeholder="Balance"  /></div>
         <label className="message">{ this.state.balanceErr }</label>
 
         <div style={{display:"flex",width:"400px"}}>
-        <MDBIcon fas icon="user-lock" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="user-lock" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="password" onChange={this.handleChange} value={this.state.password} name="password" placeholder="Password" />
-        <label className="message">{ this.state.passErr}</label>
         
-        <MDBIcon fas icon="lock" style={{padding: "10px",marginTop:"10px"}}/>
+        <MDBIcon fas icon="lock" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="password" onChange={this.handleChange} value={this.state.password_confirmation} name="password_confirmation" placeholder="Confirm Password" /></div>
          <label className="message">{ this.state.passErr}</label>
         {/* <a onClick={this.handleClickOpen}>
@@ -316,12 +326,12 @@ class Login extends React.Component{
         <br />
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="envelope" style={{padding: "10px",marginTop:"10px"}}/>
-       <input type="email" onChange={this.handleChange} name="email" placeholder="Email" /></div>
+         <input type="email" onChange={this.handleChange} name="email" placeholder="Email" /></div>
         <label className="message">{ this.state.emailErr }</label>
         <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="lock" style={{padding: "10px",marginTop:"10px"}}/>
         <input onChange={this.handleChange} type="password" name="password" placeholder="Password" /></div>
-        <label className="message">{ this.state.passErr }</label>
+        <label className="message">{ this.state.passsErr }</label>
         
         <br/>
         <button className="buttonlogin" onClick={this.onSubmit}>Sign In</button>

@@ -62,6 +62,15 @@ class UserProfile extends React.Component {
     handlechangeall = (event) =>{
         this.setState ( { [event.target.name] :event.target.value  } )
     }
+    logout = e => {
+      e.preventDefault();
+      axios.get("/sanctum/csrf-cookie").then(response => {
+        axios.post("/logout").then(res => {
+          sessionStorage.removeItem('loggedIn');
+          this.props.history.push('/login');
+        });
+      });
+  };
     ChangePic =()=>{
       //dialog containing input file
       this.setState({
@@ -134,7 +143,7 @@ class UserProfile extends React.Component {
             <div className="editProfile">
             <Row className="row"> 
             <UserSidebar/>
-            <Col >
+            <Col>
             <Card className="smallCard">
                 <CardHeader style={{backgroundColor:"white",height:"300px"}}>
                 <img className="image" src={this.state.image} />
@@ -161,7 +170,7 @@ class UserProfile extends React.Component {
                 <CardBody>
                 
                     <Row>
-                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/>My Bids</Col>
+                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/> My Bids</Col>
                         <Col><MDBIcon icon="trophy" style={{color:"#ffbb33"}}/> Won Bids</Col>
                         <Col><MDBIcon icon="heart" style={{color:"#cc3300"}}/> Favorites</Col>
                     </Row>
@@ -171,6 +180,7 @@ class UserProfile extends React.Component {
                         <Col>0</Col>
                     </Row>
                 </CardBody>
+                <button id="btn-logout" onClick={this.logout}>Logout</button>
                 </Card>    
             </Col>
             <Col>
