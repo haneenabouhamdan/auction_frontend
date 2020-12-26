@@ -27,6 +27,7 @@ class CreateLandAuction extends React.Component{
             bathrooms:0,
             diningrooms:0,
             Balcony:0,
+            type:"",
             parking:0,
             elevator:false,
             electricity:false,
@@ -74,7 +75,14 @@ class CreateLandAuction extends React.Component{
       })
       this.props.closeL();
     };
-   
+    onChangelong =(e)=>{
+      this.setState({longitude:e})
+      // console.log(this.state.longitude)
+    }
+    onChangelat =(e)=>{
+      this.setState({latitude:e})
+      // console.log(this.state.latitude)
+    }
     render(){
         return(
           <Dialog open={this.props.openL} onClose={this.handleClose}  aria-labelledby="form-dialog-title">
@@ -92,11 +100,11 @@ class CreateLandAuction extends React.Component{
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 
             </FormGroup>
                 <DropdownButton  title="Land Type" id="dropdowntype"> 
-                    <Dropdown.Item eventKey="option-1">Residential</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-2">Commercial</Dropdown.Item> 
-                    <Dropdown.Item eventKey="option-3">Industrial</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-4">Agricultural</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-5">Others</Dropdown.Item>
+                    <Dropdown.Item eventKey="1">Residential</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Commercial</Dropdown.Item> 
+                    <Dropdown.Item eventKey="3">Industrial</Dropdown.Item>
+                    <Dropdown.Item eventKey="4">Agricultural</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">Others</Dropdown.Item>
                     </DropdownButton>  
             <Input type="number" name="area" className="inputs3" onChange={this.handlechangeall} placeholder="Area"/>
           <div className="img inputs3">
@@ -125,7 +133,7 @@ class CreateLandAuction extends React.Component{
       </div>
       <label className="loc">Choose location</label>
             <div className="map">
-                <SearchableMap />
+                <SearchableMap longitude={this.onChangelong} latitude={this.onChangelat} />
             </div>
           </CardBody>
             </Card>

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import '../style/MyAuctions.css'
@@ -23,10 +24,12 @@ class CreateHomeAuction extends React.Component{
             longitude:"",
             latitude:"",
             area:"",
+            description:"",
             bedrooms:"",
             bathrooms:"",
             diningrooms:"",
             Balcony:"",
+            type:"",
             parking:"",
             elevator:false,
             electricity:false,
@@ -34,7 +37,8 @@ class CreateHomeAuction extends React.Component{
             start_date:"",
             planned_close_date:"",
             starting_price:"",
-            preferred_price:"",
+            preferred_price:0,
+            final_price:0,
             category_id:"",
             images:[],
             setOpen:false
@@ -57,7 +61,7 @@ class CreateHomeAuction extends React.Component{
           ); 
           
          }
-        //  this.setState({images:formData})
+         this.setState({images:imageList})
          console.log(imageList);
         //  axios.post("http://localhost/reactimageupload.php", formData); 
         }
@@ -74,22 +78,116 @@ class CreateHomeAuction extends React.Component{
       })
       this.props.closeD();
     };
-   
+    handlechange1=()=>{
+      this.setState({
+        elevator:!this.state.elevator
+      })
+    }
+    handlechange2=()=>{
+      this.setState({
+        electricity:!this.state.electricity
+      })
+    }
+    handlechange3=()=>{
+      this.setState({
+        heating_cooling:!this.state.heating_cooling
+      })
+    }
+    onChangelong =(e)=>{
+      this.setState({longitude:e})
+      // console.log(this.state.longitude)
+    }
+    onChangelat =(e)=>{
+      this.setState({latitude:e})
+      // console.log(this.state.latitude)
+    }
+    handleSelectcat=(e)=>{
+      console.log(e);
+      switch(e){
+        case '1':
+          this.setState({category_id:1})
+          break;
+        case '2':
+            this.setState({type:2})
+          break;
+          case '3':
+            this.setState({type:3})
+          break;
+          case '4':
+            this.setState({type:4})
+          break;
+      }
+    }
+    handleSelect=(e)=>{
+      console.log(e);
+      switch(e){
+        case '1':
+          this.setState({type:"Appartments/Studios"})
+          break;
+        case '2':
+            this.setState({type:"Industrial Buildings"})
+          break;
+          case '3':
+            this.setState({type:"Houses"})
+          break;
+          case '4':
+            this.setState({type:"Villas"})
+          break;
+          case '5':
+            this.setState({type:"Buildings"})
+          break;
+          case '6':
+            this.setState({type:"Bungalows"})
+          break;
+          case '7':
+            this.setState({type:"Offices"})
+          break;
+          case '8':
+            this.setState({type:"Shops"})
+          break;
+      }
+    }
+   onSubmit = ()=>{
+     let formData={
+      "longitude":this.state.longitude,
+      "latitude":this.state.latitude,
+      "area":this.state.area,
+      "description":this.state.description,
+      "bedrooms":this.state.bedrooms,
+      "bathrooms":this.state.bathrooms,
+      "diningrooms":this.state.diningrooms,
+      "Balcony":this.state.Balcony,
+      "parking":this.state.parking,
+      "type":this.state.type,
+      "elevator":this.state.elevator,
+      "electricity":this.state.electricity,
+      "heating_cooling":this.state.heating_cooling,
+      "start_date":this.state.start_date,
+      "planned_close_date":this.state.planned_close_date,
+      "starting_price":this.state.starting_price,
+      "preferred_price":this.state.preferred_price,
+      "category_id":this.state.category_id,
+      "final_price":this.state.final_price,
+      "images":this.state.images
+     }
+     console.log(this.state.images);
+     axios.defaults.withCredentials=true;
+     axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
+       console.log(response)});
+   }
     render(){
         return(
           <Dialog open={this.props.openD} onClose={this.handleClose}  aria-labelledby="form-dialog-title">
-        {/* <DialogTitle id="form-dialog-title">Choose Location</DialogTitle> */}
         <DialogContent style={{width:550,height:1000}}>
-            {/* <div style={{marginLeft:"300px"}}> */}
               <Card style={{width:500}}>
             <CardHeader style={{backgroundColor:"#32b69b",color:"white"}}>
                 <h2> Please Add Auction Details</h2>
             </CardHeader>
             <CardBody >
               <FormGroup>
-            <Input type="date" name="start_date" defaultValue={this.state.start_date} onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            <Input type="date" name="start_date"  onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
             <Input type="date" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
-            <Input type="number" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
+            <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" name="bedrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bedrooms"/>
             <Input type="number" name="bathrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bathrooms"/>
             <Input type="number" name="diningrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Dining rooms"/>
@@ -100,31 +198,38 @@ class CreateHomeAuction extends React.Component{
             </FormGroup>
                 <FormGroup className="services">
                 <label className="check">Elevator </label>
-                <Input type="checkbox" className="check" onChange={this.handlechangeall} name="elevator" />
+                <Input type="checkbox" className="check" onChange={this.handlechange1} name="elevator" />
                 </FormGroup>
                 <FormGroup className="services">
                 <label className="check">Electricity </label>
-                <Input type="checkbox" className="check" onChange={this.handlechangeall} name="electricity" />
+                <Input type="checkbox" className="check" onChange={this.handlechange2} name="electricity" />
                 </FormGroup>
                 <FormGroup className="services">
                 <label className="check">Heating and cooling </label>
-                <Input type="checkbox" className="check" onChange={this.handlechangeall} name="heating_cooling" />
+                <Input type="checkbox" className="check" onChange={this.handlechange3} name="heating_cooling" />
                 </FormGroup>
-                <DropdownButton  title="Home Type" id="dropdowntype"> 
-                    <Dropdown.Item eventKey="option-1">Appartments/Studios</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-2">Industrial Buildings</Dropdown.Item> 
-                    <Dropdown.Item eventKey="option-3">Houses</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-4">Villas</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-5">Buildings</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-6">Bungalows</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-7">Offices</Dropdown.Item>
-                    <Dropdown.Item eventKey="option-8">Shops</Dropdown.Item> 
+                <DropdownButton  title="Category" id="dropdowntypee" onSelect={this.handleSelectcat}> 
+                    <Dropdown.Item eventKey="1" >Residential</Dropdown.Item>
+                    <Dropdown.Item eventKey="2" >Commercial</Dropdown.Item> 
+                    <Dropdown.Item eventKey="3" >Industrial</Dropdown.Item>
+                    <Dropdown.Item eventKey="4" >Others</Dropdown.Item>
+                    </DropdownButton>  
+                <DropdownButton  title="Home Type" id="dropdowntype" onSelect={this.handleSelect}> 
+                    <Dropdown.Item eventKey="1">Appartments/Studios</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Industrial Buildings</Dropdown.Item> 
+                    <Dropdown.Item eventKey="3">Houses</Dropdown.Item>
+                    <Dropdown.Item eventKey="4">Villas</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">Buildings</Dropdown.Item>
+                    <Dropdown.Item eventKey="6">Bungalows</Dropdown.Item>
+                    <Dropdown.Item eventKey="7">Offices</Dropdown.Item>
+                    <Dropdown.Item eventKey="8">Shops</Dropdown.Item> 
                     </DropdownButton>  
             <Input type="number" name="area" className="inputs3" onChange={this.handlechangeall} placeholder="Area"/>
           <div className="img inputs3">
            <ImageUploading
         onChange={this.onChange}
         maxNumber={maxNumber}
+        acceptType={['jpg', 'png', 'jpeg']}
         id="img"
         multiple
       >
@@ -147,7 +252,7 @@ class CreateHomeAuction extends React.Component{
       </div>
       <label className="loc">Choose location</label>
             <div className="map">
-                <SearchableMap />
+                <SearchableMap longitude={this.onChangelong} latitude={this.onChangelat}/>
             </div>
           </CardBody>
             </Card>

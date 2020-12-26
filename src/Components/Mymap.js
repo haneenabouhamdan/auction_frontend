@@ -41,8 +41,17 @@ class SearchableMap extends React.Component {
       ...geocoderDefaultOverrides
     });
   };
+  sendlong=(e)=>{
+    this.props.longitude(e.lngLat[0]);
+    
+  }
+  sendlat=(e)=>{
+    this.props.latitude(e.lngLat[1]);
+  }
   onClickMap(e) {
-    console.log(e.lngLat);
+    this.sendlong(e);
+    this.sendlat(e);
+    // console.log(e.lngLat);
     this.setState({
       long:e.lngLat[0],
       lat:e.lngLat[1]

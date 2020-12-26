@@ -29,7 +29,9 @@ class MainCategories extends React.Component {
             <Col className="MCol">
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
-                <img className="imageA" src={ind} />               
+                <a href='/residentialItems'>
+                <img className="imageA" src={ind}/>
+                </a>           
                 </CardHeader>
                 <CardBody>
                 <h5>Residential Properties </h5> 
@@ -43,22 +45,28 @@ class MainCategories extends React.Component {
             <Col  className="MCol">
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
-                <img className="imageA" src={com} />
+                <a href='/commercialItems'>
+                <img className="imageA" src={com} /></a>
                 </CardHeader>
                 <CardBody>
                 <h5>Commercial Properties </h5>
-                <span className="desc"></span>
+                <span className="desc">You can find data on prices,vacancies,
+                supply and stock of commercial properties in this sections.
+                Check it out and start your business at an awesome place!!</span>
                 </CardBody>
                 </Card>    
                  </Col>
                  <Col  className="MCol">
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
-                <img className="imageA" src={hom} />
+                <a href='/industrialItems'>
+                <img className="imageA" src={hom} /></a>
                 </CardHeader>
                 <CardBody>
                 <h5>Industrial Properties </h5>
-                <span></span>
+                <span className="desc">The website features properties across all asset classes, 
+                    including industrial land and building for sale. Listings generally include property
+                    information, space-level detail, photos, aerial views.</span>
                 </CardBody>
                 </Card>    
                  </Col>

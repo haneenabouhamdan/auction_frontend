@@ -56,7 +56,7 @@ class MyAuctions extends React.Component{
                 <UserSidebar/>
                 <div id="myaucnav">
                 <DropdownButton  title="Create Auction" id="dropdown" style={{marginLeft:"950px"}}> 
-                    <Dropdown.Item href=""><a href="/home" className="drop" onClick={this.handleClickOpen}>Houses</a></Dropdown.Item>
+                    <Dropdown.Item href=""><a href="/home" className="drop" onClick={this.handleClickOpen}>Buildings</a></Dropdown.Item>
                     <Dropdown.Item href=""><a href="/land" className="drop" onClick={this.handleClickOpenL}>Lands</a></Dropdown.Item>
                     </DropdownButton>   
                       <button id="btn-logout" onClick={this.logout}>Logout</button>
