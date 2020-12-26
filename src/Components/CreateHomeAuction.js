@@ -78,17 +78,17 @@ class CreateHomeAuction extends React.Component{
       })
       this.props.closeD();
     };
-    handlechange1=()=>{
+    handlechangeEL=()=>{
       this.setState({
         elevator:!this.state.elevator
       })
     }
-    handlechange2=()=>{
+    handlechangeELC=()=>{
       this.setState({
         electricity:!this.state.electricity
       })
     }
-    handlechange3=()=>{
+    handlechangeHC=()=>{
       this.setState({
         heating_cooling:!this.state.heating_cooling
       })
@@ -170,7 +170,7 @@ class CreateHomeAuction extends React.Component{
       "final_price":this.state.final_price,
       "images":this.state.images
      }
-     console.log(this.state.images);
+     console.log(this.state);
      axios.defaults.withCredentials=true;
      axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
        console.log(response)});
@@ -195,19 +195,6 @@ class CreateHomeAuction extends React.Component{
             <Input type="number" name="parking" onChange={this.handlechangeall} className="inputs3" placeholder="Parkings"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 
-            </FormGroup>
-                <FormGroup className="services">
-                <label className="check">Elevator </label>
-                <Input type="checkbox" className="check" onChange={this.handlechange1} name="elevator" />
-                </FormGroup>
-                <FormGroup className="services">
-                <label className="check">Electricity </label>
-                <Input type="checkbox" className="check" onChange={this.handlechange2} name="electricity" />
-                </FormGroup>
-                <FormGroup className="services">
-                <label className="check">Heating and cooling </label>
-                <Input type="checkbox" className="check" onChange={this.handlechange3} name="heating_cooling" />
-                </FormGroup>
                 <DropdownButton  title="Category" id="dropdowntypee" onSelect={this.handleSelectcat}> 
                     <Dropdown.Item eventKey="1" >Residential</Dropdown.Item>
                     <Dropdown.Item eventKey="2" >Commercial</Dropdown.Item> 
@@ -224,6 +211,19 @@ class CreateHomeAuction extends React.Component{
                     <Dropdown.Item eventKey="7">Offices</Dropdown.Item>
                     <Dropdown.Item eventKey="8">Shops</Dropdown.Item> 
                     </DropdownButton>  
+                    </FormGroup>
+                <FormGroup className="services">
+                <label className="check">Elevator </label>
+                <Input type="checkbox" className="check" onChange={this.handlechangeEL} name="elevator" />
+                </FormGroup>
+                <FormGroup className="services">
+                <label className="check">Electricity </label>
+                <Input type="checkbox" className="check" onChange={this.handlechangeELC} name="electricity" />
+                </FormGroup>
+                <FormGroup className="services">
+                <label className="check">Heating and cooling </label>
+                <Input type="checkbox" className="check" onChange={this.handlechangeHC} name="heating_cooling" />
+                </FormGroup>
             <Input type="number" name="area" className="inputs3" onChange={this.handlechangeall} placeholder="Area"/>
           <div className="img inputs3">
            <ImageUploading

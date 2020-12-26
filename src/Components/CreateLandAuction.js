@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import '../style/MyAuctions.css'
@@ -36,6 +37,7 @@ class CreateLandAuction extends React.Component{
             planned_close_date:"",
             starting_price:"",
             preferred_price:"",
+            final_price:0,
             category_id:"",
             images:[],
             setOpenL:false
@@ -58,7 +60,7 @@ class CreateLandAuction extends React.Component{
           ); 
           
          }
-        //  this.setState({images:formData})
+         this.setState({images:imageList})
          console.log(imageList);
         //  axios.post("http://localhost/reactimageupload.php", formData); 
         }
@@ -83,6 +85,55 @@ class CreateLandAuction extends React.Component{
       this.setState({latitude:e})
       // console.log(this.state.latitude)
     }
+
+    handleSelect=(e)=>{
+      console.log(e);
+      switch(e){
+        case '1':
+          this.setState({type:"Residential",category_id:"1"})
+          break;
+        case '2':
+            this.setState({type:"Commercial",category_id:"2"})
+          break;
+          case '3':
+            this.setState({type:"Industrial",category_id:"3"})
+          break;
+          case '4':
+            this.setState({type:"Agricultural",category_id:"4"})
+          break;
+          case '5':
+            this.setState({type:"Others",category_id:"4"});
+            break;
+      }
+    }
+    onSubmit = ()=>{
+      let formData={
+       "longitude":this.state.longitude,
+       "latitude":this.state.latitude,
+       "area":this.state.area,
+       "description":this.state.description,
+       "bedrooms":this.state.bedrooms,
+       "bathrooms":this.state.bathrooms,
+       "diningrooms":this.state.diningrooms,
+       "Balcony":this.state.Balcony,
+       "parking":this.state.parking,
+       "type":this.state.type,
+       "elevator":this.state.elevator,
+       "electricity":this.state.electricity,
+       "heating_cooling":this.state.heating_cooling,
+       "start_date":this.state.start_date,
+       "planned_close_date":this.state.planned_close_date,
+       "starting_price":this.state.starting_price,
+       "preferred_price":this.state.preferred_price,
+       "category_id":this.state.category_id,
+       "final_price":this.state.final_price,
+       "images":this.state.images
+      }
+      console.log(this.state.images);
+      axios.defaults.withCredentials=true;
+      axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
+        console.log(response)});
+    }
     render(){
         return(
           <Dialog open={this.props.openL} onClose={this.handleClose}  aria-labelledby="form-dialog-title">
@@ -93,13 +144,13 @@ class CreateLandAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
-            <Input type="date" name="start_date" defaultValue={this.state.start_date} onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            <Input type="date" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
             <Input type="date" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
-            <Input type="number" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
+            <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 
             </FormGroup>
-                <DropdownButton  title="Land Type" id="dropdowntype"> 
+                <DropdownButton  title="Land Type" id="dropdowntype" onSelect={this.handleSelect}> 
                     <Dropdown.Item eventKey="1">Residential</Dropdown.Item>
                     <Dropdown.Item eventKey="2">Commercial</Dropdown.Item> 
                     <Dropdown.Item eventKey="3">Industrial</Dropdown.Item>
@@ -111,6 +162,7 @@ class CreateLandAuction extends React.Component{
            <ImageUploading
         onChange={this.onChange}
         maxNumber={maxNumber}
+        acceptType={['jpg', 'png', 'jpeg']}
         id="img"
         multiple
       >
