@@ -14,7 +14,7 @@ class PaymentDetails extends React.Component{
             expiration:"",
             expiration_date_error:"",
             cvv:"",
-            user_id:"",
+            users_id:"",
             cvvError:""
         }
     }

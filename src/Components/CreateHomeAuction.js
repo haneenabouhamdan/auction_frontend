@@ -39,7 +39,7 @@ class CreateHomeAuction extends React.Component{
             starting_price:"",
             preferred_price:0,
             final_price:0,
-            category_id:"",
+            auction_categories_id:"",
             images:[],
             setOpen:false
         }
@@ -105,16 +105,16 @@ class CreateHomeAuction extends React.Component{
       console.log(e);
       switch(e){
         case '1':
-          this.setState({category_id:1})
+          this.setState({auction_categories_id:1})
           break;
         case '2':
-            this.setState({type:2})
+            this.setState({auction_categories_id:2})
           break;
           case '3':
-            this.setState({type:3})
+            this.setState({auction_categories_id:3})
           break;
           case '4':
-            this.setState({type:4})
+            this.setState({auction_categories_id:4})
           break;
       }
     }
@@ -166,12 +166,14 @@ class CreateHomeAuction extends React.Component{
       "planned_close_date":this.state.planned_close_date,
       "starting_price":this.state.starting_price,
       "preferred_price":this.state.preferred_price,
-      "category_id":this.state.category_id,
+      "auction_categories_id":this.state.auction_categories_id,
       "final_price":this.state.final_price,
       "images":this.state.images
      }
      console.log(this.state);
+     this.handleClose();
      axios.defaults.withCredentials=true;
+     console.log(formData)
      axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
        console.log(response)});
    }
@@ -185,8 +187,8 @@ class CreateHomeAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
-            <Input type="date" name="start_date"  onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
-            <Input type="date" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
+            <Input type="datetime-local" name="start_date"  onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" name="bedrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bedrooms"/>
             <Input type="number" name="bathrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bathrooms"/>

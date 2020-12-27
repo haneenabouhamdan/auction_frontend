@@ -38,7 +38,7 @@ class CreateLandAuction extends React.Component{
             starting_price:"",
             preferred_price:"",
             final_price:0,
-            category_id:"",
+            auction_categories_id:"",
             images:[],
             setOpenL:false
         }
@@ -90,19 +90,19 @@ class CreateLandAuction extends React.Component{
       console.log(e);
       switch(e){
         case '1':
-          this.setState({type:"Residential",category_id:"1"})
+          this.setState({type:"Residential",auction_categories_id:"1"})
           break;
         case '2':
-            this.setState({type:"Commercial",category_id:"2"})
+            this.setState({type:"Commercial",auction_categories_id:"2"})
           break;
           case '3':
-            this.setState({type:"Industrial",category_id:"3"})
+            this.setState({type:"Industrial",auction_categories_id:"3"})
           break;
           case '4':
-            this.setState({type:"Agricultural",category_id:"4"})
+            this.setState({type:"Agricultural",auction_categories_id:"4"})
           break;
           case '5':
-            this.setState({type:"Others",category_id:"4"});
+            this.setState({type:"Others",auction_categories_id:"4"});
             break;
       }
     }
@@ -125,11 +125,12 @@ class CreateLandAuction extends React.Component{
        "planned_close_date":this.state.planned_close_date,
        "starting_price":this.state.starting_price,
        "preferred_price":this.state.preferred_price,
-       "category_id":this.state.category_id,
+       "auction_categories_id":this.state.auction_categories_id,
        "final_price":this.state.final_price,
        "images":this.state.images
       }
       console.log(this.state.images);
+      this.handleClose();
       axios.defaults.withCredentials=true;
       axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
         console.log(response)});
@@ -144,8 +145,8 @@ class CreateLandAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
-            <Input type="date" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
-            <Input type="date" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
+            <Input type="datetime" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            <Input type="datetime" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 

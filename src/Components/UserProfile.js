@@ -153,10 +153,10 @@ class UserProfile extends React.Component {
                 <input onChange={(e) => this.addImage(e.target.files) } type="file" id="image" ref="productimage" />
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={this.handleClose} className="dialogAct">
+                  <Button onClick={this.handleClose} id="dialogAct">
                     Cancel
                   </Button>
-                  <Button onClick={this.onSubmit} className="dialogAct">
+                  <Button onClick={this.onSubmit} id="dialogAct">
                     Submit
                   </Button>
                 </DialogActions>
