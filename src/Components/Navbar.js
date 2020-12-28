@@ -46,7 +46,7 @@ logout = e => {
     e.preventDefault();
     axios.get("/sanctum/csrf-cookie").then(response => {
       axios.post("/logout").then(res => {
-        sessionStorage.removeItem('loggedIn');
+        sessionStorage.removeItem('loggedIn'); 
       });
     });
 };
