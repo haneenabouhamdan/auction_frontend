@@ -13,6 +13,7 @@ import {
   BrowserRouter as Router,
   Route,
 } from "react-router-dom";
+import Getbids from './Components/Getbids';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         <Route exact path="/land" component={CreateLandAuction} />
         <Route exact path="/residentialItems" component={ResidentialItems} />
         <Route exact path="/logout" component={Login} /> 
-        {/* <Route exact path="/maps" component={Maps} /> */}
+        {/* <Route exact path="/getbid" component={Getbids} /> */}
         <Route exact path="/userprofile" component={UserProfile} /> 
         <Route exact path="/welcomePage" component={welcomePage} />
         <Route exact path="/PaymentDetails" component={PaymentDetails}/>

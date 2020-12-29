@@ -3,7 +3,8 @@ import axios from 'axios';
 import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
-import Navbar from '../Components/Navbar'
+import Navbar from '../Components/Navbar';
+import AddBid from './AddBid';
 import {
   Button,
   Card,
@@ -17,6 +18,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import SearchableMap from './Mymap';
+import Getbids from './Getbids';
 
 class ResidentialAuctions extends React.Component{
     constructor(props){
@@ -26,6 +29,7 @@ class ResidentialAuctions extends React.Component{
             activePage:0,
             total:0,
             per_page:0,
+            item_id:0,
             fl: true
                }
 
@@ -40,7 +44,7 @@ handlePageChange(pageNumber) {
  async getAllItems(pageNumber){
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
-  await axios.get(`/api/getAllAuctions?page=${pageNumber}`).then(res=>{
+  await axios.get(`/api/getResdentialItems?page=${pageNumber}`).then(res=>{
     this.setState({
       bids:res.data.items.data,
       per_page:res.data.items.per_page,
@@ -88,45 +92,54 @@ renderItems(){
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
           <CardHeader>
-                
-                <Slideshow images={item.auction_images}/>
-                <Row>
+              <Row>
                 <div  className="countdown">
                   <h3>
                   { this.rendarTimeLaps(item)}
                   </h3>
                 </div>
                 </Row>
-                </CardHeader>
-                <CardBody>
-                <Row><h3 style={{marginLeft:"5px"}}> ${this.numberWithCommas(item.starting_price)}+</h3>
-              <Col><strong>{item.bedrooms}</strong>Beds | <strong>{item.bathrooms}</strong>  Baths |
-              <strong> {item.diningrooms}</strong>  Dinings |
+                <Slideshow images={item.auction_images}/>
+                <Row>
+              <Col><strong>{item.bedrooms}</strong> Beds <strong>.</strong> <strong>{item.bathrooms}</strong>  Baths <strong>.</strong> 
+              <strong> {item.diningrooms}</strong>  Dinings <strong>.</strong> 
               <strong>  {item.parking}</strong>  Parkings </Col>
               </Row>
-             <br/>
-              {/* <Row>
-                <Col>
-                <p>{item.description}</p>
-                </Col>
-              </Row> */}
+                </CardHeader>
+                <CardBody>
+                  <Row>
+                  <Col>
+                  <i>Starting Bid</i><br/>
+                  <h5 style={{marginLeft:"5px"}}> ${this.numberWithCommas(item.starting_price)}+</h5>
+                  </Col>
+                  <Col>
+                  <i>Current Bid</i><br/>
+                  </Col>
+                  <Col>
+                  <i>Current Bid</i><br/>
+                  </Col>
+                  </Row>
+                
+                
               <Row>
                 {/* //view bids history */}
               </Row>
-              <Input type="number" name="bids"/>
-                <Button type="submit" id="subid">Submit A Bid</Button>
                 </CardBody>
+                {/* <Getbids/> */}
+                <AddBid item_id={item.id}/>
           </Card>
         )
       }
       </div>
-      <div style={{marginLeft:"300px"}}>
+      <div className="pag">
       <Pagination
           activePage={this.state.current_page}
           itemsCountPerPage={this.state.per_page}
           totalItemsCount={this.state.total}
           pageRangeDisplayed={5}
-          onChange={(pageNumber)=>{this.getUserItems(pageNumber)}}
+          itemClass="page-item"
+          linkClass="page-link"
+          onChange={(pageNumber)=>{this.getAllItems(pageNumber)}}
         />
       </div>
    </React.Fragment>
@@ -142,8 +155,13 @@ renderItems(){
         return(
             <div>
                 <Navbar />
+                <div className="split left">
+                  <SearchableMap/>
+                </div>
+                
+              <div className="split right">
               {bids && this.renderItems()}
-              
+              </div>
             </div>
         )
     }

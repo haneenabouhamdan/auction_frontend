@@ -70,6 +70,7 @@ handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
 }
  async getUserItems(pageNumber){
+   console.log(pageNumber)
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
   await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then(res=>{
@@ -148,13 +149,16 @@ renderUserItems(){
         )
       }
       </div>
-      <div style={{marginLeft:"300px"}}>
+      <div>
       <Pagination
           activePage={this.state.current_page}
           itemsCountPerPage={this.state.per_page}
           totalItemsCount={this.state.total}
           pageRangeDisplayed={5}
           onChange={(pageNumber)=>{this.getUserItems(pageNumber)}}
+          itemClass="page-item"
+          linkClass="page-link"
+          
         />
       </div>
    </React.Fragment>
@@ -183,7 +187,7 @@ renderUserItems(){
                       <button id="btn-logout" onClick={this.logout}>Logout</button>
             </div>
               {bids && this.renderUserItems()}
-              
+             
             </div>
         )
     }
