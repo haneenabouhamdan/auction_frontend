@@ -116,7 +116,7 @@ renderUserItems(){
     <React.Fragment>
       <div className="items">
         {data.map((item,index)=>
-        <Card key={index} className="xsmall">
+        <Card key={index} className="xsmalll">
           <CardHeader>
             <Row>
                 <div  className="countdown">

@@ -51,7 +51,7 @@ class SearchableMap extends React.Component {
   onClickMap(e) {
     this.sendlong(e);
     this.sendlat(e);
-    console.log(e.lngLat);
+    // console.log(e.lngLat);
     this.setState({
       long:e.lngLat[0],
       lat:e.lngLat[1]
@@ -79,6 +79,7 @@ class SearchableMap extends React.Component {
 
     render(){
       const { viewport, searchResultLayer} = this.state
+      const data=this.props.coordinates
       return (
         <div style={{ height: '70vh'}}>
           <MapGL 
@@ -91,9 +92,11 @@ class SearchableMap extends React.Component {
             onViewportChange={this.handleViewportChange}
             mapboxApiAccessToken={token}
             >
-              <Marker  longitude={this.state.long} latitude={this.state.lat}>
-               <h2><MDBIcon icon="map-marker-alt"/></h2>
-              </Marker>
+              {data.map((item,index)=>
+              <Marker key={index}  longitude={Number(item.longitude)} latitude={Number(item.latitude)}>
+              <h2><MDBIcon icon="map-marker-alt"/></h2>
+             </Marker>
+              )}
               <div style={{display:"list-item",width:"40px",marginLeft:"10px", marginTop:"50px"}}>
                 <Geocoder 
                 mapRef={this.mapRef}
@@ -113,6 +116,7 @@ class SearchableMap extends React.Component {
             </div>
             
             </MapGL>
+            <DeckGL {...viewport} layers={[searchResultLayer]} />
         </div>
       )
     }

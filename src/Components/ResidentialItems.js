@@ -19,6 +19,7 @@ import {
   Col,
 } from "reactstrap";
 import SearchableMap from './Mymap';
+import ViewOnMap from './ViewOnMap';
 import Getbids from './Getbids';
 
 class ResidentialAuctions extends React.Component{
@@ -30,6 +31,7 @@ class ResidentialAuctions extends React.Component{
             total:0,
             per_page:0,
             item_id:0,
+            coordinates:[],
             fl: true
                }
 
@@ -45,11 +47,25 @@ handlePageChange(pageNumber) {
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
   await axios.get(`/api/getResdentialItems?page=${pageNumber}`).then(res=>{
+    const coor = res.data.items.data;
+    coor.map((item)=>{
+     var c = new Object();
+     c.longitude=item.longitude
+     c.latitude=item.latitude
+    //  console.log(c);
+    //  c.push(item.longitude);
+    //  c.push(item.latitude);
+     this.state.coordinates.push(c);
+    
+    //  this.state.coordinates.push(item.latitude);
+    })
+    // console.log(this.state.coordinates)
+    
     this.setState({
       bids:res.data.items.data,
       per_page:res.data.items.per_page,
       total:res.data.items.total,
-      activePage:res.data.items.current_page
+      activePage:res.data.items.current_page,
      });
   })
 }
@@ -116,7 +132,7 @@ renderItems(){
                   <i>Current Bid</i><br/>
                   </Col>
                   <Col>
-                  <i>Current Bid</i><br/>
+                  <i>Shop Now</i><br/>
                   </Col>
                   </Row>
                 
@@ -148,7 +164,6 @@ renderItems(){
 }
     render(){
      const bids = this.state;
-       
          if(this.state.bids.length < 0){
            return <div><br/></div>
          }
@@ -156,7 +171,8 @@ renderItems(){
             <div>
                 <Navbar />
                 <div className="split left">
-                  <SearchableMap/>
+                  {/* <SearchableMap/> */}
+                  <ViewOnMap coordinates={this.state.coordinates}/>
                 </div>
                 
               <div className="split right">
