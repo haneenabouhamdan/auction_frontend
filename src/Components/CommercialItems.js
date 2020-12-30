@@ -5,7 +5,6 @@ import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
 import Navbar from '../Components/Navbar';
 import AddBid from './AddBid';
-import {MDBIcon } from "mdbreact";
 import {
   Button,
   Card,
@@ -23,7 +22,7 @@ import SearchableMap from './Mymap';
 import ViewOnMap from './ViewOnMap';
 import Getbids from './Getbids';
 
-class ResidentialAuctions extends React.Component{
+class CommercialItems extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -47,15 +46,20 @@ handlePageChange(pageNumber) {
  async getAllItems(pageNumber){
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
-  await axios.get(`/api/getResdentialItems?page=${pageNumber}`).then(res=>{
+  await axios.get(`/api/getCommercialItems?page=${pageNumber}`).then(res=>{
     const coor = res.data.items.data;
     coor.map((item)=>{
      var c = new Object();
      c.longitude=item.longitude
      c.latitude=item.latitude
+    //  console.log(c);
+    //  c.push(item.longitude);
+    //  c.push(item.latitude);
      this.state.coordinates.push(c);
     
+    //  this.state.coordinates.push(item.latitude);
     })
+    // console.log(this.state.coordinates)
     
     this.setState({
       bids:res.data.items.data,
@@ -79,13 +83,7 @@ forcerender = ()=>{
     })
   }, 3000);
 }
-addFav(itemid){
 
-  axios.defaults.withCredentials=true;
-  axios.post(`/api/addFav`,itemid).then(res=>{
-      console.log(res);
-  })
-}
 rendarTimeLaps(item){
     var now = new Date().getTime();
     var countDownDate = new Date(item.planned_close_date).getTime();
@@ -109,16 +107,12 @@ renderItems(){
       <div className="items">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
-          <div style={{backgroundColor:"rgba(0,0,0,.03)",width:"100%"}}>
-          <button type="submit" className="fav" onClick={this.addFav(item.id)}><MDBIcon icon="far fa-bookmark fa-2x" /></button>
-         </div>
           <CardHeader>
               <Row>
                 <div  className="countdown">
                   <h3>
                   { this.rendarTimeLaps(item)}
                   </h3>
-                  
                 </div>
                 </Row>
                 <Slideshow images={item.auction_images}/>
@@ -188,4 +182,4 @@ renderItems(){
         )
     }
 }
-export default ResidentialAuctions;
+export default CommercialItems;

@@ -285,7 +285,7 @@ class UserProfile extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             New Password
                           </label>
-                          <Input placeholder="Password" defaultValue={this.state.password_confirmation}
+                          <Input placeholder="Password" defaultValue={this.state.password}
                             name="password"
                             onChange={this.handlechangeall} type="password" />
                         </FormGroup>
@@ -299,7 +299,7 @@ class UserProfile extends React.Component {
                           className="btn-round"
                           color="primary"
                           type="submit"
-                          onClick={this.editProfile}
+                          onClick={this.editProfile()}
                         >
                           Update Account
                         </button>

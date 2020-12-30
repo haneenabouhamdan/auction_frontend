@@ -60,11 +60,11 @@ render() {
         <MDBNavbarToggler onClick={this.toggleCollapse} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
           <MDBNavbarNav left>
+          <MDBNavItem active style={{marginTop:"20px",marginRight:"15px"}}>
+            <a href="/" style={{color:"white"}} >Home</a>
+            </MDBNavItem>
             <MDBNavItem active style={{marginTop:"20px"}}>
               <a href="/userprofile" style={{color:"white"}} >Profile</a>
-            </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink to="#!" className="Navv">Features</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
               <MDBNavLink to="#!" className="Navv">Features</MDBNavLink>

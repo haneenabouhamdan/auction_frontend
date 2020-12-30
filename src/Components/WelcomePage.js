@@ -24,10 +24,6 @@ class welcomePage extends React.Component{
                    <button style={{backgroundColor:'transparent',color:"white",fontStyle:"bold",height:"52px",width:"52px",marginBottom:"2px",border:"0"}}><MDBIcon icon="search"></MDBIcon></button>
                    </div>
                    <MainCategories/>
-                 
-                {/* <SearchableMap/> */}
-                   
-               {/* <Slideshow/> */}
             </div>
         )
     }

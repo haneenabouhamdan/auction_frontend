@@ -8,7 +8,7 @@ const Slideshow = ({images}) => {
   return (
     <div>
       <div>
-        <Slide duration="2000" style={{marginBottom:"10px",padding:"5px",width:"100%"}}> 
+        <Slide duration="2000" style={{marginBottom:"10px",padding:"1px",width:"100%"}}> 
           {
             slideImages.map((value)=>
               <div key={value.id} className="each-slide">

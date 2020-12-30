@@ -81,7 +81,7 @@ class SearchableMap extends React.Component {
       const { viewport, searchResultLayer} = this.state
       const data=this.props.coordinates
       return (
-        <div style={{ height: '70vh'}}>
+        <div style={{ height: "100%"}}>
           <MapGL 
             ref={this.mapRef}
             {...viewport}

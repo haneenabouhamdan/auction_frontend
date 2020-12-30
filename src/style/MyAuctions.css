@@ -223,3 +223,11 @@
     overflow-x: hidden;
     margin-top: 100px;
   }
+  
+  .fav{
+      display:flex;
+      width:30px;
+      background-color: transparent !important;
+      margin-left: 255px;
+      border:0px;
+  }
