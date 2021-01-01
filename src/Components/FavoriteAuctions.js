@@ -3,12 +3,12 @@ import axios from 'axios';
 import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
-import {MDBIcon } from "mdbreact";
+import AddBid from './AddBid';
 import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import UserSidebar from './UserSidebar';
 import CreateHomeAuction from './CreateHomeAuction';
+import {MDBIcon } from "mdbreact";
 import CreateLandAuction from './CreateLandAuction';
-import Details from './Details';
 import {
   Button,
   Card,
@@ -23,22 +23,19 @@ import {
   Col,
 } from "reactstrap";
 
-class MyAuctions extends React.Component{
+class FavAuctions extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            mybids:[],
+            favbids:[],
             setOpen:false,
             setOpenL:false,
             activePage:0,
             total:0,
             per_page:0,
-            setOpenDet:false,
-            fl: true,
-            item:""
+            fl: true
                }
-
-               this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
+ this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
     }
     addImage=(file)=>
     {
@@ -51,12 +48,6 @@ class MyAuctions extends React.Component{
   };
    closeDialog = () => {
     this.setState({setOpen: false});
-  };
-  handleClickOpenDet = () => {
-    this.setState({setOpenDet:true});
-  };
-   closeDialogDet = () => {
-    this.setState({setOpenDet: false});
   };
   handleClickOpenL = () => {
     this.setState({setOpenL:true});
@@ -74,29 +65,19 @@ class MyAuctions extends React.Component{
     });
 };
  async componentDidMount(){
-  await this.getUserItems();
+  await this.getUserFavItems();
 }
 handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
 }
-remAuc=(id)=>{
-  let formData={
-      auction_id:id
-  }
-  axios.defaults.withCredentials=true;
-axios.post(`/api/remAuc`,formData).then(res=>{
-    // console.log(res);
-    this.props.history.push('/myauctions')
-
-})
-}
- async getUserItems(pageNumber){
+ async getUserFavItems(pageNumber=1){
    console.log(pageNumber)
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
-  await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then(res=>{
+  await axios.get(`/api/getFav?page=${pageNumber}`).then(res=>{
+      console.log(res.data.items.data);
     this.setState({
-      mybids:res.data.items.data,
+      favbids:res.data.items.data,
       per_page:res.data.items.per_page,
       total:res.data.items.total,
       activePage:res.data.items.current_page
@@ -114,10 +95,8 @@ forcerender = ()=>{
     })
   }, 3000);
 }
-op=(item)=>{
-  this.setState({
-    openDet:true
-    ,item:item});
+numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 rendarTimeLaps(item){
     var now = new Date().getTime();
@@ -133,14 +112,21 @@ rendarTimeLaps(item){
     this.forcerender();
       return days + "d "+hours + "h " +minutes + "m "+seconds + "s"
 }
-numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+remFav=(id)=>{
+    let formData={
+        auction_id:id
+    }
+    axios.defaults.withCredentials=true;
+  axios.post(`/api/remFav`,formData).then(res=>{
+      console.log(res);
+  })
 }
 renderUserItems(){
-  const data =this.state.mybids;
+  const data =this.state.favbids;
+  const active=this.state.activePage;
   return (
     <React.Fragment>
-      <div className="items">
+      <div className="itemsf">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
           <CardHeader>
@@ -162,16 +148,18 @@ renderUserItems(){
               </Row>
              <br/>
               <Row>
+                <Col>
+                {/* <p>{item.description}</p> */}
+                </Col>
               </Row>
-              <button type="submit" onClick={()=>this.remAuc(item.id)} className="remove"><MDBIcon fas icon="trash" /> Remove </button>
-              <button type="submit" onClick={()=>this.op(item)} className="remove">View details </button>
+              <button type="submit" onClick={()=>this.remFav(item.id)} style={{backgroundColor:"white",border:0,color:"#32b69b"}}><MDBIcon fas icon="trash" /> Remove </button>
+                <a href="/details" className="viewd">View details</a>
               </CardBody>
-
+              <AddBid item_id={item.id}/>
           </Card>
         )
       }
       </div>
-      <br/>
       <div className="pag">
       <Pagination
           activePage={this.state.current_page}
@@ -181,6 +169,7 @@ renderUserItems(){
           onChange={(pageNumber)=>{this.getUserItems(pageNumber)}}
           itemClass="page-item"
           linkClass="page-link"
+          
         />
       </div>
    </React.Fragment>
@@ -195,11 +184,8 @@ renderUserItems(){
          if(this.state.setOpenL){
            return <CreateLandAuction openL={this.state.setOpenL} closeL={this.closeDialogL}/>
          }
-         if(this.state.mybids.length < 0){
+         if(this.state.favbids.length < 0){
            return <div><br/></div>
-         }
-         if(this.state.setOpenDet){
-         <Details openDet={this.state.setOpenDet} closeDet={this.closeDialogDet} item={this.state.item}/>
          }
         return(
             <div className="fixeside">
@@ -217,4 +203,4 @@ renderUserItems(){
         )
     }
 }
-export default MyAuctions;
+export default FavAuctions;

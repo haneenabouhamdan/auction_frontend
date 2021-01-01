@@ -32,6 +32,7 @@
     "react-map-gl-geocoder": "^2.1.6",
     "react-moment-countdown": "^0.4.2",
     "react-paginate": "^7.0.0",
+    "react-photo-gallery": "^8.0.0",
     "react-scripts": "4.0.1",
     "react-select-country-list": "^2.2.1",
     "react-slideshow-image": "^3.4.3",

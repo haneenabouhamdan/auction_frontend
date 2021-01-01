@@ -3,6 +3,7 @@ import axios from 'axios';
 import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
+import firebase from '../utils/firebase';
 import Navbar from '../Components/Navbar';
 import AddBid from './AddBid';
 import {MDBIcon } from "mdbreact";
@@ -33,6 +34,7 @@ class ResidentialAuctions extends React.Component{
             per_page:0,
             item_id:0,
             coordinates:[],
+            lists:[],
             fl: true
                }
 
@@ -40,6 +42,7 @@ class ResidentialAuctions extends React.Component{
     }
  async componentDidMount(){
   await this.getAllItems();
+  await this.getBidsHistory();
 }
 handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
@@ -71,7 +74,18 @@ numberWithCommas(x) {
 countDownDate(date){
   return new Date(date).getTime();
 } 
-
+getBidsHistory=()=>{
+  const bidsref = firebase.database().ref("Bids");
+  bidsref.on('value',(snapshot)=>{
+      const lists = snapshot.val();
+      const list=[];
+      for(let id in lists){
+          list.push(lists[id]);   
+      }
+      console.log(list)
+      this.setState({lists:list});
+  })
+}
 forcerender = ()=>{
   setInterval(() => {
     this.setState({
@@ -80,9 +94,11 @@ forcerender = ()=>{
   }, 3000);
 }
 addFav(itemid){
-
+  let formData={
+    "auction_id":itemid
+  }
   axios.defaults.withCredentials=true;
-  axios.post(`/api/addFav`,itemid).then(res=>{
+  axios.post(`/api/addFav`,formData).then(res=>{
       console.log(res);
   })
 }
@@ -103,14 +119,15 @@ rendarTimeLaps(item){
 
 renderItems(){
   const data =this.state.bids;
-  const active=this.state.activePage;
+  let max =0;
+const maxbids = this.state.lists;
   return (
     <React.Fragment>
-      <div className="items">
+      <div className="itemss">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
           <div style={{backgroundColor:"rgba(0,0,0,.03)",width:"100%"}}>
-          <button type="submit" className="fav" onClick={this.addFav(item.id)}><MDBIcon icon="far fa-bookmark fa-2x" /></button>
+          <button type="submit" className="fav" onClick={()=>this.addFav(item.id)}><MDBIcon icon="far fa-bookmark fa-2x" /></button>
          </div>
           <CardHeader>
               <Row>
@@ -136,6 +153,11 @@ renderItems(){
                   </Col>
                   <Col>
                   <i>Current Bid</i><br/>
+                    {maxbids.map((i,ind) => {
+                      if(i.item_id ==item.id)
+                       if(i.price > max) max=i.price;
+                    })}
+                    <h5 style={{marginLeft:"5px"}} key={index}> $ {this.numberWithCommas(max)}+</h5>
                   </Col>
                   <Col>
                   <i>Shop Now</i><br/>
@@ -178,7 +200,7 @@ renderItems(){
                 <Navbar />
                 <div className="split left">
                   {/* <SearchableMap/> */}
-                  <ViewOnMap coordinates={this.state.coordinates}/>
+                  <ViewOnMap coordinates={this.state.coordinates} auc={this.state.itemid}/>
                 </div>
                 
               <div className="split right">

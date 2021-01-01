@@ -52,15 +52,9 @@ handlePageChange(pageNumber) {
      var c = new Object();
      c.longitude=item.longitude
      c.latitude=item.latitude
-    //  console.log(c);
-    //  c.push(item.longitude);
-    //  c.push(item.latitude);
      this.state.coordinates.push(c);
     
-    //  this.state.coordinates.push(item.latitude);
     })
-    // console.log(this.state.coordinates)
-    
     this.setState({
       bids:res.data.items.data,
       per_page:res.data.items.per_page,
@@ -104,7 +98,7 @@ renderItems(){
   const active=this.state.activePage;
   return (
     <React.Fragment>
-      <div className="items">
+      <div className="itemss">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
           <CardHeader>

@@ -20,27 +20,27 @@ class Navbar extends Component {
 toggleCollapse = () => {
   this.setState({ isOpen: !this.state.isOpen });
 }
-getCategories = ()=>{
-  axios.defaults.withCredentials=true;
-     axios.get('/api/getHomesCategories').then((response)=>{
-        return response.data.categories;
-      }).then((categories)=>{
-        this.setState({
-         categories:categories});
-      });
-  }
-  getCategoriesLands = ()=>{
-    axios.defaults.withCredentials=true;
-       axios.get('/api/getLandsCategories').then((response)=>{
-          return response.data.categories;
-        }).then((categories)=>{
-          this.setState({
-           landsCat:categories});
-        });
-    }
+// getCategories = ()=>{
+//   axios.defaults.withCredentials=true;
+//      axios.get('/api/getHomesCategories').then((response)=>{
+//         return response.data.categories;
+//       }).then((categories)=>{
+//         this.setState({
+//          categories:categories});
+//       });
+//   }
+//   getCategoriesLands = ()=>{
+//     axios.defaults.withCredentials=true;
+//        axios.get('/api/getLandsCategories').then((response)=>{
+//           return response.data.categories;
+//         }).then((categories)=>{
+//           this.setState({
+//            landsCat:categories});
+//         });
+//     }
   componentDidMount(){
-    this.getCategories();
-    this.getCategoriesLands();
+    // this.getCategories();
+    // this.getCategoriesLands();
   }   
 logout = e => {
     e.preventDefault();

@@ -21,7 +21,6 @@ class AddBid extends React.Component{
         componentDidMount() {
             axios.defaults.withCredentials=true;
               axios.get('/api/user').then((response)=>{
-                //   console.log(response.data.first_name);
                  this.setState({
                   first_name:response.data.first_name,
                   last_name:response.data.last_name
@@ -48,7 +47,7 @@ class AddBid extends React.Component{
         }
         return(
             <div>
-                
+                {/* empty div before submit */}
                 <input type="number" className="price" name="price" onChange={this.handleOnchange}/>
             
                 <button type="submit" className="but" onClick={this.submitBid}>Submit a bid</button>

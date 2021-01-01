@@ -23,7 +23,7 @@ render(){
           <a href="#">Winning Bids</a>
         </li>
         <li>
-          <a href="#">Favorite Bids</a>
+          <a href="/favItems">Favorite Bids</a>
         </li>
         <li>
           <a href="#">My Alerts</a>

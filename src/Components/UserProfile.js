@@ -39,10 +39,14 @@ class UserProfile extends React.Component {
           country:"",
           state:"",
           openD:false,
+          numFavBids:"",
+          numBids:"",
           password_confirmation:""
         }
     }
     componentDidMount() {
+      this.getcount();
+      this.getfavcount();
         axios.defaults.withCredentials=true;
           axios.get('/api/user').then((response)=>{
              this.setState({
@@ -106,7 +110,24 @@ class UserProfile extends React.Component {
           })
           this.handleClose();
     }
-    
+    getcount=()=>{
+      axios.defaults.withCredentials=true;
+      axios.get("/sanctum/csrf-cookie").then(response => {
+      axios.get('/api/getCount').then(res=>{
+        // console.log(res.data);
+        this.setState({numBids:res.data.item})
+      })
+    })
+    }
+    getfavcount=()=>{
+      axios.defaults.withCredentials=true;
+      axios.get("/sanctum/csrf-cookie").then(response => {
+      axios.get('/api/getFavCount').then(res=>{
+        console.log(res.data);
+        this.setState({numFavBids:res.data.item})
+      })
+    })
+    }
     onChangeRegion = (val) =>{
       console.log(val);
       this.setState({
@@ -117,7 +138,6 @@ class UserProfile extends React.Component {
         country:val})
     }
     editProfile = ()=>{
-      console.log("t")
         let formData1={
             fist_name:this.state.first_name,
             last_name:this.state.last_name,
@@ -129,7 +149,6 @@ class UserProfile extends React.Component {
             state:this.state.state,
             date_of_birth:this.state.date_of_birth,
         }
-        console.log(formData1);
           axios.defaults.withCredentials=true;
           axios.get("/sanctum/csrf-cookie").then(response => {
              axios.post('/api/users/edit',formData1).then((response)=>{
@@ -172,12 +191,12 @@ class UserProfile extends React.Component {
                     <Row>
                         <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/> My Bids</Col>
                         <Col><MDBIcon icon="trophy" style={{color:"#ffbb33"}}/> Won Bids</Col>
-                        <Col><MDBIcon icon="heart" style={{color:"#cc3300"}}/> Favorites</Col>
+                        <Col><MDBIcon icon="heart" style={{color:"red"}}/> Favorites</Col>
                     </Row>
                     <Row>
+                        <Col>{this.state.numBids}</Col>
                         <Col>0</Col>
-                        <Col>0</Col>
-                        <Col>0</Col>
+                        <Col>{this.state.numFavBids}</Col>
                     </Row>
                 </CardBody>
                 <button id="btn-logout" onClick={this.logout}>Logout</button>

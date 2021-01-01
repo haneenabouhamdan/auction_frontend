@@ -15,6 +15,8 @@ import {
   Route,
 } from "react-router-dom";
 import Getbids from './Components/Getbids';
+import FavAuctions from './Components/FavoriteAuctions';
+import Details from './Components/Details';
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
         <Route exact path="/home" component={CreateHomeAuction} />
         <Route exact path="/land" component={CreateLandAuction} />
         <Route exact path="/residentialItems" component={ResidentialItems} />
+        <Route exact path="/favItems" component={FavAuctions} />
         <Route exact path="/commercialItems" component={CommercialItems}/>
         <Route exact path="/logout" component={Login} /> 
         {/* <Route exact path="/getbid" component={Getbids} /> */}

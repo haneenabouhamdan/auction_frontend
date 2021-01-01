@@ -129,7 +129,7 @@ class CreateLandAuction extends React.Component{
        "final_price":this.state.final_price,
        "images":this.state.images
       }
-      console.log(this.state.images);
+      console.log(formData);
       this.handleClose();
       axios.defaults.withCredentials=true;
       axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
@@ -145,8 +145,8 @@ class CreateLandAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
-            <Input type="datetime" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
-            <Input type="datetime" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
+            <Input type="datetime-local" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 
