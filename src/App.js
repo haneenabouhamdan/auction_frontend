@@ -6,6 +6,7 @@ import UserProfile from './Components/UserProfile';
 import MyAuctions from './Components/MyAuctions';
 import ResidentialItems from './Components/ResidentialItems';
 import CommercialItems from './Components/CommercialItems';
+import IndustrialItems from './Components/IndustrialItems';
 import CreateHomeAuction from './Components/CreateHomeAuction';
 import CreateLandAuction from './Components/CreateLandAuction';
 // import Maps from './Components/Maps';
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/residentialItems" component={ResidentialItems} />
         <Route exact path="/favItems" component={FavAuctions} />
         <Route exact path="/commercialItems" component={CommercialItems}/>
+        <Route exact path="/industrialItems" component={IndustrialItems}/>
         <Route exact path="/logout" component={Login} /> 
         {/* <Route exact path="/getbid" component={Getbids} /> */}
         <Route exact path="/userprofile" component={UserProfile} /> 

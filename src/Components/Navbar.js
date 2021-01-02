@@ -67,10 +67,7 @@ render() {
               <a href="/userprofile" style={{color:"white"}} >Profile</a>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink to="#!" className="Navv">Features</MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink to="#!" className="Navv">Features</MDBNavLink>
+              <MDBNavLink to="#!" className="Navv"></MDBNavLink>
             </MDBNavItem>
           </MDBNavbarNav>
           <MDBNavbarNav left>
@@ -82,9 +79,10 @@ render() {
           </MDBNavbarNav>
           <MDBNavbarNav right>
             <MDBNavItem>
+            
               <MDBDropdown >
-                <MDBDropdownToggle nav caret className="Navv">
-                  <MDBIcon icon="user" className="Navv"/>
+                <MDBDropdownToggle nav caret className="Navvv">
+                  Join <MDBIcon icon="user" className="Navvv"/>
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default"  right>
                   <a href="/login" className="Navvi">

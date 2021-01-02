@@ -9,6 +9,7 @@ import {
     Card,
     CardHeader,
     CardBody,
+    Label,
     Input,
     FormGroup
   } from "reactstrap";
@@ -187,7 +188,9 @@ class CreateHomeAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
+              <Label>Start Date</Label>
             <Input type="datetime-local" name="start_date"  onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            
             <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" name="bedrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bedrooms"/>

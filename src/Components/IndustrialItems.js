@@ -23,7 +23,7 @@ import SearchableMap from './Mymap';
 import ViewOnMap from './ViewOnMap';
 import Getbids from './Getbids';
 
-class CommercialItems extends React.Component{
+class IndustrialItems extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -49,7 +49,7 @@ handlePageChange(pageNumber) {
  async getAllItems(pageNumber=1){
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
-  await axios.get(`/api/getCommercialItems?page=${pageNumber}`).then(res=>{
+  await axios.get(`/api/getIndustrialItems?page=${pageNumber}`).then(res=>{
     const coor = res.data.items.data;
     coor.map((item)=>{
      var c = new Object();
@@ -194,4 +194,4 @@ renderItems(){
         )
     }
 }
-export default CommercialItems;
+export default IndustrialItems;

@@ -6,6 +6,7 @@ import '../style/MyAuctions.css';
 import firebase from '../utils/firebase';
 import Navbar from '../Components/Navbar';
 import AddBid from './AddBid';
+import Details from './Details';
 import {MDBIcon } from "mdbreact";
 import {
   Button,
@@ -35,6 +36,7 @@ class ResidentialAuctions extends React.Component{
             item_id:0,
             coordinates:[],
             lists:[],
+            setOpenDet:false,
             fl: true
                }
 
@@ -56,6 +58,8 @@ handlePageChange(pageNumber) {
      var c = new Object();
      c.longitude=item.longitude
      c.latitude=item.latitude
+     c.area=item.area
+    //  console.log(c)
      this.state.coordinates.push(c);
     
     })
@@ -74,6 +78,10 @@ numberWithCommas(x) {
 countDownDate(date){
   return new Date(date).getTime();
 } 
+handleClickOpenDet = (item) => {
+  console.log('test')
+  this.setState({setOpenDet:true,item:item});
+};
 getBidsHistory=()=>{
   const bidsref = firebase.database().ref("Bids");
   bidsref.on('value',(snapshot)=>{
@@ -82,7 +90,7 @@ getBidsHistory=()=>{
       for(let id in lists){
           list.push(lists[id]);   
       }
-      console.log(list)
+      // console.log(list)
       this.setState({lists:list});
   })
 }
@@ -99,7 +107,7 @@ addFav(itemid){
   }
   axios.defaults.withCredentials=true;
   axios.post(`/api/addFav`,formData).then(res=>{
-      console.log(res);
+      // console.log(res);
   })
 }
 rendarTimeLaps(item){
@@ -116,13 +124,19 @@ rendarTimeLaps(item){
     this.forcerender();
       return days + "d "+hours + "h " +minutes + "m "+seconds + "s"
 }
-
+closeDialogDet = () => {
+  this.setState({setOpenDet: false});
+};
 renderItems(){
   const data =this.state.bids;
   let max =0;
 const maxbids = this.state.lists;
   return (
     <React.Fragment>
+       { this.state.setOpenDet ? 
+            <Details openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
+              : <></>
+          }
       <div className="itemss">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
@@ -140,10 +154,11 @@ const maxbids = this.state.lists;
                 </Row>
                 <Slideshow images={item.auction_images}/>
                 <Row>
-              <Col><strong>{item.bedrooms}</strong> Beds <strong>.</strong> <strong>{item.bathrooms}</strong>  Baths <strong>.</strong> 
+                <Col><strong>{item.bedrooms}</strong> Beds <strong>.</strong> <strong>{item.bathrooms}</strong>  Baths <strong>.</strong> 
               <strong> {item.diningrooms}</strong>  Dinings <strong>.</strong> 
-              <strong>  {item.parking}</strong>  Parkings </Col>
+              <strong> {this.numberWithCommas(item.area)}</strong> sqft</Col>
               </Row>
+              <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="ree">View details </button>
                 </CardHeader>
                 <CardBody>
                   <Row>
@@ -157,19 +172,10 @@ const maxbids = this.state.lists;
                       if(i.item_id ==item.id)
                        if(i.price > max) max=i.price;
                     })}
-                    <h5 style={{marginLeft:"5px"}} key={index}> $ {this.numberWithCommas(max)}+</h5>
-                  </Col>
-                  <Col>
-                  <i>Shop Now</i><br/>
+                    <h5 style={{marginLeft:"5px"}} key={index.ind}> $ {this.numberWithCommas(max)}+</h5>
                   </Col>
                   </Row>
-                
-                
-              <Row>
-                {/* //view bids history */}
-              </Row>
                 </CardBody>
-                {/* <Getbids/> */}
                 <AddBid item_id={item.id}/>
           </Card>
         )
@@ -200,7 +206,7 @@ const maxbids = this.state.lists;
                 <Navbar />
                 <div className="split left">
                   {/* <SearchableMap/> */}
-                  <ViewOnMap coordinates={this.state.coordinates} auc={this.state.itemid}/>
+                  <ViewOnMap coordinates={this.state.coordinates}/>
                 </div>
                 
               <div className="split right">

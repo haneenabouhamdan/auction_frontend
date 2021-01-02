@@ -4,6 +4,7 @@ import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
 import {MDBIcon } from "mdbreact";
+import firebase from '../utils/firebase';
 import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import UserSidebar from './UserSidebar';
 import CreateHomeAuction from './CreateHomeAuction';
@@ -30,12 +31,14 @@ class MyAuctions extends React.Component{
             mybids:[],
             setOpen:false,
             setOpenL:false,
+            setOpenDet:false,
             activePage:0,
             total:0,
             per_page:0,
-            setOpenDet:false,
+            OpenDet:false,
             fl: true,
-            item:""
+            item:[],
+            lists:[],
                }
 
                this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
@@ -52,8 +55,9 @@ class MyAuctions extends React.Component{
    closeDialog = () => {
     this.setState({setOpen: false});
   };
-  handleClickOpenDet = () => {
-    this.setState({setOpenDet:true});
+  handleClickOpenDet = (item) => {
+    console.log('test')
+    this.setState({setOpenDet:true,item:item});
   };
    closeDialogDet = () => {
     this.setState({setOpenDet: false});
@@ -75,6 +79,7 @@ class MyAuctions extends React.Component{
 };
  async componentDidMount(){
   await this.getUserItems();
+  await this.getBidsHistory();
 }
 handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
@@ -86,9 +91,21 @@ remAuc=(id)=>{
   axios.defaults.withCredentials=true;
 axios.post(`/api/remAuc`,formData).then(res=>{
     // console.log(res);
-    this.props.history.push('/myauctions')
+    this.getUserItems();
 
 })
+}
+getBidsHistory=()=>{
+  const bidsref = firebase.database().ref("Bids");
+  bidsref.on('value',(snapshot)=>{
+      const lists = snapshot.val();
+      const list=[];
+      for(let id in lists){
+          list.push(lists[id]);   
+      }
+      // console.log(list)
+      this.setState({lists:list});
+  })
 }
  async getUserItems(pageNumber){
    console.log(pageNumber)
@@ -114,11 +131,7 @@ forcerender = ()=>{
     })
   }, 3000);
 }
-op=(item)=>{
-  this.setState({
-    openDet:true
-    ,item:item});
-}
+
 rendarTimeLaps(item){
     var now = new Date().getTime();
     var countDownDate = new Date(item.planned_close_date).getTime();
@@ -138,6 +151,8 @@ numberWithCommas(x) {
 }
 renderUserItems(){
   const data =this.state.mybids;
+  let max =0;
+  const maxbids = this.state.lists;
   return (
     <React.Fragment>
       <div className="items">
@@ -155,16 +170,31 @@ renderUserItems(){
                 <Slideshow images={item.auction_images}/>
                 </CardHeader>
                 <CardBody>
-                <Row><h3 style={{marginLeft:"5px"}}> ${this.numberWithCommas(item.starting_price)}+</h3>
-              <Col><strong>{item.bedrooms}</strong>Beds | <strong>{item.bathrooms}</strong>  Baths |
+                <Row>
+                  <Col>
+                  <i>Starting Bid</i>
+                  
+                  <h5 style={{marginLeft:"5px",marginTop:"5px"}}> ${this.numberWithCommas(item.starting_price)}+</h5>
+                  </Col>
+                  <Col>
+                  <i>Current Bid</i><br/>
+                    {maxbids.map((i,ind) => {
+                      if(i.item_id ==item.id)
+                       if(i.price > max) max=i.price;
+                    })}
+                    <h5 style={{marginLeft:"5px"}} key={index.ind}> $ {this.numberWithCommas(max)}+</h5>
+                  </Col>
+                  </Row>
+                <Row>
+              <Col><strong>{item.bedrooms}</strong> Beds | <strong>{item.bathrooms}</strong>  Baths |
               <strong> {item.diningrooms}</strong>  Dinings |
-              <strong>  {item.parking}</strong>  Parkings </Col>
+               <strong> {this.numberWithCommas(item.area)}</strong> sqft </Col>
               </Row>
              <br/>
               <Row>
               </Row>
-              <button type="submit" onClick={()=>this.remAuc(item.id)} className="remove"><MDBIcon fas icon="trash" /> Remove </button>
-              <button type="submit" onClick={()=>this.op(item)} className="remove">View details </button>
+              <button type="submit" onClick={()=>this.remAuc(item.id)} className="remove"><MDBIcon fas icon="trash" /> Delete </button>
+              <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="removee">View details </button>
               </CardBody>
 
           </Card>
@@ -198,11 +228,14 @@ renderUserItems(){
          if(this.state.mybids.length < 0){
            return <div><br/></div>
          }
-         if(this.state.setOpenDet){
-         <Details openDet={this.state.setOpenDet} closeDet={this.closeDialogDet} item={this.state.item}/>
-         }
+        //  if(this.state.setOpenDet){
+        //   }
         return(
             <div className="fixeside">
+            { this.state.setOpenDet ? 
+            <Details openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
+              : <></>
+          }
                 <UserSidebar className="side"/>
                 <div id="myaucnav">
                 <DropdownButton  title="Create Auction" id="dropdown" style={{marginLeft:"950px"}}> 

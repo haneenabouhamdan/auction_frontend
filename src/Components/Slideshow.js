@@ -12,7 +12,7 @@ const Slideshow = ({images}) => {
           {
             slideImages.map((value)=>
               <div key={value.id} className="each-slide">
-              <img style={{width:"100%",height:"200px"}} src={value.path}/>
+              <img style={{width:"100%",height:"50%"}} src={value.path}/>
   
             </div>
             )

@@ -179,7 +179,8 @@
       font-size: .75rem;
       line-height: 1.125;
       margin-bottom: 10px;
-      border-radius: .25rem;box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+      border-radius: .25rem;
+      box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
 
   }
   .price{
@@ -192,7 +193,7 @@
     margin-right: 10px;
     margin-bottom: 10px;
     width:150px;
-    height:30px;
+    height:33px;
     text-shadow: none;
     text-align: start;
     appearance: textfield;
@@ -200,6 +201,8 @@
     -webkit-rtl-ordering: logical;
     cursor: text;
     font: 400 14.3333px Arial;
+    border-width: 1px;;
+     box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
   }
  
   
@@ -227,7 +230,16 @@
     margin-top: 100px;
    
   }
-  
+  .rightt {
+    right: 0;
+    height: 80%;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+  }
+
   .fav{
       display:flex;
       width:30px;
@@ -263,4 +275,27 @@
     border:0;
     float:left;
     color:#32b69b;
+}
+.removve{
+    background-color:white;
+    border:0;
+    margin-left:15px;
+    /* float:left; */
+    color:#32b69b;
+}
+.removee{
+    background-color:white;
+    border:0;
+    float:right;
+    color:#32b69b;
+}
+.ree{
+    border:0;
+    background-color: transparent !important;
+    margin-top: 10px;
+    color:#32b69b;
+}
+.can{
+    background-color:#32b69b !important;
+    color:white
 }
