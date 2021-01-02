@@ -5,7 +5,9 @@ import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
 import firebase from '../utils/firebase';
 import Navbar from '../Components/Navbar';
+import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
 import AddBid from './AddBid';
+import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import Details from './Details';
 import {MDBIcon } from "mdbreact";
 import {
@@ -201,9 +203,44 @@ const maxbids = this.state.lists;
          if(this.state.bids.length < 0){
            return <div><br/></div>
          }
+         const optionsArray = [
+          { key: "el", label: "electricity" },
+          { key: "elv", label: "elevator" },
+          { key: "hc", label: "heating/cooling" },
+          { key: "p", label: "parking" },
+        ];
+        const optArray = [
+          { key: "Appartments/Studios", label: "Appartments/Studios" },
+          { key: "Industrial Buildings", label: "Industrial Buildings" },
+          { key: "Houses", label: "Houses" },
+          { key: "Villas", label: "Villas" },
+          { key: "Buildings", label: "Buildings" },
+          { key: "Bungalows", label: "Bungalows" },
+          { key: "Offices", label: "Offices" },
+          { key: "Shops", label: "Shops" },
+        ];
         return(
             <div>
                 <Navbar />
+                <div className="filters"> 
+                   
+                   <DropdownMultiselect  className="ch" placeholder="Home Type   " options={optArray} name="Home Type" />
+                    <DropdownButton  title="Bedrooms" id="dropdowntyypee" onSelect={this.handleSelectt}> 
+                    <Dropdown.Item ><input name="min" type="number" placeholder="min"/></Dropdown.Item>
+                    <Dropdown.Item ><input name="max" type="number" placeholder="max"/></Dropdown.Item> 
+                    </DropdownButton>
+                    <DropdownButton  title="Bathrooms" id="dropdowntyype" onSelect={this.handleSelectt}> 
+                    <Dropdown.Item ><input name="minb" type="number" placeholder="min"/></Dropdown.Item>
+                    <Dropdown.Item ><input name="maxb" type="number" placeholder="max"/></Dropdown.Item> 
+                    </DropdownButton>
+                    <DropdownButton  title="Area" id="dropdowntyype" onSelect={this.handleSelectt}> 
+                    <Dropdown.Item ><input name="minnb" type="number" placeholder="min"/></Dropdown.Item>
+                    <Dropdown.Item ><input name="maxxb" type="number" placeholder="max"/></Dropdown.Item> 
+                    </DropdownButton>
+                   
+                    <DropdownMultiselect style={{marginLeft:"20px"}} placeholder="Services"  options={optionsArray} name="Services" />
+                    <Button className="ser" name="search" onClick={this.filter}>Search</Button>
+                    </div>
                 <div className="split left">
                   {/* <SearchableMap/> */}
                   <ViewOnMap coordinates={this.state.coordinates}/>

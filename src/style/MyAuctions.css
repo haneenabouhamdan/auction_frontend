@@ -88,6 +88,34 @@
     background-color: white!important;
     color:grey;
 }
+#dropdowntyype{
+    width:200px;
+    margin-left: 10px;
+    background-color: white!important;
+    color:grey;
+}
+#dropdowntyypee{
+    width:200px;
+    margin-left: 20px;
+    background-color: white!important;
+    color:grey;
+}
+span,.dropdown-toggle::after{
+    color:grey;
+}
+.btn-light.dropdown-toggle{
+    width:200px;
+    height:47px !important;
+    color:grey !important;
+    background-color: white !important;
+}
+.form-check-label{
+    color: grey !important;
+}
+.dropdown-menu{
+    width:200px !important;
+    color: grey !important;
+}
 #dropdowntypee{
     width:450px;
     background-color: white!important;
@@ -215,7 +243,7 @@
     top: 0;
     overflow-x: hidden;
     left: 0;
-    margin-top: 150px;
+    margin-top: 200px;
   }
   
   /* Control the right side */
@@ -227,7 +255,7 @@
     z-index: 1;
     top: 0;
     overflow-x: hidden;
-    margin-top: 100px;
+    margin-top: 150px;
    
   }
   .rightt {
@@ -298,4 +326,38 @@
 .can{
     background-color:#32b69b !important;
     color:white
+}
+.search{
+    width:100%;
+    height:400px;
+}
+.search h1{
+    color:white;
+    font-family:Cursive;
+    text-shadow:10px 10px 15px white;
+}
+.locs{
+    width:500px;
+    height:50px;
+    border:0;
+    margin-top:50px;
+}
+.buts{
+    background-color:transparent;
+    color:white;
+    font-style:bold;
+    height:52px;
+    width:52px;
+    margin-bottom:2px;
+    border:0;
+}
+.filters{
+    display:flex;
+    margin-left: 100px;
+    margin-top: 30px;
+}
+.ser{
+    margin-left: 20px !important;
+    background-color:#32b69b !important;
+    color:white;
 }

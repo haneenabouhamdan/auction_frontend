@@ -45,8 +45,6 @@ class SearchableMap extends React.Component {
     });
   };
   onClickMap(e) {
-    this.sendlong(e);
-    this.sendlat(e);
     this.setState({
       long:e.lngLat[0],
       lat:e.lngLat[1]
