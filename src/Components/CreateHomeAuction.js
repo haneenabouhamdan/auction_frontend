@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import '../style/MyAuctions.css'
+import '../style/MyAuctions.css';
+import {Redirect} from 'react-router-dom';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
@@ -177,6 +178,7 @@ class CreateHomeAuction extends React.Component{
      console.log(formData)
      axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
        console.log(response)});
+       <Redirect to='/myauctions'/>
    }
     render(){
         return(
@@ -234,7 +236,7 @@ class CreateHomeAuction extends React.Component{
            <ImageUploading
         onChange={this.onChange}
         maxNumber={maxNumber}
-        acceptType={['jpg', 'png', 'jpeg']}
+        acceptType={['jpg', 'png', 'jpeg','webp']}
         id="img"
         multiple
       >

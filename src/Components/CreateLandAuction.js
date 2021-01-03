@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -134,6 +135,7 @@ class CreateLandAuction extends React.Component{
       axios.defaults.withCredentials=true;
       axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
         console.log(response)});
+        <Redirect to='/myauctions'/>
     }
     render(){
         return(
@@ -163,7 +165,7 @@ class CreateLandAuction extends React.Component{
            <ImageUploading
         onChange={this.onChange}
         maxNumber={maxNumber}
-        acceptType={['jpg', 'png', 'jpeg']}
+        acceptType={['jpg', 'png', 'jpeg','webp']}
         id="img"
         multiple
       >

@@ -4,6 +4,7 @@ import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
 import firebase from '../utils/firebase';
+import Details from './Details';
 import Navbar from '../Components/Navbar';
 import AddBid from './AddBid';
 import {
@@ -34,6 +35,7 @@ class IndustrialItems extends React.Component{
             item_id:0,
             coordinates:[],
             lists:[],
+            setOpenDet:false,
             fl: true
                }
 
@@ -107,6 +109,13 @@ getBidsHistory=()=>{
       this.setState({lists:list});
   })
 }
+handleClickOpenDet = (item) => {
+  // console.log('test')
+  this.setState({setOpenDet:true,item:item});
+};
+closeDialogDet = () => {
+  this.setState({setOpenDet: false});
+};
 renderItems(){
   const data =this.state.bids;
   const active=this.state.activePage;
@@ -114,6 +123,10 @@ renderItems(){
   const maxbids = this.state.lists
   return (
     <React.Fragment>
+      { this.state.setOpenDet ? 
+            <Details openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
+              : <></>
+          }
       <div className="itemss">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
@@ -127,10 +140,28 @@ renderItems(){
                 </Row>
                 <Slideshow images={item.auction_images}/>
                 <Row>
-              <Col><strong>{item.bedrooms}</strong> Beds <strong>.</strong> <strong>{item.bathrooms}</strong>  Baths <strong>.</strong> 
-              <strong> {item.diningrooms}</strong>  Dinings <strong>.</strong> 
-              <strong>  {item.parking}</strong>  Parkings </Col>
+              <Col>{item.bedrooms > 0 ? 
+                <div className="flex"><strong>{item.bedrooms}</strong> Beds <strong>| </strong></div> :
+                <></>
+                }
+                 {item.bathrooms > 0 ? 
+                <div className="flex"><strong>{item.bathrooms}</strong> Baths <strong>| </strong></div> :
+                <></>
+                }
+                 {item.diningrooms > 0 ? 
+                <div className="flex"><strong>{item.diningrooms}</strong> Dinings <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.parking > 0 ? 
+                <div className="flex"><strong>{item.parking}</strong> Parking <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.area > 0 ? 
+                <div className="flex"><strong>{this.numberWithCommas(item.area)}</strong> sqft </div> :
+                <></>
+                }  </Col>
               </Row>
+              <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="ree">View details </button>
                 </CardHeader>
                 <CardBody>
                   <Row>

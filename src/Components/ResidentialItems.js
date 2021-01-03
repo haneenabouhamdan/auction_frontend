@@ -38,7 +38,9 @@ class ResidentialAuctions extends React.Component{
             item_id:0,
             coordinates:[],
             lists:[],
+            user:"",
             setOpenDet:false,
+            item:"",
             fl: true
                }
 
@@ -51,6 +53,7 @@ class ResidentialAuctions extends React.Component{
 handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
 }
+
  async getAllItems(pageNumber){
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
@@ -61,11 +64,11 @@ handlePageChange(pageNumber) {
      c.longitude=item.longitude
      c.latitude=item.latitude
      c.area=item.area
-    //  console.log(c)
+     console.log(c)
      this.state.coordinates.push(c);
     
     })
-    
+    console.log(res)
     this.setState({
       bids:res.data.items.data,
       per_page:res.data.items.per_page,
@@ -73,6 +76,7 @@ handlePageChange(pageNumber) {
       activePage:res.data.items.current_page,
      });
   })
+  console.log(this.state.user)
 }
 numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -81,7 +85,7 @@ countDownDate(date){
   return new Date(date).getTime();
 } 
 handleClickOpenDet = (item) => {
-  console.log('test')
+  // console.log('test')
   this.setState({setOpenDet:true,item:item});
 };
 getBidsHistory=()=>{
@@ -156,9 +160,28 @@ const maxbids = this.state.lists;
                 </Row>
                 <Slideshow images={item.auction_images}/>
                 <Row>
-                <Col><strong>{item.bedrooms}</strong> Beds <strong>.</strong> <strong>{item.bathrooms}</strong>  Baths <strong>.</strong> 
-              <strong> {item.diningrooms}</strong>  Dinings <strong>.</strong> 
-              <strong> {this.numberWithCommas(item.area)}</strong> sqft</Col>
+                <Col>
+                {item.bedrooms > 0 ? 
+                <div className="flex"><strong>{item.bedrooms}</strong> Beds <strong>| </strong></div> :
+                <></>
+                }
+                 {item.bathrooms > 0 ? 
+                <div className="flex"><strong>{item.bathrooms}</strong> Baths <strong>| </strong></div> :
+                <></>
+                }
+                 {item.diningrooms > 0 ? 
+                <div className="flex"><strong>{item.diningrooms}</strong> Dinings <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.parking > 0 ? 
+                <div className="flex"><strong>{item.parking}</strong> Parking <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.area > 0 ? 
+                <div className="flex"><strong>{this.numberWithCommas(item.area)}</strong> sqft </div> :
+                <></>
+                } 
+                 </Col>
               </Row>
               <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="ree">View details </button>
                 </CardHeader>
@@ -174,7 +197,8 @@ const maxbids = this.state.lists;
                       if(i.item_id ==item.id)
                        if(i.price > max) max=i.price;
                     })}
-                    <h5 style={{marginLeft:"5px"}} key={index.ind}> $ {this.numberWithCommas(max)}+</h5>
+                    <h5 style={{marginLeft:"5px"}} id={index.ind}> $ {this.numberWithCommas(max)}</h5>
+                <b style={{color:"white"}}>{max=0}</b> 
                   </Col>
                   </Row>
                 </CardBody>
@@ -197,6 +221,14 @@ const maxbids = this.state.lists;
    </React.Fragment>
    )
 
+}
+handleClickL(){
+  var x = document.getElementById("ddropdowntyypee");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
 }
     render(){
      const bids = this.state;
@@ -223,23 +255,45 @@ const maxbids = this.state.lists;
             <div>
                 <Navbar />
                 <div className="filters"> 
+                <DropdownButton  title="category" id="dropdowntyype" onSelect={this.handleSelectcat}> 
+                    <Dropdown.Item ><button className="removv" onClick={this.handleClickH}>House</button></Dropdown.Item>
+                    <Dropdown.Item ><button className="removv" onClick={this.handleClickL}>Land</button></Dropdown.Item> 
+                    <Dropdown.Item ><button className="removv" onClick={this.handleClickL}>any</button></Dropdown.Item> 
+                    </DropdownButton>
+
+                    <DropdownButton  title="Area" id="dropdowntyype" onSelect={this.handleSelectarea}>
+                   <Dropdown.Item >Any</Dropdown.Item>
+                    <Dropdown.Item >1000 - 5500  sqft</Dropdown.Item>
+                    <Dropdown.Item >5500 - 10800 sqft</Dropdown.Item> 
+                    <Dropdown.Item >10800 - 16200  sqft</Dropdown.Item>
+                    <Dropdown.Item >16200 +  sqft</Dropdown.Item>
+                    </DropdownButton>
+                    
                    
-                   <DropdownMultiselect  className="ch" placeholder="Home Type   " options={optArray} name="Home Type" />
-                    <DropdownButton  title="Bedrooms" id="dropdowntyypee" onSelect={this.handleSelectt}> 
-                    <Dropdown.Item ><input name="min" type="number" placeholder="min"/></Dropdown.Item>
-                    <Dropdown.Item ><input name="max" type="number" placeholder="max"/></Dropdown.Item> 
+                   <div id="ddropdowntyypee">
+                   <DropdownMultiselect id="bd"  placeholder="Services"  options={optionsArray} name="Services" />
+                    <h6 style={{color:"white"}}>a</h6>
+                   <DropdownButton  title="Baths" id="bd" onSelect={this.handleSelectbaths}> 
+                   <Dropdown.Item >Any</Dropdown.Item>
+                    <Dropdown.Item >1+</Dropdown.Item>
+                    <Dropdown.Item >2+</Dropdown.Item> 
+                    <Dropdown.Item >3+</Dropdown.Item>
+                    <Dropdown.Item >4+</Dropdown.Item>
                     </DropdownButton>
-                    <DropdownButton  title="Bathrooms" id="dropdowntyype" onSelect={this.handleSelectt}> 
-                    <Dropdown.Item ><input name="minb" type="number" placeholder="min"/></Dropdown.Item>
-                    <Dropdown.Item ><input name="maxb" type="number" placeholder="max"/></Dropdown.Item> 
+                    <DropdownButton  title="Beds" id="bd"  onSelect={this.handleSelectbeds}> 
+                    <Dropdown.Item >Any</Dropdown.Item>
+                    <Dropdown.Item >1+</Dropdown.Item>
+                    <Dropdown.Item >2+</Dropdown.Item> 
+                    <Dropdown.Item >3+</Dropdown.Item>
+                    <Dropdown.Item >4+</Dropdown.Item> 
+                    <Dropdown.Item >5+</Dropdown.Item> 
                     </DropdownButton>
-                    <DropdownButton  title="Area" id="dropdowntyype" onSelect={this.handleSelectt}> 
-                    <Dropdown.Item ><input name="minnb" type="number" placeholder="min"/></Dropdown.Item>
-                    <Dropdown.Item ><input name="maxxb" type="number" placeholder="max"/></Dropdown.Item> 
-                    </DropdownButton>
+                    <DropdownMultiselect id="dropdowntyype"  placeholder="House Type" options={optArray} name="Home Type" />
                    
-                    <DropdownMultiselect style={{marginLeft:"20px"}} placeholder="Services"  options={optionsArray} name="Services" />
-                    <Button className="ser" name="search" onClick={this.filter}>Search</Button>
+                    
+                  </div>
+              
+                    <Button type="submit" name="search"  id="s" onClick={this.filter}>Search</Button>
                     </div>
                 <div className="split left">
                   {/* <SearchableMap/> */}

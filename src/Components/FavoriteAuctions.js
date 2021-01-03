@@ -2,7 +2,9 @@ import React from 'react'
 import axios from 'axios';
 import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
+import Details from './Details';
 import '../style/MyAuctions.css';
+import firebase from '../utils/firebase';
 import AddBid from './AddBid';
 import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import UserSidebar from './UserSidebar';
@@ -33,6 +35,8 @@ class FavAuctions extends React.Component{
             activePage:0,
             total:0,
             per_page:0,
+            lists:[],
+            setOpenDet:false,
             fl: true
                }
  this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
@@ -45,6 +49,9 @@ class FavAuctions extends React.Component{
     }
     handleClickOpen = () => {
     this.setState({setOpen:true});
+  };
+  closeDialogDet = () => {
+    this.setState({setOpenDet: false});
   };
    closeDialog = () => {
     this.setState({setOpen: false});
@@ -66,6 +73,7 @@ class FavAuctions extends React.Component{
 };
  async componentDidMount(){
   await this.getUserFavItems();
+  await this.getBidsHistory();
 }
 handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
@@ -112,6 +120,22 @@ rendarTimeLaps(item){
     this.forcerender();
       return days + "d "+hours + "h " +minutes + "m "+seconds + "s"
 }
+getBidsHistory=()=>{
+  const bidsref = firebase.database().ref("Bids");
+  bidsref.on('value',(snapshot)=>{
+      const lists = snapshot.val();
+      const list=[];
+      for(let id in lists){
+          list.push(lists[id]);   
+      }
+      // console.log(list)
+      this.setState({lists:list});
+  })
+}
+handleClickOpenDet = (item) => {
+  console.log('test')
+  this.setState({setOpenDet:true,item:item});
+};
 remFav=(id)=>{
     let formData={
         auction_id:id
@@ -120,12 +144,19 @@ remFav=(id)=>{
   axios.post(`/api/remFav`,formData).then(res=>{
       console.log(res);
   })
+  this.props.history.push('/favItems')
 }
 renderUserItems(){
   const data =this.state.favbids;
   const active=this.state.activePage;
+  let max =0;
+  const maxbids = this.state.lists;
   return (
     <React.Fragment>
+       { this.state.setOpenDet ? 
+            <Details openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
+              : <></>
+          }
       <div className="itemsf">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
@@ -139,21 +170,31 @@ renderUserItems(){
                 </Row>
                 <Row></Row>
                 <Slideshow images={item.auction_images}/>
+                <Row>
+                <Col><strong>{item.bedrooms}</strong>Beds | <strong>{item.bathrooms}</strong>  Baths |
+              <strong> {item.diningrooms}</strong>  Dinings |
+              <strong>  {item.parking}</strong>  Parkings </Col></Row>
                 </CardHeader>
                 <CardBody>
-                <Row><h3 style={{marginLeft:"5px"}}> ${this.numberWithCommas(item.starting_price)}+</h3>
-              <Col><strong>{item.bedrooms}</strong>Beds | <strong>{item.bathrooms}</strong>  Baths |
-              <strong> {item.diningrooms}</strong>  Dinings |
-              <strong>  {item.parking}</strong>  Parkings </Col>
+                <Row> <Col>
+                  <i>Starting Bid</i><br/>
+                  <h5 style={{marginLeft:"5px"}}> ${this.numberWithCommas(item.starting_price)}+</h5>
+                  </Col>
+                <Col><i>Current Bid</i><br/>
+                    {maxbids.map((i,ind) => {
+                      if(i.item_id ==item.id)
+                       if(i.price > max) max=i.price;
+                    })}
+                    <h5 style={{marginLeft:"5px"}} key={index.ind}> $ {this.numberWithCommas(max)}</h5></Col>
+             <b style={{color:"white"}}>{max=0}</b> 
               </Row>
-             <br/>
               <Row>
                 <Col>
                 {/* <p>{item.description}</p> */}
                 </Col>
               </Row>
-              <button type="submit" onClick={()=>this.remFav(item.id)} style={{backgroundColor:"white",border:0,color:"#32b69b"}}><MDBIcon fas icon="trash" /> Remove </button>
-                <a href="/details" className="viewd">View details</a>
+              <button type="submit" onClick={()=>this.remFav(item.id)} className="rm"><MDBIcon fas icon="trash" /> Remove </button>
+              <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="vd">View details </button>
               </CardBody>
               <AddBid item_id={item.id}/>
           </Card>

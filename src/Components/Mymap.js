@@ -67,8 +67,6 @@ class SearchableMap extends React.Component {
         pointRadiusMinPixels: 10,
         pointRadiusMaxPixels: 10
       }),
-      // long:event.result.geometry.coordinates[1],
-      // lat:event.result.geometry.coordinates[0]
     })
     console.log(event.result.geometry.coordinates[1])
     console.log(event.result.geometry.coordinates[0])

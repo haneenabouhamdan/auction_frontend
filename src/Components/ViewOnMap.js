@@ -73,7 +73,7 @@ render(){
       const { viewport, searchResultLayer} = this.state
       const data=this.props.coordinates
       return (
-        <div style={{ height: "100%"}}>
+        <div style={{ height: "90%"}}>
           <MapGL 
             ref={this.mapRef}
             {...viewport}
@@ -109,7 +109,6 @@ render(){
             </div>
             
             </MapGL>
-            <DeckGL {...viewport} layers={[searchResultLayer]} />
         </div>
       )
     }

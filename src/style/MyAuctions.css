@@ -100,6 +100,22 @@
     background-color: white!important;
     color:grey;
 }
+#ddropdowntyypee{
+   display: flex;
+   /* margin-left: 10px !important; */
+}
+#de{
+    width:200px;
+    margin-left: 10px;
+    background-color: white!important;
+    color:grey;
+}
+.dropdown-item input{
+    width:100px;
+}
+.form-check-input{
+    width:20px !important;
+}
 span,.dropdown-toggle::after{
     color:grey;
 }
@@ -317,6 +333,12 @@ span,.dropdown-toggle::after{
     float:right;
     color:#32b69b;
 }
+.vd{
+    float:right;
+    color:#32b69b;
+    background-color:white;
+    border:0;
+}
 .ree{
     border:0;
     background-color: transparent !important;
@@ -353,11 +375,58 @@ span,.dropdown-toggle::after{
 }
 .filters{
     display:flex;
-    margin-left: 100px;
-    margin-top: 30px;
+    margin-left: 10px;
+    margin-top: 28px;
+    margin-right: 20px;
+}
+.form-check-input{
+    margin-right: 40px;
 }
 .ser{
-    margin-left: 20px !important;
+    margin-left: 10px !important;
     background-color:#32b69b !important;
     color:white;
+}
+.seer{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    background-color:#32b69b !important;
+    color:white;
+}
+.rm{
+    float:left;
+    color:#32b69b;
+    background-color:white;
+    border:0;
+}
+.itemsf i{
+    color:#32b69b;
+}
+.removv{
+    background-color:white;
+    border:0;
+    float:left;
+    color:grey;
+}
+#bd{
+    background-color:white !important;
+    color:grey;
+    margin-left: 10px !important;
+}
+
+#s{
+    background-color:#32b69b !important;
+    color:white;
+    margin-left: 20px !important;
+}
+#bdd{
+    background-color:white !important;
+    color:grey; 
+}
+.flex{
+    display:inline;
+    width:"10px"
+}
+.meduim Col{
+    color:grey !important;
 }

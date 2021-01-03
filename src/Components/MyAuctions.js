@@ -183,12 +183,31 @@ renderUserItems(){
                        if(i.price > max) max=i.price;
                     })}
                     <h5 style={{marginLeft:"5px"}} key={index.ind}> $ {this.numberWithCommas(max)}+</h5>
+                 
+             <b style={{color:"white"}}>{max=0}</b> 
                   </Col>
                   </Row>
                 <Row>
-              <Col><strong>{item.bedrooms}</strong> Beds | <strong>{item.bathrooms}</strong>  Baths |
-              <strong> {item.diningrooms}</strong>  Dinings |
-               <strong> {this.numberWithCommas(item.area)}</strong> sqft </Col>
+              <Col>{item.bedrooms > 0 ? 
+                <div className="flex"><strong>{item.bedrooms}</strong> Beds <strong>| </strong></div> :
+                <></>
+                }
+                 {item.bathrooms > 0 ? 
+                <div className="flex"><strong>{item.bathrooms}</strong> Baths <strong>| </strong></div> :
+                <></>
+                }
+                 {item.diningrooms > 0 ? 
+                <div className="flex"><strong>{item.diningrooms}</strong> Dinings <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.parking > 0 ? 
+                <div className="flex"><strong>{item.parking}</strong> Parking <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.area > 0 ? 
+                <div className="flex"><strong>{this.numberWithCommas(item.area)}</strong> sqft </div> :
+                <></>
+                } </Col>
               </Row>
              <br/>
               <Row>

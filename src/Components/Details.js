@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../style/MyAuctions.css';
 import Slideshow from './Slideshow';
 import firebase from '../utils/firebase';
+import AddBid from './AddBid';
 import ViewOnMap from './ViewOnMap';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -46,6 +47,16 @@ class Details extends React.Component{
             auction_categories_id:"",
             images:[],
             lists:[],
+            first_name:"",
+            image:"",
+            last_name:"",
+            phone:"",
+            date_of_birth:"",
+            email:"",
+            country:"",
+            state:"",
+            users_id:0,
+            item:this.props.item,
             setOpenDet:this.props.openDet,
             coordinates:[],
             fl: true
@@ -53,13 +64,31 @@ class Details extends React.Component{
 
             //    this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
     }
-  componentDidMount(){
-   this.getItemDetails();
+ componentDidMount(){
+    this.getItemDetails();
+   this.getUser();
+   this.getBidsHistory();
 }
 
+getUser(){
+  axios.defaults.withCredentials=true;
+  axios.get('/api/getUser/'+this.props.item.users_id).then(res=>{
+    console.log(res)
+    this.setState({
+      "first_name":res.data.user.first_name,
+      "last_name":res.data.user.last_name,
+      "email":res.data.user.email,
+      "phone":res.data.user.phone,
+      "image":res.data.user.image,
+      "date_of_birth":res.data.user.date_of_birth,
+      "country":res.data.user.country,
+      "state":res.data.user.state
+    })
+})
+}
   getItemDetails(){
   const data = this.props.item;
-  console.log(data)
+  // console.log(data.users_id)
     this.setState({
             "longitude":data.longitude,
             "latitude":data.latitude,
@@ -81,7 +110,8 @@ class Details extends React.Component{
             "preferred_price":data.preferred_price,
             "final_price":data.final_price,
             "auction_categories_id":data.auction_categories_id,
-            "images":data.auction_images
+            "images":data.auction_images,
+            "users_id":data.users_id
      });
 }
 numberWithCommas(x) {
@@ -114,17 +144,6 @@ rendarTimeLaps(){
       return days + "d "+hours + "h " +minutes + "m "+seconds + "s"
 }
 
-// renderUserItems(){
-//   return (
-//     <React.Fragment>
-//      <div className="split left">
-//        hellooo
-//      <Gallery photos={this.state.images} />
-//      </div>
-//    </React.Fragment>
-//    )
-
-// }
 
 handleClose = () => {
   this.setState({
@@ -140,10 +159,10 @@ getBidsHistory=()=>{
       for(let id in lists){
           list.push(lists[id]);   
       }
-      // console.log(list)
       this.setState({lists:list});
   })
 }
+
   render(){
     const data = this.state.images
     let max =0;
@@ -157,11 +176,6 @@ getBidsHistory=()=>{
           <Dialog open={this.state.setOpenDet} onClose={this.handleClose} className="diag">
           <DialogContent style={{width:"100%",height:"100%"}}>
               <div>
-               {/* {data.map((value)=>
-              <div key={value.id} className="each-slide">
-              <img style={{width:"100%",height:"200px",marginBottom:"10px"}} src={value.path}/>
-              </div>
-               )} */}
                <Slideshow images={data}/>
                <div>
                <Card className="medium">
@@ -217,6 +231,23 @@ getBidsHistory=()=>{
                <hr/>
                <Row style={{height:"300px"}}>
                  <Col><ViewOnMap coordinates={this.state.coordinates}/></Col></Row>
+                 <hr/>
+                 <Row>
+                   <Col><i style={{color:"#32b69b"}}>Owner :</i></Col>
+                   </Row><Row>
+                   <Col>
+                   <img  style={{width:"70px",height:"70px",borderRadius:"50%"}} src={this.state.image} />
+                  
+                   </Col>
+                   <Col>{this.state.first_name} {this.state.last_name} E:{this.state.email} Tel: {this.state.phone}</Col>
+                 <Col></Col>
+                 </Row>
+                 <hr/>
+                 <Row>
+                   <Col></Col>
+                <AddBid item_id={this.state.id}/>
+                <Col><i style={{color:"#32b69b"}}>view history</i></Col>
+                 </Row>
               </CardBody>
               </Card>
                </div>

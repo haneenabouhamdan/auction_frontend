@@ -3,6 +3,7 @@ import axios from 'axios';
 import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
+import Details from './Details';
 import firebase from '../utils/firebase';
 import Navbar from '../Components/Navbar';
 import AddBid from './AddBid';
@@ -55,6 +56,8 @@ handlePageChange(pageNumber) {
      var c = new Object();
      c.longitude=item.longitude
      c.latitude=item.latitude
+     c.area=item.area
+     c.users_id=item.users_id
      this.state.coordinates.push(c);
     
     })
@@ -114,6 +117,10 @@ renderItems(){
   const maxbids = this.state.lists
   return (
     <React.Fragment>
+       { this.state.setOpenDet ? 
+            <Details openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
+              : <></>
+          }
       <div className="itemss">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
@@ -127,10 +134,29 @@ renderItems(){
                 </Row>
                 <Slideshow images={item.auction_images}/>
                 <Row>
-              <Col><strong>{item.bedrooms}</strong> Beds <strong>.</strong> <strong>{item.bathrooms}</strong>  Baths <strong>.</strong> 
-              <strong> {item.diningrooms}</strong>  Dinings <strong>.</strong> 
-              <strong>  {item.parking}</strong>  Parkings </Col>
+                <Col>
+                {item.bedrooms > 0 ? 
+                <div className="flex"><strong>{item.bedrooms}</strong> Beds <strong>| </strong></div> :
+                <></>
+                }
+                 {item.bathrooms > 0 ? 
+                <div className="flex"><strong>{item.bathrooms}</strong> Baths <strong>| </strong></div> :
+                <></>
+                }
+                 {item.diningrooms > 0 ? 
+                <div className="flex"><strong>{item.diningrooms}</strong> Dinings <strong>| </strong></div> :
+                <></>
+                } 
+                  {item.parking > 0 ? 
+                <div className="flex"><strong>{item.parking}</strong> Parking <strong>| </strong></div> :
+                <></>
+                }  
+                  {item.area > 0 ? 
+                <div className="flex"><strong>{this.numberWithCommas(item.area)}</strong> sqft</div> :
+                <></>
+                } </Col>
               </Row>
+              <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="ree">View details </button>
                 </CardHeader>
                 <CardBody>
                   <Row>
