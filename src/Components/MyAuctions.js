@@ -11,15 +11,9 @@ import CreateHomeAuction from './CreateHomeAuction';
 import CreateLandAuction from './CreateLandAuction';
 import Details from './Details';
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
-  CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";

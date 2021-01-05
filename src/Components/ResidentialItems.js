@@ -3,11 +3,11 @@ import axios from 'axios';
 import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
+import { Multiselect } from "multiselect-react-dropdown";
+import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import firebase from '../utils/firebase';
 import Navbar from '../Components/Navbar';
-import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
 import AddBid from './AddBid';
-import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import Details from './Details';
 import {MDBIcon } from "mdbreact";
 import {
@@ -15,17 +15,10 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
-  CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
-import SearchableMap from './Mymap';
 import ViewOnMap from './ViewOnMap';
-import Getbids from './Getbids';
 
 class ResidentialAuctions extends React.Component{
     constructor(props){
@@ -41,7 +34,12 @@ class ResidentialAuctions extends React.Component{
             user:"",
             setOpenDet:false,
             item:"",
-            fl: true
+            category:0,
+            area_min:0,
+            area_max:0,
+            Services:"",
+            fl: true,
+            services:[],
                }
 
                this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
@@ -49,6 +47,7 @@ class ResidentialAuctions extends React.Component{
  async componentDidMount(){
   await this.getAllItems();
   await this.getBidsHistory();
+
 }
 handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
@@ -64,11 +63,11 @@ handlePageChange(pageNumber) {
      c.longitude=item.longitude
      c.latitude=item.latitude
      c.area=item.area
-     console.log(c)
+    //  console.log(c)
      this.state.coordinates.push(c);
     
     })
-    console.log(res)
+    // console.log(res)
     this.setState({
       bids:res.data.items.data,
       per_page:res.data.items.per_page,
@@ -76,8 +75,22 @@ handlePageChange(pageNumber) {
       activePage:res.data.items.current_page,
      });
   })
-  console.log(this.state.user)
+  // console.log(this.state.user)
 }
+style = {
+  chips: {
+    background: "#32b69b"
+  },
+  searchBox: {
+    "border-bottom": "1px solid lightgrey",
+    "border-radius": "2px",
+    "height":"50px",
+    "font-weight":"200"
+  },
+  multiselectContainer: {
+    color: "grey",
+  },
+};
 numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -133,6 +146,7 @@ rendarTimeLaps(item){
 closeDialogDet = () => {
   this.setState({setOpenDet: false});
 };
+
 renderItems(){
   const data =this.state.bids;
   let max =0;
@@ -222,88 +236,190 @@ const maxbids = this.state.lists;
    )
 
 }
-handleClickL(){
-  var x = document.getElementById("ddropdowntyypee");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
+    handleOnchange  =  val  => {
+      this.setState({Services:val})
+    }
+    handleSelectcat=(e)=>{
+    switch(e){
+    case '1':
+      this.setState({category:0})
+      break;
+    case '2':
+        this.setState({category:1})
+      break;
+      case '3':
+        this.setState({category:3})
+      break;
+    }
+    }
+    handleSelectbaths=(e)=>{
+      // console.log(e)
+    switch(e){
+    case '1':
+      this.setState({baths:-1})
+      break;
+    case '2':
+        this.setState({baths:1})
+      break;
+      case '3':
+        this.setState({baths:2})
+      break;
+      case '4':
+        this.setState({baths:3})
+        break;
+      case '5':
+          this.setState({baths:4})
+        break;      
+    }
+    }
+    handleSelectbeds=(e)=>{
+      // console.log(e)
+    switch(e){
+    case '1':
+      this.setState({beds:-1})
+      break;
+    case '2':
+        this.setState({beds:1})
+      break;
+      case '3':
+        this.setState({beds:2})
+      break;
+      case '4':
+        this.setState({beds:3})
+        break;
+      case '5':
+          this.setState({beds:4})
+        break;  
+        case '6':
+          this.setState({beds:5})
+        break;      
+    }
+    }
+    handleSelectarea=(e)=>{
+      // console.log(e)
+    switch(e){
+    case '1':
+      this.setState({ area_min:-1,
+        area_max:-1})
+      break;
+    case '2':
+        this.setState({
+          area_min:1000,
+          area_max:5500})
+      break;
+      case '3':
+        this.setState({
+          area_min:5500,
+          area_max:10800})
+      break;
+      case '4':
+        this.setState({
+          area_min:10800,
+          area_max:5500})
+      break;
+      case '5':
+        this.setState({
+          area_min:16200,
+          area_max:80000})
+      break;
+    }
+    }
+    handleClickL(){
+        var x = document.getElementById("ddropdowntyypee");
+        if (x.style.display === "none") {
+        x.style.display = "block";
+        } else {
+        x.style.display = "none";
+        }
+        }
+  
     render(){
      const bids = this.state;
          if(this.state.bids.length < 0){
            return <div><br/></div>
          }
-         const optionsArray = [
-          { key: "el", label: "electricity" },
-          { key: "elv", label: "elevator" },
-          { key: "hc", label: "heating/cooling" },
-          { key: "p", label: "parking" },
+       const  objectArray= [
+          { key: "Any", cat: "Any" },
+          { key: "Appartments/Studios", cat: "Appartments/Studios" },
+          { key: "Industrial Buildings", cat: "Industrial Buildings" },
+          { key: "Houses", cat: "Houses" },
+          { key: "Villas", cat: "Villas" },
+          { key: "Buildings", cat: "Buildings" },
+          { key: "Bungalows", cat: "Bungalows" },
+          { key: "Offices", cat: "Offices" },
+          { key: "Shops", cat: "Shops" },
         ];
-        const optArray = [
-          { key: "Appartments/Studios", label: "Appartments/Studios" },
-          { key: "Industrial Buildings", label: "Industrial Buildings" },
-          { key: "Houses", label: "Houses" },
-          { key: "Villas", label: "Villas" },
-          { key: "Buildings", label: "Buildings" },
-          { key: "Bungalows", label: "Bungalows" },
-          { key: "Offices", label: "Offices" },
-          { key: "Shops", label: "Shops" },
+        const  objtArray= [
+          { key: "Any", cat: "Any" },
+          { key: "Electricity", cat: "electricity" },
+          { key: "Elevator", cat: "elevator" },
+          { key: "Parking", cat: "parking" },
         ];
         return(
             <div>
                 <Navbar />
                 <div className="filters"> 
-                <DropdownButton  title="category" id="dropdowntyype" onSelect={this.handleSelectcat}> 
-                    <Dropdown.Item ><button className="removv" onClick={this.handleClickH}>House</button></Dropdown.Item>
-                    <Dropdown.Item ><button className="removv" onClick={this.handleClickL}>Land</button></Dropdown.Item> 
-                    <Dropdown.Item ><button className="removv" onClick={this.handleClickL}>any</button></Dropdown.Item> 
+                <DropdownButton  title="category" id="dropdowntyype" onSelect={()=>this.handleSelectcat}> 
+                    <Dropdown.Item eventKey="1"><button className="removv" onClick={this.handleClickH}>House</button></Dropdown.Item>
+                    <Dropdown.Item eventKey="2"><button className="removv" onClick={this.handleClickL}>Land</button></Dropdown.Item> 
+                    <Dropdown.Item eventKey="3"><button className="removv" onClick={this.handleClickA}>any</button></Dropdown.Item> 
                     </DropdownButton>
 
                     <DropdownButton  title="Area" id="dropdowntyype" onSelect={this.handleSelectarea}>
-                   <Dropdown.Item >Any</Dropdown.Item>
-                    <Dropdown.Item >1000 - 5500  sqft</Dropdown.Item>
-                    <Dropdown.Item >5500 - 10800 sqft</Dropdown.Item> 
-                    <Dropdown.Item >10800 - 16200  sqft</Dropdown.Item>
-                    <Dropdown.Item >16200 +  sqft</Dropdown.Item>
+                   <Dropdown.Item eventKey="1">Any</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">1000 - 5500  sqft</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">5500 - 10800 sqft</Dropdown.Item> 
+                    <Dropdown.Item eventKey="4">10800 - 16200  sqft</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">16200 +  sqft</Dropdown.Item>
                     </DropdownButton>
-                    
-                   
                    <div id="ddropdowntyypee">
-                   <DropdownMultiselect id="bd"  placeholder="Services"  options={optionsArray} name="Services" />
                     <h6 style={{color:"white"}}>a</h6>
                    <DropdownButton  title="Baths" id="bd" onSelect={this.handleSelectbaths}> 
-                   <Dropdown.Item >Any</Dropdown.Item>
-                    <Dropdown.Item >1+</Dropdown.Item>
-                    <Dropdown.Item >2+</Dropdown.Item> 
-                    <Dropdown.Item >3+</Dropdown.Item>
-                    <Dropdown.Item >4+</Dropdown.Item>
+                   <Dropdown.Item eventKey="1">Any</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">1+</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">2+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="4">3+</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">4+</Dropdown.Item>
                     </DropdownButton>
+
                     <DropdownButton  title="Beds" id="bd"  onSelect={this.handleSelectbeds}> 
-                    <Dropdown.Item >Any</Dropdown.Item>
-                    <Dropdown.Item >1+</Dropdown.Item>
-                    <Dropdown.Item >2+</Dropdown.Item> 
-                    <Dropdown.Item >3+</Dropdown.Item>
-                    <Dropdown.Item >4+</Dropdown.Item> 
-                    <Dropdown.Item >5+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="1">Any</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">1+</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">2+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="4">3+</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">4+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="6">5+</Dropdown.Item> 
                     </DropdownButton>
-                    <DropdownMultiselect id="dropdowntyype"  placeholder="House Type" options={optArray} name="Home Type" />
                    
-                    
-                  </div>
-              
+                    <div style={{width:"200px",height:"50px", boxShadow: "0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1)",marginTop:"7px",marginLeft:"10px",marginRight:"10px"}}>
+                    <Multiselect
+                      options={objectArray}
+                      displayValue="key"
+                      style={this.style}
+                      showCheckbox={true}
+                      placeholder="Type"
+                    />
+                    </div>
+
+                    <div style={{width:"200px",height:"50px", boxShadow: "0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1)",marginTop:"7px",marginLeft:"5px",marginRight:"10px"}}>
+                    <Multiselect
+                      options={objtArray}
+                      displayValue="key"
+                      style={this.style}
+                      showCheckbox={true}
+                      placeholder="Services"
+                    />
+                    </div>
+                    </div>
                     <Button type="submit" name="search"  id="s" onClick={this.filter}>Search</Button>
                     </div>
-                <div className="split left">
-                  {/* <SearchableMap/> */}
-                  <ViewOnMap coordinates={this.state.coordinates}/>
-                </div>
-                
-              <div className="split right">
-              {bids && this.renderItems()}
-              </div>
-            </div>
+                    <div className="split left">
+                      <ViewOnMap coordinates={this.state.coordinates}/>
+                    </div>
+                    <div className="split right">
+                    {bids && this.renderItems()}
+                    </div>
+                    </div>
         )
     }
 }

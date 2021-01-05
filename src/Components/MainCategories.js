@@ -30,7 +30,7 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/residentialItems'>
-                <img className="imageA" src={ind}/>
+                <img className="imageA" src={hom}/>
                 </a>           
                 </CardHeader>
                 <CardBody>
@@ -60,7 +60,7 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/industrialItems'>
-                <img className="imageA" src={hom} /></a>
+                <img className="imageA" src={ind} /></a>
                 </CardHeader>
                 <CardBody>
                 <h5>Industrial Properties </h5>

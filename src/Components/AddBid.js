@@ -32,9 +32,7 @@ class AddBid extends React.Component{
                 })
               }
      submitBid=()=>{
-        const bidsref = firebase.database().ref("Bids");
-        // console.log(bidsref)
-        
+        const bidsref = firebase.database().ref("Bids"); 
         const bid = {
             date:this.state.date,
             username:this.state.first_name+" "+this.state.last_name,
@@ -65,7 +63,6 @@ class AddBid extends React.Component{
                 <button style={{border:"0",backgroundColor:"grey"}}onClick={this.closeDialogDet}>x</button></Alert>
               : <></>
                 }
-                {/* empty div before submit */}
                 <input type="number" value={this.state.price} className="price" name="price" onChange={this.handleOnchange}/>
             
                 <button type="submit" className="but" onClick={this.submitBid}>Submit a bid</button>

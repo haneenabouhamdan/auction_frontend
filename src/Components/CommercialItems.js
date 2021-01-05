@@ -4,25 +4,18 @@ import Slideshow from './Slideshow';
 import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
 import Details from './Details';
+import {MDBIcon } from "mdbreact";
 import firebase from '../utils/firebase';
 import Navbar from '../Components/Navbar';
 import AddBid from './AddBid';
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
-  CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
-import SearchableMap from './Mymap';
 import ViewOnMap from './ViewOnMap';
-import Getbids from './Getbids';
 
 class CommercialItems extends React.Component{
     constructor(props){
@@ -110,9 +103,17 @@ getBidsHistory=()=>{
       this.setState({lists:list});
   })
 }
+addFav(itemid){
+  let formData={
+    "auction_id":itemid
+  }
+  axios.defaults.withCredentials=true;
+  axios.post(`/api/addFav`,formData).then(res=>{
+      // console.log(res);
+  })
+}
 renderItems(){
   const data =this.state.bids;
-  const active=this.state.activePage;
   let max =0;
   const maxbids = this.state.lists
   return (
@@ -124,6 +125,9 @@ renderItems(){
       <div className="itemss">
         {data.map((item,index)=>
         <Card key={index} className="xsmall">
+           <div style={{backgroundColor:"rgba(0,0,0,.03)",width:"100%"}}>
+          <button type="submit" className="fav" onClick={()=>this.addFav(item.id)}><MDBIcon icon="far fa-bookmark fa-2x" /></button>
+         </div>
           <CardHeader>
               <Row>
                 <div  className="countdown">

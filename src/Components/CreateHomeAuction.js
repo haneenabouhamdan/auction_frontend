@@ -39,7 +39,7 @@ class CreateHomeAuction extends React.Component{
             start_date:"",
             planned_close_date:"",
             starting_price:"",
-            preferred_price:0,
+            category:0,
             final_price:0,
             auction_categories_id:"",
             images:[],
@@ -167,9 +167,9 @@ class CreateHomeAuction extends React.Component{
       "start_date":this.state.start_date,
       "planned_close_date":this.state.planned_close_date,
       "starting_price":this.state.starting_price,
-      "preferred_price":this.state.preferred_price,
       "auction_categories_id":this.state.auction_categories_id,
       "final_price":this.state.final_price,
+      "caregory":this.state.category,
       "images":this.state.images
      }
      console.log(this.state);
@@ -190,9 +190,9 @@ class CreateHomeAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
-              <Label>Start Date</Label>
+              <Label style={{color:"grey"}}>Start Date</Label>
             <Input type="datetime-local" name="start_date"  onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
-            
+            <Label style={{color:"grey"}}>Close Date</Label>
             <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" name="bedrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bedrooms"/>
@@ -201,7 +201,6 @@ class CreateHomeAuction extends React.Component{
             <Input type="number" name="Balcony" onChange={this.handlechangeall} className="inputs3" placeholder="Balconies"/>
             <Input type="number" name="parking" onChange={this.handlechangeall} className="inputs3" placeholder="Parkings"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/>
-            <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 
                 <DropdownButton  title="Category" id="dropdowntypee" onSelect={this.handleSelectcat}> 
                     <Dropdown.Item eventKey="1" >Residential</Dropdown.Item>
                     <Dropdown.Item eventKey="2" >Commercial</Dropdown.Item> 

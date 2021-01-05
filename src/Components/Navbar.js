@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import React, { Component }from "react";
-import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
-MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon } from "mdbreact";
-import { BrowserRouter as Router, Redirect,NavLink } from 'react-router-dom';
+import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
+MDBDropdownToggle, MDBDropdownMenu, MDBIcon } from "mdbreact";
+import { BrowserRouter as Router, Redirect} from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
+import Notification from './Notification';
 import 'mdbreact/dist/css/mdb.css';
 import axios from 'axios'
 import '../App.css'
@@ -20,27 +20,8 @@ class Navbar extends Component {
 toggleCollapse = () => {
   this.setState({ isOpen: !this.state.isOpen });
 }
-// getCategories = ()=>{
-//   axios.defaults.withCredentials=true;
-//      axios.get('/api/getHomesCategories').then((response)=>{
-//         return response.data.categories;
-//       }).then((categories)=>{
-//         this.setState({
-//          categories:categories});
-//       });
-//   }
-//   getCategoriesLands = ()=>{
-//     axios.defaults.withCredentials=true;
-//        axios.get('/api/getLandsCategories').then((response)=>{
-//           return response.data.categories;
-//         }).then((categories)=>{
-//           this.setState({
-//            landsCat:categories});
-//         });
-//     }
+
   componentDidMount(){
-    // this.getCategories();
-    // this.getCategoriesLands();
   }   
 logout = e => {
     e.preventDefault();
@@ -53,6 +34,7 @@ logout = e => {
 login = e =>{
   <Redirect to="/login"/>
 }
+
 render() {
   return (
     <Router>
@@ -78,6 +60,13 @@ render() {
             </MDBNavItem>
           </MDBNavbarNav>
           <MDBNavbarNav right>
+
+            <MDBNavItem>
+              <p></p>
+              <p></p>
+            <Notification/>
+            </MDBNavItem>
+
             <MDBNavItem>
             
               <MDBDropdown >

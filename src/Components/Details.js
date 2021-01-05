@@ -13,11 +13,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
-  CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Row,
   Col,
 } from "reactstrap";
@@ -244,17 +239,22 @@ getBidsHistory=()=>{
                  </Row>
                  <hr/>
                  <Row>
-                   <Col></Col>
+                 <i style={{color:"white"}}>,,,,,,,</i>
                 <AddBid item_id={this.state.id}/>
-                <Col><i style={{color:"#32b69b"}}>view history</i></Col>
                  </Row>
+                 <i style={{color:"#32b69b"}}>Bidding History</i> 
+                    {maxbids.map((i,ind) => {
+                          if(i.item_id==this.state.id)
+                          return <Row id={ind}><i style={{color:"white"}}>,,,,,,,</i><i>{i.username}</i> <i style={{color:"white"}}>,,,,,,,</i> {this.numberWithCommas(i.price)} $</Row>
+                        })}
+               
               </CardBody>
               </Card>
                </div>
               </div>
             </DialogContent>
             <DialogActions style={{float:"inline-end"}}>
-          <Button onClick={this.handleClose} className="can">
+          <Button onClick={this.handleClose} id="can">
             Cancel
           </Button>
         </DialogActions>

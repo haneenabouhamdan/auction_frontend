@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import firebase from '../utils/firebase';
 import '../style/MyAuctions.css'
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,6 +12,7 @@ import {
     CardHeader,
     CardBody,
     Input,
+    Label,
     FormGroup
   } from "reactstrap";
   import '../style/MyAuctions.css';
@@ -37,13 +39,18 @@ class CreateLandAuction extends React.Component{
             start_date:"",
             planned_close_date:"",
             starting_price:"",
-            preferred_price:"",
+            category:1,
             final_price:0,
             auction_categories_id:"",
+            date:new Date(),
+            owner:0,
+            item_id:0,
+            message:"Hi there! Don't miss the chance to check out the new auction and win it!",
             images:[],
             setOpenL:false
         }
     }
+  
     onChange = (imageList) => {
         // data for submit
         //Getting total number of images
@@ -80,13 +87,22 @@ class CreateLandAuction extends React.Component{
     };
     onChangelong =(e)=>{
       this.setState({longitude:e})
-      // console.log(this.state.longitude)
     }
     onChangelat =(e)=>{
       this.setState({latitude:e})
-      // console.log(this.state.latitude)
     }
-
+    sendNot=()=>{
+      const notsref = firebase.database().ref("Notifications");
+      
+      const not = {
+          date:this.state.date,
+          message:this.state.message,
+          closeDate:this.state.planned_close_date,
+          item_id:this.state.item_id,
+          owner:this.state.owner
+      }
+      notsref.push(not);
+    } 
     handleSelect=(e)=>{
       console.log(e);
       switch(e){
@@ -125,18 +141,22 @@ class CreateLandAuction extends React.Component{
        "start_date":this.state.start_date,
        "planned_close_date":this.state.planned_close_date,
        "starting_price":this.state.starting_price,
-       "preferred_price":this.state.preferred_price,
        "auction_categories_id":this.state.auction_categories_id,
        "final_price":this.state.final_price,
+       "caregory":this.state.category,
        "images":this.state.images
       }
-      console.log(formData);
       this.handleClose();
       axios.defaults.withCredentials=true;
       axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
-        console.log(response)});
+        console.log(response)
+        this.setState({item_id:response.item,owner:response.owner})
+        
+     });
+     this.sendNot();
         <Redirect to='/myauctions'/>
     }
+ 
     render(){
         return(
           <Dialog open={this.props.openL} onClose={this.handleClose}  aria-labelledby="form-dialog-title">
@@ -147,11 +167,12 @@ class CreateLandAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
+              <Label style={{color:"grey"}}>Start Date</Label>
             <Input type="datetime-local" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
+            <Label style={{color:"grey"}}>Close Date</Label>
             <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
-            <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/>
-            <Input type="number" className="inputs3" onChange={this.handlechangeall} name="preffered_price" placeholder="Preferred Price"/> 
+            <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/> 
             </FormGroup>
                 <DropdownButton  title="Land Type" id="dropdowntype" onSelect={this.handleSelect}> 
                     <Dropdown.Item eventKey="1">Residential</Dropdown.Item>

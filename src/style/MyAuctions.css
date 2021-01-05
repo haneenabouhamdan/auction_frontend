@@ -90,7 +90,7 @@
 }
 #dropdowntyype{
     width:200px;
-    margin-left: 10px;
+    margin-left: 20px;
     background-color: white!important;
     color:grey;
 }
@@ -151,7 +151,7 @@ span,.dropdown-toggle::after{
     font-size: .8125rem;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: #fff !important;
     border: 1px solid #e1e5eb;
     font-weight: 300;
     border-radius: .35rem; 
@@ -172,7 +172,7 @@ span,.dropdown-toggle::after{
     font-size: .8125rem;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: #fff !important;
     border: 1px solid #e1e5eb;
     font-weight: 300;
     border-radius: .35rem; 
@@ -211,9 +211,9 @@ span,.dropdown-toggle::after{
     box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
 }
 .but{
-    color: #fff;
+    color: #fff !important;
       border-color:#32b69b;
-      background-color: #32b69b;
+      background-color: #32b69b  !important;
       box-shadow: none;
       font-weight: 400;
       display: inline;
@@ -345,9 +345,9 @@ span,.dropdown-toggle::after{
     margin-top: 10px;
     color:#32b69b;
 }
-.can{
+#can {
     background-color:#32b69b !important;
-    color:white
+    color:white !important;
 }
 .search{
     width:100%;
@@ -411,12 +411,14 @@ span,.dropdown-toggle::after{
 #bd{
     background-color:white !important;
     color:grey;
+    height:50px;
     margin-left: 10px !important;
 }
 
 #s{
     background-color:#32b69b !important;
     color:white;
+    height:50px;
     margin-left: 20px !important;
 }
 #bdd{
@@ -428,5 +430,37 @@ span,.dropdown-toggle::after{
     width:"10px"
 }
 .meduim Col{
-    color:grey !important;
+    color:white !important;
+}
+.meduim{
+    background-color: whitesmoke !important;
+    font-size: .8125rem;
+    line-height: 1.5;
+}
+.Services searchBox{
+    border:1px;
+    border-color: grey;
+}
+.Services{
+    width:200px
+}
+#s{
+    margin-left: 2px !important;
+}
+.not{
+    margin-top:20px;
+    color:white;
+    height: 10px;
+    
+}
+.notifications .icon .image {
+        height:20px !important;
+        width:20px !important;
+        color:white !important
+}
+.card{
+    background-color: white !important;
+}
+.items{
+    margin-left: "10px" !important;
 }
