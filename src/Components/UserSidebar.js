@@ -25,9 +25,9 @@ render(){
         <li>
           <a href="/favItems">Favorite Bids</a>
         </li>
-        <li>
-          <a href="#">My Alerts</a>
-        </li>
+        {/* <li>
+          <a href="/notification">My Alerts</a>
+        </li> */}
         <li>
           <a href="/welcomePage"><MDBIcon fas icon="arrow-left" /></a>
         </li>

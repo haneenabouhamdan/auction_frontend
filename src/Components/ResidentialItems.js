@@ -219,6 +219,7 @@ const maxbids = this.state.lists;
                 <AddBid item_id={item.id}/>
           </Card>
         )
+        
       }
       </div>
       <div className="pag">

@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../style/MyAuctions.css';
 import Slideshow from './Slideshow';
 import firebase from '../utils/firebase';
-import AddBid from './AddBid';
 import ViewOnMap from './ViewOnMap';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -17,7 +16,7 @@ import {
   Col,
 } from "reactstrap";
 
-class Details extends React.Component{
+class MyDetails extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -232,23 +231,6 @@ getBidsHistory=()=>{
                <Row style={{height:"300px"}}>
                  <Col><ViewOnMap coordinates={this.state.coordinates}/></Col></Row>
                  <hr/>
-                 <Row>
-                   <Col><i style={{color:"#32b69b"}}>Owner :</i></Col>
-                   </Row> <Row>
-                   <Col>
-                   <img  style={{width:"70px",height:"70px",borderRadius:"50%"}} src={this.state.image} />
-                  
-                   </Col>
-                   <Col>{this.state.first_name} {this.state.last_name} E:{this.state.email} Tel: {this.state.phone}</Col>
-                 <Col></Col>
-                 </Row>
-                 <hr/>
-                 <Row>
-                 <i style={{color:"white"}}>,,,,,,,</i>
-                <AddBid item_id={this.state.id}/>
-            
-                 </Row>
-                 
                  <i style={{color:"#32b69b"}}>Bidding History</i> 
                     {maxbids.map((i,ind) => {
                           if(i.item_id==this.state.id)
@@ -269,4 +251,4 @@ getBidsHistory=()=>{
         )
     }
 }
-export default Details;
+export default MyDetails;

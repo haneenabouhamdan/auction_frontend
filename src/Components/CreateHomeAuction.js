@@ -12,6 +12,7 @@ import {
     CardBody,
     Label,
     Input,
+    Row,
     FormGroup
   } from "reactstrap";
   import '../style/MyAuctions.css';
@@ -178,22 +179,24 @@ class CreateHomeAuction extends React.Component{
      console.log(formData)
      axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
        console.log(response)});
+       window.location.reload();
        <Redirect to='/myauctions'/>
    }
     render(){
         return(
           <Dialog open={this.props.openD} onClose={this.handleClose}  aria-labelledby="form-dialog-title">
         <DialogContent style={{width:550,height:1000}}>
-              <Card style={{width:500}}>
+              <Card style={{width:550}}>
             <CardHeader style={{backgroundColor:"#32b69b",color:"white"}}>
                 <h2> Please Add Auction Details</h2>
             </CardHeader>
             <CardBody >
               <FormGroup>
-              <Label style={{color:"grey"}}>Start Date</Label>
-            <Input type="datetime-local" name="start_date"  onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
-            <Label style={{color:"grey"}}>Close Date</Label>
+              <Label style={{color:"grey",marginLeft:"10px"}}><h6>Start Date</h6></Label><Label style={{color:"grey",marginLeft:"200px",marginTop:"10px"}}><h6>Close Date</h6></Label><br/>
+            <Row>
+            <Input type="datetime-local" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
             <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
+            </Row>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" name="bedrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bedrooms"/>
             <Input type="number" name="bathrooms" onChange={this.handlechangeall} className="inputs2" placeholder="Bathrooms"/>

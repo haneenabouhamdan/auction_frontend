@@ -5,6 +5,7 @@
     float: left;
     /* margin-right:"600px"; */
 }
+
 .img button{
     background-color: #32b69b! important;
     color:white;
@@ -14,10 +15,9 @@
     
 }
 .inputs{
-    display: inline;
     margin-top: 10px;
-    margin-left: 10px;
-    width:220px;
+    margin-left: 23px;
+    width:209px;
     color:grey;
 }
 .input{
@@ -147,7 +147,6 @@ span,.dropdown-toggle::after{
     text-align: center;
     height: auto;
     position: relative;
-    /* float:right; */
     font-size: .8125rem;
     line-height: 1.5;
     color: #495057;
@@ -156,7 +155,8 @@ span,.dropdown-toggle::after{
     font-weight: 300;
     border-radius: .35rem; 
     width:300px;
-    right:0;
+    height:500px;
+    /* right:0; */
     float:right;
     box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
   
@@ -333,6 +333,12 @@ span,.dropdown-toggle::after{
     float:right;
     color:#32b69b;
 }
+.close{
+    margin-right: 30px;
+    border:0;
+    font-weight: 200;
+    color:black;
+}
 .vd{
     float:right;
     color:#32b69b;
@@ -462,5 +468,37 @@ span,.dropdown-toggle::after{
     background-color: white !important;
 }
 .items{
-    margin-left: "10px" !important;
+    margin:0 !important;
+}
+.content{
+    height:25px;
+}
+/* .con{
+    width:400px !important;
+    height:400px !important;
+    position: absolute;
+    z-index: 2;
+} */
+.notif{
+        margin-top: 50px;
+        margin-left:20px;
+        margin-right:220px;
+        text-align: center;
+        height: auto;
+        position: center;
+        font-size: .8125rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff !important;
+        border: 1px solid #e1e5eb;
+        font-weight: 300;
+        border-radius: .35rem; 
+        width:500px;
+        height:462px;
+        float:right;
+        box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+}
+.foot{
+    height:50px;
+    
 }

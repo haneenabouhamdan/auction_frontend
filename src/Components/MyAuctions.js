@@ -5,17 +5,19 @@ import Pagination from "react-js-pagination";
 import '../style/MyAuctions.css';
 import {MDBIcon } from "mdbreact";
 import firebase from '../utils/firebase';
+import Notification from './Notification';
 import { DropdownButton ,Dropdown} from 'react-bootstrap';
 import UserSidebar from './UserSidebar';
 import CreateHomeAuction from './CreateHomeAuction';
 import CreateLandAuction from './CreateLandAuction';
-import Details from './Details';
+import MyDetails from './MyDetails';
 import {
   Card,
   CardHeader,
   CardBody,
   Row,
   Col,
+  CardFooter,
 } from "reactstrap";
 
 class MyAuctions extends React.Component{
@@ -33,6 +35,7 @@ class MyAuctions extends React.Component{
             fl: true,
             item:[],
             lists:[],
+            closed:false,
                }
 
                this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
@@ -84,9 +87,23 @@ remAuc=(id)=>{
   }
   axios.defaults.withCredentials=true;
 axios.post(`/api/remAuc`,formData).then(res=>{
-    // console.log(res);
-    this.getUserItems();
-
+  
+    window.location.reload();
+})
+}
+closeAuc=(id,index)=>{
+  this.setState({closed:true})
+  let today = new Date();
+  let day= today.getDate()<10?'0'+today.getDate():today.getDate();
+  let month= today.getMonth()+1;
+  let todayDB = today.getFullYear()+"-"+month+"-"+day;
+  let formData={
+    auction_id:id,
+    closeDate:todayDB
+}
+axios.defaults.withCredentials=true;
+axios.post(`/api/closeAuc`,formData).then(res=>{
+  window.location.reload();
 })
 }
 getBidsHistory=()=>{
@@ -97,7 +114,6 @@ getBidsHistory=()=>{
       for(let id in lists){
           list.push(lists[id]);   
       }
-      // console.log(list)
       this.setState({lists:list});
   })
 }
@@ -194,10 +210,6 @@ renderUserItems(){
                 <div className="flex"><strong>{item.diningrooms}</strong> Dinings <strong>| </strong></div> :
                 <></>
                 } 
-                  {item.parking > 0 ? 
-                <div className="flex"><strong>{item.parking}</strong> Parking <strong>| </strong></div> :
-                <></>
-                } 
                   {item.area > 0 ? 
                 <div className="flex"><strong>{this.numberWithCommas(item.area)}</strong> sqft </div> :
                 <></>
@@ -209,7 +221,11 @@ renderUserItems(){
               <button type="submit" onClick={()=>this.remAuc(item.id)} className="remove"><MDBIcon fas icon="trash" /> Delete </button>
               <button type="submit" onClick={()=>this.handleClickOpenDet(item)} className="removee">View details </button>
               </CardBody>
-
+              <CardFooter  className="foot">
+                {item.actual_close_date ===null ? 
+              <button type="submit"  onClick={()=>this.closeAuc(item.id,index)} className="close"><MDBIcon icon="gavel"/>  Close Auction </button>
+              :<p>Auction Closed :<a>Click for details</a></p>
+                }</CardFooter>
           </Card>
         )
       }
@@ -246,16 +262,21 @@ renderUserItems(){
         return(
             <div className="fixeside">
             { this.state.setOpenDet ? 
-            <Details openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
+            <MyDetails openDet={true} closeDialogDet={this.closeDialogDet} item={this.state.item}/>
               : <></>
           }
                 <UserSidebar className="side"/>
                 <div id="myaucnav">
-                <DropdownButton  title="Create Auction" id="dropdown" style={{marginLeft:"950px"}}> 
+                <div style={{marginTop:"15px",marginLeft:"970px"}}>
+                  {/* <Notification />  */}
+                </div> 
+                <button id="btn-logout" onClick={this.logout}><MDBIcon icon="sign-out-alt"/></button>
+                <DropdownButton  title="Create Auction" id="dropdown" style={{marginLeft:"10px"}}> 
                     <Dropdown.Item href=""><a href="/home" className="drop" onClick={this.handleClickOpen}>Buildings</a></Dropdown.Item>
                     <Dropdown.Item href=""><a href="/land" className="drop" onClick={this.handleClickOpenL}>Lands</a></Dropdown.Item>
-                    </DropdownButton>   
-                      <button id="btn-logout" onClick={this.logout}>Logout</button>
+                    </DropdownButton> 
+                    
+                     
             </div>
               {bids && this.renderUserItems()}
              

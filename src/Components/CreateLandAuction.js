@@ -13,6 +13,7 @@ import {
     CardBody,
     Input,
     Label,
+    Row,
     FormGroup
   } from "reactstrap";
   import '../style/MyAuctions.css';
@@ -45,6 +46,7 @@ class CreateLandAuction extends React.Component{
             date:new Date(),
             owner:0,
             item_id:0,
+            image:"",
             message:"Hi there! Don't miss the chance to check out the new auction and win it!",
             images:[],
             setOpenL:false
@@ -99,10 +101,23 @@ class CreateLandAuction extends React.Component{
           message:this.state.message,
           closeDate:this.state.planned_close_date,
           item_id:this.state.item_id,
-          owner:this.state.owner
+          owner:this.state.first +" "+ this.state.last,
+          owner_id:this.state.owner,
+          image:this.state.image
       }
       notsref.push(not);
     } 
+    componentDidMount(){
+      axios.defaults.withCredentials=true;
+          axios.get('/api/user').then((response)=>{
+             this.setState({
+               image:response.data.image,
+               first:response.data.first_name,
+               last:response.data.last_name,
+               owner:response.data.id
+             })
+          })
+    }
     handleSelect=(e)=>{
       console.log(e);
       switch(e){
@@ -150,10 +165,11 @@ class CreateLandAuction extends React.Component{
       axios.defaults.withCredentials=true;
       axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
         console.log(response)
-        this.setState({item_id:response.item,owner:response.owner})
+        this.setState({item_id:response.data.item,owner:response.data.owner})
         
      });
      this.sendNot();
+     window.location.reload();
         <Redirect to='/myauctions'/>
     }
  
@@ -167,10 +183,11 @@ class CreateLandAuction extends React.Component{
             </CardHeader>
             <CardBody >
               <FormGroup>
-              <Label style={{color:"grey"}}>Start Date</Label>
+              <Label style={{color:"grey",marginLeft:"10px"}}><h6>Start Date</h6></Label><Label style={{color:"grey",marginLeft:"200px",marginTop:"10px"}}><h6>Close Date</h6></Label><br/>
+            <Row>
             <Input type="datetime-local" name="start_date" onChange={this.handlechangeall} className="inputs" placeholder="Start Date"/>
-            <Label style={{color:"grey"}}>Close Date</Label>
             <Input type="datetime-local" name="planned_close_date" onChange={this.handlechangeall} className="inputs" placeholder="Close Date"/>
+            </Row>
             <Input type="text" name="description" onChange={this.handlechangeall} className="input" placeholder="Description"/>
             <Input type="number" className="inputs3" onChange={this.handlechangeall} name="starting_price" placeholder="Starting Price"/> 
             </FormGroup>
@@ -181,7 +198,7 @@ class CreateLandAuction extends React.Component{
                     <Dropdown.Item eventKey="4">Agricultural</Dropdown.Item>
                     <Dropdown.Item eventKey="5">Others</Dropdown.Item>
                     </DropdownButton>  
-            <Input type="number" name="area" className="inputs3" onChange={this.handlechangeall} placeholder="Area"/>
+            <Input type="number" name="area" className="inputs3" onChange={this.handlechangeall} placeholder="Area in sqft"/>
           <div className="img inputs3">
            <ImageUploading
         onChange={this.onChange}
