@@ -136,6 +136,18 @@
   vertical-align: middle;
   border-radius: 50%!important;
 }
+.imageC{
+  width: 120px;
+  height:120px;
+  vertical-align: middle;
+  margin-top: 10px;
+  border-radius: 50%!important;
+}
+.imageB{
+  width: 120px;
+  height:120px;
+  vertical-align: middle;
+}
 .Col{
   max-width:200px;
   margin-right: 10px;

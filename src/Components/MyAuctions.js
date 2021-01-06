@@ -51,6 +51,7 @@ class MyAuctions extends React.Component{
   };
    closeDialog = () => {
     this.setState({setOpen: false});
+    window.location.reload();
   };
   handleClickOpenDet = (item) => {
     console.log('test')
@@ -58,12 +59,14 @@ class MyAuctions extends React.Component{
   };
    closeDialogDet = () => {
     this.setState({setOpenDet: false});
+  
   };
   handleClickOpenL = () => {
     this.setState({setOpenL:true});
   };
    closeDialogL = () => {
     this.setState({setOpenL: false});
+  window.location.reload();
   };
   logout = e => {
     e.preventDefault();
@@ -147,7 +150,8 @@ rendarTimeLaps(item){
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if(timeleft < 0){
-      return "Auction Ended"
+      this.closeAuc(item.id);
+      return "Auction Closed"
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
     var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -244,7 +248,6 @@ renderUserItems(){
       </div>
    </React.Fragment>
    )
-
 }
     render(){
      const bids = this.state;

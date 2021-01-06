@@ -30,7 +30,6 @@ function App() {
         <Route exact path="/commercialItems" component={CommercialItems}/>
         <Route exact path="/industrialItems" component={IndustrialItems}/>
         <Route exact path="/logout" component={Login} /> 
-        {/* <Route exact path="/notification" component={NotificationU} />  */}
         <Route exact path="/userprofile" component={UserProfile} /> 
         <Route exact path="/welcomePage" component={welcomePage} />
         <Route exact path="/PaymentDetails" component={PaymentDetails}/>

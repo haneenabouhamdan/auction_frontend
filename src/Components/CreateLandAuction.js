@@ -1,5 +1,4 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -47,12 +46,22 @@ class CreateLandAuction extends React.Component{
             owner:0,
             item_id:0,
             image:"",
-            message:"Hi there! Don't miss the chance to check out the new auction and win it!",
             images:[],
+            emails:[],
+            feedback:'',emails:[], send_to:'',to_name:'', name: 'D.P.M', email: 'DPM@gmail.com',
             setOpenL:false
         }
     }
-  
+    sendFeedback (templateId, variables) {
+      window.emailjs.send(
+        'service_02w05dq', templateId,
+        variables
+        ).then(res => {
+          console.log('Email successfully sent!')
+        })
+        // Handle errors here however you like, or use a React error boundary
+        .catch(err => console.error('Oh well, you failed. Here some thoughts on the error that occured:', err))
+      }
     onChange = (imageList) => {
         // data for submit
         //Getting total number of images
@@ -107,16 +116,25 @@ class CreateLandAuction extends React.Component{
       }
       notsref.push(not);
     } 
-    componentDidMount(){
+    getEmails(){
       axios.defaults.withCredentials=true;
-          axios.get('/api/user').then((response)=>{
+      axios.get('/api/getAllEmails',this.state.owner).then((res)=>{
+        this.setState({
+        emails:res.data.emails
+        })
+      })
+      }
+   componentDidMount(){
+    axios.defaults.withCredentials=true;
+      axios.get('/api/user').then((response)=>{
              this.setState({
                image:response.data.image,
                first:response.data.first_name,
                last:response.data.last_name,
                owner:response.data.id
              })
-          })
+          });
+          this.getEmails();
     }
     handleSelect=(e)=>{
       console.log(e);
@@ -139,6 +157,7 @@ class CreateLandAuction extends React.Component{
       }
     }
     onSubmit = ()=>{
+      const emails= this.state.emails;
       let formData={
        "longitude":this.state.longitude,
        "latitude":this.state.latitude,
@@ -165,12 +184,17 @@ class CreateLandAuction extends React.Component{
       axios.defaults.withCredentials=true;
       axios.post('/api/addAuction',formData,{'Content-Type': 'multipart/form-data'}).then(response => {
         console.log(response)
+        
         this.setState({item_id:response.data.item,owner:response.data.owner})
         
      });
      this.sendNot();
-     window.location.reload();
-        <Redirect to='/myauctions'/>
+     const templateId = 'template_rn864da';
+     emails.map((i)=>{
+       console.log(i)
+     this.sendFeedback(templateId, {send_to:i.email,message_html: this.state.feedback, from_name: this.state.name, reply_to: this.state.email})
+     })
+     
     }
  
     render(){

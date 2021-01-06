@@ -13,7 +13,6 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { MDBIcon } from "mdbreact";
 
 class MainCategories extends React.Component {
     constructor(props){
@@ -46,7 +45,7 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/commercialItems'>
-                <img className="imageA" src={com} /></a>
+                <img className="imageC" src={com} /></a>
                 </CardHeader>
                 <CardBody>
                 <h5>Commercial Properties </h5>
@@ -60,7 +59,8 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/industrialItems'>
-                <img className="imageA" src={ind} /></a>
+                <img className="imageB" src={ind} /></a>
+                <Row></Row>
                 </CardHeader>
                 <CardBody>
                 <h5>Industrial Properties </h5>
