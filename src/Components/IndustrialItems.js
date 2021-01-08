@@ -57,6 +57,8 @@ handlePageChange(pageNumber) {
      var c = new Object();
      c.longitude=item.longitude
      c.latitude=item.latitude
+     c.area=item.area
+     c.users_id=item.users_id
      this.state.coordinates.push(c);
     
     })

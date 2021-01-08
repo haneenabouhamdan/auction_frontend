@@ -79,11 +79,9 @@ handlePageChange(pageNumber) {
   this.setState({activePage: pageNumber});
 }
  async getUserFavItems(pageNumber=1){
-   console.log(pageNumber)
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
   await axios.get(`/api/getFav?page=${pageNumber}`).then(res=>{
-      console.log(res.data.items.data);
     this.setState({
       favbids:res.data.items.data,
       per_page:res.data.items.per_page,
@@ -144,7 +142,7 @@ remFav=(id)=>{
   axios.post(`/api/remFav`,formData).then(res=>{
       console.log(res);
   })
-  this.props.history.push('/favItems')
+  window.location.reload();
 }
 renderUserItems(){
   const data =this.state.favbids;

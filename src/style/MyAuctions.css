@@ -199,6 +199,9 @@ span,.dropdown-toggle::after{
     width:"100px";
     
 }
+.head{
+    height:320px !important;
+}
 .pagination .page-item.active .page-link{
     background-color:  #32b69b !important;
 }
@@ -249,7 +252,6 @@ span,.dropdown-toggle::after{
      box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
   }
  
-  
   /* Control the left side */
   .left {
     height: 100%;
@@ -259,9 +261,10 @@ span,.dropdown-toggle::after{
     top: 0;
     overflow-x: hidden;
     left: 0;
+    /* margin-left: 20px; */
     margin-top: 200px;
   }
-  
+
   /* Control the right side */
   .right {
     right: 0;
@@ -418,6 +421,8 @@ span,.dropdown-toggle::after{
     background-color:white !important;
     color:grey;
     height:50px;
+    padding: 0;
+    width: 100px;
     margin-left: 10px !important;
 }
 

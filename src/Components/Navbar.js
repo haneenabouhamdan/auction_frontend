@@ -64,7 +64,7 @@ render() {
             <MDBNavItem>
               <p></p>
               <p></p>
-            <Notification/>
+            {/* <Notification/> */}
             </MDBNavItem>
 
             <MDBNavItem>

@@ -128,7 +128,7 @@ renderItems(){
            <div style={{backgroundColor:"rgba(0,0,0,.03)",width:"100%"}}>
           <button type="submit" className="fav" onClick={()=>this.addFav(item.id)}><MDBIcon icon="far fa-bookmark fa-2x" /></button>
          </div>
-          <CardHeader>
+          <CardHeader  className="head">
               <Row>
                 <div  className="countdown">
                   <h3>

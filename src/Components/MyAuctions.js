@@ -36,6 +36,13 @@ class MyAuctions extends React.Component{
             item:[],
             lists:[],
             closed:false,
+            winner_name:"",
+            winner_email:"",
+            owner_email:"",
+            owner_tel:"",
+            owner_name:"",
+            location:"",
+            feedback:'', send_to:'',to_name:'', name: 'D.P.M', email: 'DPM@gmail.com',
                }
 
                this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
@@ -78,6 +85,7 @@ class MyAuctions extends React.Component{
     });
 };
  async componentDidMount(){
+   await  this.getOwner();
   await this.getUserItems();
   await this.getBidsHistory();
 }
@@ -94,20 +102,59 @@ axios.post(`/api/remAuc`,formData).then(res=>{
     window.location.reload();
 })
 }
-closeAuc=(id,index)=>{
+getUserByFullName(name){
+  let str= name.split(" ");
+  this.setState({winner_name:name})
+  let formData={
+    "fname":str[0],
+    "lname":name.slice(name.indexOf(" "))
+  }
+  axios.defaults.withCredentials=true;
+  axios.post(`/api/getUserByFullname`,formData).then(res=>{
+    // console.log(res.data.email[0].email)
+    this.setState({winner_email:res.data.email[0].email})
+    // console.log(this.state.winner_email)
+  })
+}
+getOwner=()=>{
+  axios.defaults.withCredentials=true;
+  axios.get(`/api/user`).then(res=>{
+this.setState({owner_email:res.data.email,
+  owner_name:res.data.first_name+" "+res.data.last_name,
+  owner_tel:res.data.phone,
+  location:res.data.country+","+res.data.state})
+  })
+}
+sendFeedback (templateId, variables) {
+  window.emailjs.send(
+    'service_02w05dq', templateId,
+    variables
+    ).then(res => {
+      console.log('Email successfully sent!')
+    })
+    // Handle errors here however you like, or use a React error boundary
+    .catch(err => console.error('Oh well, you failed. Here some thoughts on the error that occured:', err))
+  }
+async closeAuc(id,win){
+  const lists= this.state.lists;
   this.setState({closed:true})
   let today = new Date();
   let day= today.getDate()<10?'0'+today.getDate():today.getDate();
   let month= today.getMonth()+1;
-  let todayDB = today.getFullYear()+"-"+month+"-"+day;
+  let todayDB = today.getFullYear()+"-"+month+"-"+day+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
   let formData={
     auction_id:id,
     closeDate:todayDB
 }
+// console.log(this.state.winner_name);
+await this.getUserByFullName(win.username)
 axios.defaults.withCredentials=true;
-axios.post(`/api/closeAuc`,formData).then(res=>{
-  window.location.reload();
+await axios.post(`/api/closeAuc`,formData).then(res=>{
+  // window.location.reload();
 })
+const templateId = 'template_u5lgbco';
+
+this.sendFeedback(templateId, {send_to:this.state.winner_email,owner_email:this.state.owner_email,owner_tel:this.state.owner_tel,owner_name:this.state.owner_name,to_name:this.state.winner_name,message_html: this.state.feedback, from_name: this.state.name, reply_to: this.state.email,owner_loc:this.state.location})
 }
 getBidsHistory=()=>{
   const bidsref = firebase.database().ref("Bids");
@@ -120,8 +167,9 @@ getBidsHistory=()=>{
       this.setState({lists:list});
   })
 }
+
  async getUserItems(pageNumber){
-   console.log(pageNumber)
+  //  console.log(pageNumber)
    this.handlePageChange(pageNumber);
   axios.defaults.withCredentials=true;
   await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then(res=>{
@@ -144,7 +192,6 @@ forcerender = ()=>{
     })
   }, 3000);
 }
-
 rendarTimeLaps(item){
     var now = new Date().getTime();
     var countDownDate = new Date(item.planned_close_date).getTime();
@@ -166,6 +213,8 @@ numberWithCommas(x) {
 renderUserItems(){
   const data =this.state.mybids;
   let max =0;
+  let winner="";
+  let win="";
   const maxbids = this.state.lists;
   return (
     <React.Fragment>
@@ -192,12 +241,11 @@ renderUserItems(){
                   </Col>
                   <Col>
                   <i>Current Bid</i><br/>
-                    {maxbids.map((i,ind) => {
+                    {maxbids.map((i) => {
                       if(i.item_id ==item.id)
-                       if(i.price > max) max=i.price;
+                       if(i.price > max) {max=i.price;win=i};
                     })}
                     <h5 style={{marginLeft:"5px"}} key={index.ind}> $ {this.numberWithCommas(max)}+</h5>
-                 
              <b style={{color:"white"}}>{max=0}</b> 
                   </Col>
                   </Row>
@@ -227,7 +275,7 @@ renderUserItems(){
               </CardBody>
               <CardFooter  className="foot">
                 {item.actual_close_date ===null ? 
-              <button type="submit"  onClick={()=>this.closeAuc(item.id,index)} className="close"><MDBIcon icon="gavel"/>  Close Auction </button>
+              <button type="submit"  onClick={()=>this.closeAuc(item.id,win)} className="close"><MDBIcon icon="gavel"/>  Close Auction </button>
               :<p>Auction Closed :<a>Click for details</a></p>
                 }</CardFooter>
           </Card>

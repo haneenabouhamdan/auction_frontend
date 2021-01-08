@@ -318,7 +318,7 @@ class UserProfile extends React.Component {
                           className="btn-round"
                           color="primary"
                           type="submit"
-                          onClick={this.editProfile()}
+                          onClick={()=>this.editProfile()}
                         >
                           Update Account
                         </button>

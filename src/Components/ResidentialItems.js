@@ -40,6 +40,7 @@ class ResidentialAuctions extends React.Component{
             Services:"",
             fl: true,
             services:[],
+            types: [],
                }
 
                this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
@@ -163,7 +164,7 @@ const maxbids = this.state.lists;
           <div style={{backgroundColor:"rgba(0,0,0,.03)",width:"100%"}}>
           <button type="submit" className="fav" onClick={()=>this.addFav(item.id)}><MDBIcon icon="far fa-bookmark fa-2x" /></button>
          </div>
-          <CardHeader>
+          <CardHeader className="head">
               <Row>
                 <div  className="countdown">
                   <h3>
@@ -219,7 +220,6 @@ const maxbids = this.state.lists;
                 <AddBid item_id={item.id}/>
           </Card>
         )
-        
       }
       </div>
       <div className="pag">
@@ -249,7 +249,7 @@ const maxbids = this.state.lists;
         this.setState({category:1})
       break;
       case '3':
-        this.setState({category:3})
+        this.setState({category:2})
       break;
     }
     }
@@ -333,7 +333,26 @@ const maxbids = this.state.lists;
         x.style.display = "none";
         }
         }
-  
+        handleClickH(){
+          var x = document.getElementById("ddropdowntyypee");
+          if (x.style.display === "none") {
+          x.style.display = "block";
+          }
+          }
+  // filterLands=()=>{
+  //   let formData={
+  //     "area_min":this.state.area_min,
+  //     "area_max":this.state.area_max
+  //   }
+  // }      
+  // filter=()=>{
+  //   if(this.state.category==1)
+  //   this.filterLands();
+  //   else{
+  //     this.filterHomesOrAll();
+  //   }
+
+  // }
     render(){
      const bids = this.state;
          if(this.state.bids.length < 0){
@@ -399,6 +418,16 @@ const maxbids = this.state.lists;
                       style={this.style}
                       showCheckbox={true}
                       placeholder="Type"
+                      onSelect={(selectedList, selectedItem)=>{
+                        this.setState({
+                          types: selectedList
+                        })
+                      }}
+                      onRemove={(selectedList, removedItem)=>{
+                        this.setState({
+                          services: selectedList
+                        })
+                      }}
                     />
                     </div>
 
@@ -409,6 +438,16 @@ const maxbids = this.state.lists;
                       style={this.style}
                       showCheckbox={true}
                       placeholder="Services"
+                      onSelect={(selectedList, selectedItem)=>{
+                        this.setState({
+                          services: selectedList
+                        })
+                      }}
+                      onRemove={(selectedList, removedItem)=>{
+                        this.setState({
+                          services: selectedList
+                        })
+                      }}
                     />
                     </div>
                     </div>
