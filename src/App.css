@@ -1,3 +1,11 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+overflow-x: hidden; 
+
+}
+
 .App {
   text-align: center;
 }
@@ -40,16 +48,108 @@
   color:white!important;
   margin-left: 50px;
 }
+.N{
+  color:white!important;
+}
 .Navvv{
   color:white!important;
 }
 .Navvi{
   color:grey!important;
-  /* text-align:center;s */
 }
 .b{
   background-color: white;
   color:grey!important;
   text-align:center;
   border: 0;
+}
+.maps{
+    z-index: 3;
+    /* margin-right: 5px; */
+    position:fixed;
+    height: 100vh;
+}
+.items{
+ height: 230px !important;
+ padding: 10px;
+}
+.images{
+  height: 300px !important;
+  padding: 12px;
+}
+.prop{
+  text-align: left;
+  margin-top: 10px;
+
+}
+.servic{
+  margin-left: 15px;
+  color: grey;
+}
+.favo{
+  background-color: transparent !important;
+  border:0;
+  right:0;
+  position: absolute;
+}
+
+.re{
+  margin-left: 10px;
+  color:#32b69b;
+  font-weight: 300;
+  border:0;
+  background-color: transparent !important;
+}
+svg{
+  opacity: 0.3;
+}
+.bid{
+width:80px;
+border-color: grey 1px;
+margin-right: 10px;
+font-weight: 300;
+}
+.subid{
+  color: #fff !important;
+  border-color:#32b69b;
+  background-color: #32b69b  !important;
+  box-shadow: none;
+  font-weight: 400;
+  display: inline;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+  border: 1px solid transparent;
+  padding: .5625rem 1rem;
+  font-size: .75rem;
+  line-height: 1.125;
+  height:30px;
+  width:50px;
+  border-radius: .25rem;
+  box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+
+}
+.bidss{
+max-width:120px !important;
+margin-bottom: 20px !important;
+}
+.details{
+  width:90% !important;
+  /* margin-top: 20px; */
+  padding: 20px;
+  height:500px !important;
+}
+.enlarge {
+  transform:scale(3,3);
+  transform-origin:0 0;
+}
+.image-list {
+  display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 10px;
+    /* padding: 20px; */
+    left:0;
+    grid-auto-rows: 200px;
+}
+
+.image-list img {
+  width: 240px;
 }

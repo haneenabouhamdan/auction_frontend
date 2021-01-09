@@ -21,7 +21,7 @@
     "mdbreact": "^5.0.1",
     "multiselect-react-dropdown": "^1.6.3",
     "react": "^17.0.1",
-    "react-bootstrap": "^1.4.0",
+    "react-bootstrap": "^1.4.3",
     "react-bootstrap-4-pagination": "^1.0.3",
     "react-country-region-selector": "^3.0.1",
     "react-date-countdown-timer": "^1.0.9",
@@ -68,5 +68,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://localhost:8000",
+  "devDependencies": {
+    "prettier": "2.2.1"
+  }
 }

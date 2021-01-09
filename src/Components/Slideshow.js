@@ -8,11 +8,11 @@ const Slideshow = ({images}) => {
   return (
     <div>
       <div>
-        <Slide duration="2000" style={{marginBottom:"10px",padding:"1px",width:"100%"}}> 
+        <Slide duration="2000" className="slide" > 
           {
             slideImages.map((value)=>
               <div key={value.id} className="each-slide">
-              <img style={{width:"100%",height:"50%"}} src={value.path}/>
+              <img className="img" src={value.path}/>
   
             </div>
             )

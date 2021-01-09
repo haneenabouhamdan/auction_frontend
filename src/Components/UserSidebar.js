@@ -9,7 +9,7 @@ render(){
         <li className="sidebar-brand">
           <a href="#">
             <h4>
-          <MDBIcon fas icon="home" /> D.P.M</h4>
+            <a href="/welcomePage"><MDBIcon fas icon="home" /> D.P.M</a></h4>
           <hr style={{color:'white',backgroundColor:'white'}}/>
           </a>
         </li>
@@ -17,7 +17,7 @@ render(){
         <a href="/userprofile">Dashboard</a>
         </li>
         <li>
-          <a href="/myauctions">My Bids</a>
+          <a href="/myauctions">My Auctions</a>
         </li>
         <li>
           <a href="#">Winning Bids</a>
@@ -28,9 +28,7 @@ render(){
         {/* <li>
           <a href="/notification">My Alerts</a>
         </li> */}
-        <li>
-          <a href="/welcomePage"><MDBIcon fas icon="arrow-left" /></a>
-        </li>
+       
       </ul>
     </div>
     )

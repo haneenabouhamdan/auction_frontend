@@ -3,7 +3,6 @@
     width:"17%";
     position: relative;
     float: left;
-    /* margin-right:"600px"; */
 }
 
 .img button{
@@ -102,7 +101,6 @@
 }
 #ddropdowntyypee{
    display: flex;
-   /* margin-left: 10px !important; */
 }
 #de{
     width:200px;
@@ -156,19 +154,16 @@ span,.dropdown-toggle::after{
     border-radius: .35rem; 
     width:300px;
     height:500px;
-    /* right:0; */
     float:right;
     box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
   
 }
 .xsmalll{
     margin-top: 50px;
-    /* margin-left:300px; */
     margin-right:20px;
     text-align: center;
     height: auto;
     position: relative;
-    /* float:right; */
     font-size: .8125rem;
     line-height: 1.5;
     color: #495057;
@@ -306,17 +301,11 @@ span,.dropdown-toggle::after{
     display: flex;
 }
 .pag{
-    /* left: 0; */
     margin-left: 450px;
     position: relative;
 
 }
-/* .itemss{
-    display: flex;
-    margin-left:20px;
-    margin-top: 5px;
-    position: relative;
-} */
+
 .remove{
     background-color:white;
     border:0;
@@ -478,12 +467,6 @@ span,.dropdown-toggle::after{
 .content{
     height:25px;
 }
-/* .con{
-    width:400px !important;
-    height:400px !important;
-    position: absolute;
-    z-index: 2;
-} */
 .notif{
         margin-top: 50px;
         margin-left:20px;

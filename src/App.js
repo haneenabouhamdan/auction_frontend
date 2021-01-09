@@ -13,13 +13,17 @@ import {
   BrowserRouter as Router,
   Route,
 } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import FavAuctions from './Components/FavoriteAuctions';
+import ResItems from './Components/ResItems';
+import ItemDetails from './Components/ItemDetails';
 
+const history = createBrowserHistory();
 
 function App() {
   return (
     <div className="App">
-       <Router>   
+       <Router history={history}>   
         <Route exact path="/" component={welcomePage} />
         <Route exact path="/login" component={Login} /> 
         <Route exact path="/myauctions" component={MyAuctions} /> 
@@ -30,6 +34,8 @@ function App() {
         <Route exact path="/commercialItems" component={CommercialItems}/>
         <Route exact path="/industrialItems" component={IndustrialItems}/>
         <Route exact path="/logout" component={Login} /> 
+        <Route exact path="/resitems" component={ResItems} /> 
+        <Route exact path="/itemDetails/:id" component={ItemDetails}/>
         <Route exact path="/userprofile" component={UserProfile} /> 
         <Route exact path="/welcomePage" component={welcomePage} />
         <Route exact path="/PaymentDetails" component={PaymentDetails}/>

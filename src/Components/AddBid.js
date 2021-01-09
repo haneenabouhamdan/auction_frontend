@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from '../utils/firebase';
 import {Alert} from 'reactstrap';
-import '../style/MyAuctions.css'
+import '../App.css'
 import axios from 'axios';
 class AddBid extends React.Component{
     constructor(props){
@@ -63,9 +63,9 @@ class AddBid extends React.Component{
                 <button style={{border:"0",backgroundColor:"grey"}}onClick={this.closeDialogDet}>x</button></Alert>
               : <></>
                 }
-                <input type="number" value={this.state.price} className="price" name="price" onChange={this.handleOnchange}/>
+                <input type="number" value={this.state.price} className="bid" name="price" placeholder="$" onChange={this.handleOnchange}/>
             
-                <button type="submit" className="but" onClick={this.submitBid}>Submit a bid</button>
+                <button type="submit" className="subid" onClick={this.submitBid}>Bid</button>
 
             </div>
         )

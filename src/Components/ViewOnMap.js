@@ -73,13 +73,13 @@ render(){
       const { viewport, searchResultLayer} = this.state
       const data=this.props.coordinates
       return (
-        <div style={{ height: "90%"}}>
+        <div style={{ height: "100%"}}>
           <MapGL 
             ref={this.mapRef}
             {...viewport}
             mapStyle="mapbox://styles/mapbox/streets-v9"
             width="100%"
-            height="100%"
+            height="500px"
             onClick={this.onClickMap}
             onViewportChange={this.handleViewportChange}
             mapboxApiAccessToken={token}
