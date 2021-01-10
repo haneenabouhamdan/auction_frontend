@@ -3,8 +3,9 @@ import React from 'react';
 import 'react-slideshow-image/dist/styles.css';
 import '../App.css'
 const Gallery = ({images}) => {
+ 
 function handleClick(value){
-    let v=  document.getElementsByName('img');
+    let v=  document.getElementsByName(value);
     v.className="enlarge";
   }
     const imagelist = images.map((value)=>{

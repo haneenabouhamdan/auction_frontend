@@ -59,6 +59,7 @@ class ResItems extends React.Component {
           c.longitude = item.longitude;
           c.latitude = item.latitude;
           c.area = item.area;
+          c.starting_price=item.starting_price;
           //  console.log(c)
           this.state.coordinates.push(c);
         });
@@ -80,6 +81,7 @@ class ResItems extends React.Component {
       "border-bottom": "1px solid lightgrey",
       "border-radius": "2px",
       height: "50px",
+      color: "grey",
       "font-weight": "200",
     },
     multiselectContainer: {
@@ -150,22 +152,15 @@ class ResItems extends React.Component {
     const maxbids = this.state.lists;
     return (
       <React.Fragment>
-        {this.state.setOpenDet ? (
-          <Details
-            openDet={true}
-            closeDialogDet={this.closeDialogDet}
-            item={this.state.item}
-          />
-        ) : (
-          <></>
-        )}
+       
         <div>
           {data.map((item, index) => (
             <MDBRow className="items" onClick={()=>this.handleClickOpenDet(item)}>
-              <MDBCol md="5">
+              <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
-              <MDBCol md="7" className="prop">
+             
+              <MDBCol md="8" className="prop">
                 <MDBRow>
                   <button
                     type="submit"
@@ -249,6 +244,7 @@ class ResItems extends React.Component {
                   <AddBid item_id={item.id}/>
                   </MDBCol>
                 </MDBRow>
+                <hr style={{height:"3px",color:"grey"}}/>
               </MDBCol>
             </MDBRow>
           ))}
@@ -376,15 +372,111 @@ class ResItems extends React.Component {
   }
   render() {
     const bids = this.state;
+    const  objectArray= [
+      { key: "Any", cat: "Any" },
+      { key: "Appartments/Studios", cat: "Appartments/Studios" },
+      { key: "Industrial Buildings", cat: "Industrial Buildings" },
+      { key: "Houses", cat: "Houses" },
+      { key: "Villas", cat: "Villas" },
+      { key: "Buildings", cat: "Buildings" },
+      { key: "Bungalows", cat: "Bungalows" },
+      { key: "Offices", cat: "Offices" },
+      { key: "Shops", cat: "Shops" },
+    ];
+    const  objtArray= [
+      { key: "Any", cat: "Any" },
+      { key: "Electricity", cat: "electricity" },
+      { key: "Elevator", cat: "elevator" },
+      { key: "Parking", cat: "parking" },
+    ];
     return (
       <div class="h-100">
         <header>
           <Navbar />
         </header>
-        <MDBRow class="h-100">
-          <MDBCol md="7">{bids && this.renderItems()}</MDBCol>
-          <MDBCol md="5" className="maps">
-            <ViewOnMap coordinates={this.state.coordinates} />
+        <MDBRow  class="h-100">
+          <MDBCol md="8" >
+          <div className="filters"> 
+                <DropdownButton  title="category" id="category" onSelect={()=>this.handleSelectcat}> 
+                    <Dropdown.Item eventKey="1"><button className="removv" onClick={this.handleClickH}>House</button></Dropdown.Item>
+                    <Dropdown.Item eventKey="2"><button className="removv" onClick={this.handleClickL}>Land</button></Dropdown.Item> 
+                    <Dropdown.Item eventKey="3"><button className="removv" onClick={this.handleClickA}>any</button></Dropdown.Item> 
+                    </DropdownButton>
+                    <DropdownButton  title="Area" id="area" onSelect={this.handleSelectarea}>
+                   <Dropdown.Item eventKey="1">Any</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">1000 - 5500  sqft</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">5500 - 10800 sqft</Dropdown.Item> 
+                    <Dropdown.Item eventKey="4">10800 - 16200  sqft</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">16200 +  sqft</Dropdown.Item>
+                    </DropdownButton>
+                    <div id="rooms">
+                   <DropdownButton  title="Baths" id="bd" onSelect={this.handleSelectbaths}> 
+                   <Dropdown.Item eventKey="1">Any</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">1+</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">2+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="4">3+</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">4+</Dropdown.Item>
+                    </DropdownButton>
+
+                    <DropdownButton  title="Beds" id="bd"  onSelect={this.handleSelectbeds}> 
+                    <Dropdown.Item eventKey="1">Any</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">1+</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">2+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="4">3+</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">4+</Dropdown.Item> 
+                    <Dropdown.Item eventKey="6">5+</Dropdown.Item> 
+                    </DropdownButton>
+                    </div>
+          </div>
+          <div style={{display:"flex",width:"800px"}}>
+          <div className="type" >
+                    <Multiselect
+                      options={objectArray}
+                      displayValue="key"
+                      style={this.style}
+                      showCheckbox={true}
+                      placeholder="Type"
+                      onSelect={(selectedList, selectedItem)=>{
+                        this.setState({
+                          types: selectedList
+                        })
+                      }}
+                      onRemove={(selectedList, removedItem)=>{
+                        this.setState({
+                          services: selectedList
+                        })
+                      }}
+                    />
+                </div>
+                <div className="services" >
+                    <Multiselect
+                      options={objtArray}
+                      displayValue="key"
+                      style={this.style}
+                      showCheckbox={true}
+                      placeholder="Services"
+                      onSelect={(selectedList, selectedItem)=>{
+                        this.setState({
+                          services: selectedList
+                        })
+                      }}
+                      onRemove={(selectedList, removedItem)=>{
+                        this.setState({
+                          services: selectedList
+                        })
+                      }}
+                    />
+                    </div>
+                    <button className="searchbtn"><MDBIcon icon="search" /> Search</button>
+                    </div>
+                    <hr />
+          <div style={{height:"400px" ,marginTop:"20px",overflowY:"scroll"}}>
+            {bids && this.renderItems()}
+            </div>
+            </MDBCol>
+            
+          <MDBCol md="4" className="maps">
+            <ViewOnMap coordinates={this.state.coordinates} className={this.state.visible?'fadeIn':'fadeOut'}/>
           </MDBCol>
         </MDBRow>
       </div>

@@ -349,7 +349,7 @@ span,.dropdown-toggle::after{
 }
 .search{
     width:100%;
-    height:400px;
+    height:500px;
 }
 .search h1{
     color:white;
@@ -357,19 +357,18 @@ span,.dropdown-toggle::after{
     text-shadow:10px 10px 15px white;
 }
 .locs{
-    width:500px;
+    width:480px;
     height:50px;
-    border:0;
-    margin-top:50px;
+    background-color: white;
+    margin-top:56px !important;
+    border-width: 0px !important;
 }
 .buts{
-    background-color:transparent;
-    color:white;
-    font-style:bold;
-    height:52px;
+    background-color:white;
+    color:grey;
+    height:50px;
     width:52px;
-    margin-bottom:2px;
-    border:0;
+    border-width:0px !important;
 }
 .filters{
     display:flex;
@@ -489,4 +488,10 @@ span,.dropdown-toggle::after{
 .foot{
     height:50px;
     
+}
+.boxSearch{
+    width:700px;
+    height:200px;
+    margin-top: 180px;
+    margin-left:300px;
 }

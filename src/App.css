@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
 overflow-x: hidden; 
-
+/* overflow-y:hidden; */
 }
 
 .App {
@@ -11,7 +11,7 @@ overflow-x: hidden;
 }
 
 .App-logo {
-  height: 40vmin;
+  /* height: 40vmin; */
   pointer-events: none;
 }
 
@@ -44,6 +44,11 @@ overflow-x: hidden;
     transform: rotate(360deg);
   }
 }
+.nabar{
+  position: -webkit-sticky;
+  position: sticky;
+  
+}
 .Navv{
   color:white!important;
   margin-left: 50px;
@@ -64,10 +69,8 @@ overflow-x: hidden;
   border: 0;
 }
 .maps{
-    z-index: 3;
-    /* margin-right: 5px; */
-    position:fixed;
-    height: 100vh;
+    position: absolute; 
+  
 }
 .items{
  height: 230px !important;
@@ -80,7 +83,7 @@ overflow-x: hidden;
 .prop{
   text-align: left;
   margin-top: 10px;
-
+  height: 100%;
 }
 .servic{
   margin-left: 15px;
@@ -101,7 +104,7 @@ overflow-x: hidden;
   background-color: transparent !important;
 }
 svg{
-  opacity: 0.3;
+  opacity: 0.5;
 }
 .bid{
 width:80px;
@@ -133,9 +136,13 @@ margin-bottom: 20px !important;
 }
 .details{
   width:90% !important;
-  /* margin-top: 20px; */
+  margin-top: 20px;
+  margin-left: 150px;
+  overflow-x: hidden; 
+  overflow-y: auto; 
+  text-align:justify; 
   padding: 20px;
-  height:500px !important;
+  height:490px !important;
 }
 .enlarge {
   transform:scale(3,3);
@@ -145,11 +152,146 @@ margin-bottom: 20px !important;
   display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-gap: 10px;
-    /* padding: 20px; */
     left:0;
-    grid-auto-rows: 200px;
+    grid-auto-flow: dense;
+    list-style: none;
+    margin: 1em auto;
+    padding: 0;
+    list-style: none;
+    grid-auto-rows: 220px;
 }
 
 .image-list img {
-  width: 240px;
+  width: 100%;
+  height: 100% !important;
+}
+.infos{
+  position: center;
+}
+.biding{
+  /* margin-right: 20px; */
+  margin-top: 50px;
+}
+#sb{
+  background-color: #32b69b  !important;
+  color: #fff !important;
+  width: 220px;
+  height:30px;
+  border:0;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+.bigrow{
+  width:80%;
+  margin-left: 170px;
+  margin-top: 50px;
+  text-align: left;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+  height:90%
+  /* margin-top: 40px; */
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#9ca7a4;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #68706f 
+}
+.countdown{
+  text-align: center;
+  width: 100%;
+  display: inline;
+  font-weight: 400;
+}
+.num {
+  width:220px;
+  height:30px;
+  margin-bottom: 10px;
+}
+#fix{
+  width: 280px; 
+  margin-right: 40px;
+   height: 480px;
+}
+#category{
+  width:150px;
+  margin-left: 20px;
+  color: grey;
+  background-color: white !important;
+}
+#area, #rooms{
+  width:120px;
+  color: grey;
+  background-color: white !important;
+}
+#area{
+  margin-left: 10px;
+}
+#rooms{
+  display: flex;
+  height: 20px !important;
+}
+#multiselectContainerReact{
+  border: 0px !important;
+}
+#bd{
+  width:120px;
+  color: grey;
+  background-color: white !important;
+  height:48px !important;
+}
+._2iA8p44d0WZ-WqRBGcAuEV {
+  border: 0px !important;
+  height:45px;
+}
+.type{
+  width:255px;
+  height:50px; 
+  box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+  display: flex;
+  margin-left: 28px;
+  background-color: white;
+  margin-top:10px;
+}
+#search_input{
+  text-align: center;
+  font-weight: 300;
+}
+.btn-primary.dropdown-toggle{
+  text-align: center;
+  font-weight: 300;
+}
+
+.services{
+  width:255px;
+  height:50px; 
+  box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+  display: flex;
+  margin-left: 10px !important;
+  background-color: white;
+  margin-top:10px; 
+}
+.filters{
+  margin-left: 10px !important;
+  width: 600px;
+
+}
+.searchbtn{
+  border:0;
+  background-color: #32b69b  !important;
+  color:white;
+  margin-left: 20px;
+  margin-top:10px; 
+  width:100px;
+  height:50px;
 }

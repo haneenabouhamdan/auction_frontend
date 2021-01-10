@@ -48,6 +48,7 @@ class Navbar extends Component {
         sessionStorage.removeItem("loggedIn");
       });
     });
+    window.location.reload();
   };
   login = (e) => {
     <Redirect to="/login" />;
@@ -113,11 +114,13 @@ class Navbar extends Component {
                     <MDBDropdownToggle nav caret className="Navvv">
                       Join <MDBIcon icon="user" className="Navvv" />
                     </MDBDropdownToggle>
+
                     <MDBDropdownMenu className="dropdown-default" right>
                       <a href="/login" className="Navvi">
-                        <button className="b">SignIn</button>
+                        <button className="b">SignIn/SignUp</button>
                       </a>
-                    </MDBDropdownMenu>
+                      </MDBDropdownMenu>
+                   
                   </MDBDropdown>
                 )}
               </MDBNavItem>

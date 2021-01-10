@@ -20,7 +20,7 @@ class Login extends React.Component{
       password_confirmation:"",
       passConfErr:"",
       phone:"",
-      balance:"",
+      balance:0,
       balanceErr:"",
       country:"",
       state:"",
@@ -300,10 +300,10 @@ class Login extends React.Component{
         <ListCountries country={this.onChangeCountry} state={this.onChangeRegion}/></div>
         <label className="message">{ this.state.CountryErr }</label>
         
-        <div style={{display:"flex",width:"350px"}}>
+        {/* <div style={{display:"flex",width:"350px"}}>
         <MDBIcon fas icon="hand-holding-usd" style={{padding: "10px",marginTop:"5px"}}/>
         <input type="text" onChange={this.handleChange} value={this.state.balance} name ="balance" placeholder="Balance"  /></div>
-        <label className="message">{ this.state.balanceErr }</label>
+        <label className="message">{ this.state.balanceErr }</label> */}
 
         <div style={{display:"flex",width:"400px"}}>
         <MDBIcon fas icon="user-lock" style={{padding: "10px",marginTop:"5px"}}/>

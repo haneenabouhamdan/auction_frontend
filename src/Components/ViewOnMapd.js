@@ -82,8 +82,8 @@ class SearchableMap extends React.Component {
           ref={this.mapRef}
           {...viewport}
           mapStyle="mapbox://styles/mapbox/streets-v9"
-          width="100%"
-          height="100%"
+          width="600px"
+          height="400px"
           onClick={this.onClickMap}
           onViewportChange={this.handleViewportChange}
           mapboxApiAccessToken={token}
@@ -94,13 +94,13 @@ class SearchableMap extends React.Component {
               longitude={Number(item.longitude)}
               latitude={Number(item.latitude)}
             >
-              <h3>
+              <h4>
                 <h6 style={{ backgroundColor: "white" }}>
                   {this.numberWithCommas(item.area)} sqft<br/>
                   {this.numberWithCommas(item.starting_price)} $ <br/>
                 </h6>
                 <MDBIcon icon="map-marker-alt" />
-              </h3>
+              </h4>
             </Marker>
           ))}
           <div

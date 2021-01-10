@@ -28,7 +28,7 @@ class MainCategories extends React.Component {
             <Col className="MCol">
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
-                <a href='/residentialItems'>
+                <a href='/residentialitems'>
                 <img className="imageA" src={hom}/>
                 </a>           
                 </CardHeader>
@@ -44,7 +44,7 @@ class MainCategories extends React.Component {
             <Col  className="MCol">
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
-                <a href='/commercialItems'>
+                <a href='/commercialitems'>
                 <img className="imageC" src={com} /></a>
                 </CardHeader>
                 <CardBody>
