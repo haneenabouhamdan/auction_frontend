@@ -22,7 +22,7 @@ class MainCategories extends React.Component {
         }
     render(){
         return(
-            <div style={{padding:"20px"}}>  
+            <div style={{padding:"20px",marginLeft:"30px"}}>  
              <div>
             <Row className="row">
             <Col className="MCol">

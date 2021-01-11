@@ -2,16 +2,12 @@ import React from "react";
 import axios from "axios";
 import Slideshow from "./Slideshow";
 import Pagination from "react-js-pagination";
-import Details from "./Details";
 import "../style/MyAuctions.css";
 import firebase from "../utils/firebase";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import AddBid from "./AddBid";
-import { DropdownButton, Dropdown } from "react-bootstrap";
 import UserSidebar from "./UserSidebar";
-import CreateHomeAuction from "./CreateHomeAuction";
 import { MDBIcon } from "mdbreact";
-import CreateLandAuction from "./CreateLandAuction";
 import {
   Button,
   Card,

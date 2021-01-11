@@ -3,15 +3,12 @@ import axios from "axios";
 import Slideshow from "./Slideshow";
 import Pagination from "react-js-pagination";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import { Redirect } from 'react-router';
-
 import "../App.css";
 import { Multiselect } from "multiselect-react-dropdown";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
 import AddBid from "./AddBid";
-import Details from "./Details";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
 class ComItems extends React.Component {

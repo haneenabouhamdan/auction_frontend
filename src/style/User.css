@@ -237,3 +237,41 @@
 .desc{
   font-size: medium;
 }
+.bed{
+  margin-top: 10px;
+  margin-left: 10px;
+  width:75px !important;
+  color:grey; 
+}
+.bath{
+  margin-top: 10px !important;
+  margin-left: 5px;
+  width:75px !important;
+  color:grey; 
+}
+#categry{
+  width:100px;
+  margin-left: 10px;
+  height: 35px;
+  color: grey;
+  background-color: white !important;
+}
+#ara{
+  width:100px;
+  margin-left: 10px;
+  height: 35px;
+  color: grey;
+  background-color: white !important;
+}
+.ara::-webkit-input-placeholder,
+ .bed::-webkit-input-placeholder,
+ .bath::-webkit-input-placeholder
+ {
+  font-weight: 300;
+}
+.filter{
+  margin-left: 10px !important;
+  display: flex;
+width: 800px;
+height:50px;
+}

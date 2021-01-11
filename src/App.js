@@ -3,10 +3,6 @@ import Login from './Components/Login';
 import PaymentDetails from './Components/PaymentDetails';
 import welcomePage from './Components/WelcomePage';
 import UserProfile from './Components/UserProfile';
-import MyAuctions from './Components/MyAuctions';
-import ResidentialItems from './Components/ResidentialItems';
-import CommercialItems from './Components/CommercialItems';
-import IndustrialItems from './Components/IndustrialItems';
 import CreateLandAuction from './Components/CreateLandAuction';
 import CreateHome from './Components/CreateHome';
 import {
@@ -14,7 +10,6 @@ import {
   Route,
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import FavAuctions from './Components/FavoriteAuctions';
 import ResItems from './Components/Residential';
 import ComItems from './Components/Commercial';
 import IndItems from './Components/Industrial';

@@ -36,7 +36,7 @@ class welcomePage extends React.Component {
             </button>
           </div>
         </div>
-        <MainCategories />
+        <MainCategories  />
         <div>
           
         </div>
