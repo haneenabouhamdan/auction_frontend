@@ -29,9 +29,15 @@ class ResItems extends React.Component {
       setOpenDet: false,
       item: "",
       category: 0,
+      cat:1,
+      beds:0,
+      electricity:0,
+      elevator:0,
+      parking:0,
+      baths:0,
       area_min: 0,
       area_max: 0,
-      Services: "",
+      services: "",
       fl: true,
       services: [],
       types: [],
@@ -267,6 +273,7 @@ class ResItems extends React.Component {
   }
   handleOnchange = (val) => {
     this.setState({ Services: val });
+    
   };
   handleSelectcat = (e) => {
     switch (e) {
@@ -356,20 +363,49 @@ class ResItems extends React.Component {
         break;
     }
   };
-  handleClickL() {
-    var x = document.getElementById("ddropdowntyypee");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
+ async filter(pageNumber){
+    if(this.state.services){
+      this.state.services.map((i)=>{
+        if(i.cat="electricity")
+        this.setState({electricity:0});
+        if(i.cat="elevator")
+        this.setState({elevator:1});
+        if(i.cat="parking")
+        this.setState({parking:1})
+      }
+      )
     }
-  }
-  handleClickH() {
-    var x = document.getElementById("ddropdowntyypee");
-    if (x.style.display === "none") {
-      x.style.display = "block";
+    let formData={
+      "type":this.state.types,
+      "category":this.state.category,
+      "area_min":this.state.area_min,
+      "area_max":this.state.area_max,
+      "beds":this.state.beds,
+      "baths":this.state.baths,
+      "electicity":this.state.electricity,
+      "elevator":this.state.elevator,
+      "parking":this.state.parking,
+      "cat":this.state.cat
     }
+    axios.defaults.withCredentials=true;
+    axios.post(`/api/filter?page=${pageNumber}`,formData).then((res)=>{
+      console.log(res);
+    })
   }
+  // handleClickL() {
+  //   var x = document.getElementById("ddropdowntyypee");
+  //   if (x.style.display === "none") {
+  //     x.style.display = "block";
+  //   } else {
+  //     x.style.display = "none";
+  //   }
+  // }
+  // handleClickH() {
+  //   var x = document.getElementById("ddropdowntyypee");
+  //   if (x.style.display === "none") {
+  //     x.style.display = "block";
+  //   }
+  // }
   render() {
     const bids = this.state;
     const  objectArray= [
@@ -443,7 +479,7 @@ class ResItems extends React.Component {
                       }}
                       onRemove={(selectedList, removedItem)=>{
                         this.setState({
-                          services: selectedList
+                          types: selectedList
                         })
                       }}
                     />
@@ -467,7 +503,7 @@ class ResItems extends React.Component {
                       }}
                     />
                     </div>
-                    <button className="searchbtn"><MDBIcon icon="search" /> Search</button>
+                    <button className="searchbtn" onClick={this.filter}><MDBIcon icon="search" /> Search</button>
                     </div>
                     <hr />
           <div style={{height:"400px" ,marginTop:"20px",overflowY:"scroll"}}>

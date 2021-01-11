@@ -295,3 +295,156 @@ margin-bottom: 20px !important;
   width:100px;
   height:50px;
 }
+#categ{
+  width:110px !important;
+  height:40px;
+  border-width:1px;
+  border-color: rgb(189, 185, 185) !important;
+  /* margin-left: 20px; */
+  background-color: white  !important;
+ color:#32b69b ;
+}
+
+#categg{
+  width:85px !important;
+  height:40px;
+  border-width:1px;
+  border-color: rgb(189, 185, 185) !important;
+  /* margin-left: 20px; */
+  background-color: white  !important;
+ color:#32b69b  !important;
+}
+.filterss{
+  width: 300px;
+  display: flex;
+
+}
+.start{
+  margin-top: 30px;
+  margin-left: 220px;
+  width:200px !important;
+  color:grey !important;
+}
+.start_date{
+  margin-top: 30px;
+  margin-left: 300px;
+  width:200px !important;
+  color:grey !important;
+}
+.description{
+  margin-top: 30px;
+  margin-left: 300px;
+  width:350px !important;
+  color:grey;
+}
+.descriptionl{
+  margin-top: 30px;
+  margin-left: 280px;
+  width:350px !important;
+  color:grey;
+}
+.startprice{
+  margin-top: 30px;
+  margin-left: 100px;
+  font-weight: 300;
+  width:200px !important;
+  color:grey;
+}
+#type{
+  margin-top: 30px;
+  margin-right: 200px;
+  width:250px !important;
+  height: 40px;
+  font-weight: 300;
+  color:grey;
+  background-color: white !important;
+}
+.area{
+  margin-top: 30px !important;
+  margin-left: 300px;
+  width:200px !important;
+  font-weight: 300;
+  color:grey; 
+}
+.images{
+  width:210px;
+  margin-left: 260px;
+  margin-top: 30px;
+}
+.loc{
+  margin-right: 300px;
+  font-weight: 300;
+}
+.closee{
+  margin-top: 30px;
+  margin-left: 100px;
+  width:200px !important;
+  color:grey !important;
+}
+.map{
+  margin-left: 280px;
+}
+.area::-webkit-input-placeholder,
+.descriptionl::-webkit-input-placeholder,
+ .description::-webkit-input-placeholder, 
+ .startprice::-webkit-input-placeholder,
+ .start::-webkit-input-placeholder,
+ .closee::-webkit-input-placeholder,
+ .beds::-webkit-input-placeholder,
+ .baths::-webkit-input-placeholder
+ {
+  font-weight: 300;
+}
+.add{
+  width:150px !important;
+  height:40px;
+  border-width:1px;
+  margin-left: 450px;
+  border-color: rgb(189, 185, 185) !important;
+  background-color: #32b69b  !important;
+  color:white  !important;
+}
+.back{
+  background-color: white !important;
+  color:#32b69b !important;
+float: left;
+margin-left: 20px;;
+}
+.beds{
+  margin-top: 30px;
+  margin-left: 300px;
+  width:140px !important;
+  color:grey; 
+}
+.baths{
+  margin-top: 30px !important;
+  margin-left: 40px;
+  width:140px !important;
+  color:grey; 
+}
+#categories{
+  width:230px;
+  margin-left: 300px;
+  height:45px;
+  margin-top: 30px !important;
+  background-color: white!important;
+  color:grey;
+}
+#types{
+  width:230px;
+  margin-left:40px;
+  height:45px;
+  margin-top: 30px !important;
+  background-color: white!important;
+  color:grey;
+}
+.propserv{
+  margin-left: 100px;
+  margin-top: 30px !important;
+  color:grey;
+}
+.propserv1{
+  margin-left: 280px;
+  margin-top: 30px !important;
+  color:grey;
+}

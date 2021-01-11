@@ -8,8 +8,9 @@ render(){
       <ul className="sidebar-nav">
         <li className="sidebar-brand">
           <a href="#">
+          <a href="/welcomePage">
             <h4>
-            <a href="/welcomePage"><MDBIcon fas icon="home" /> D.P.M</a></h4>
+              <MDBIcon fas icon="home" /> D.P.M</h4></a>
           <hr style={{color:'white',backgroundColor:'white'}}/>
           </a>
         </li>
@@ -17,13 +18,13 @@ render(){
         <a href="/userprofile">Dashboard</a>
         </li>
         <li>
-          <a href="/myauctions">My Auctions</a>
+          <a href="/userauctions">My Auctions</a>
         </li>
         <li>
           <a href="#">Winning Bids</a>
         </li>
         <li>
-          <a href="/favItems">Favorite Bids</a>
+          <a href="/favorites">Favorite Bids</a>
         </li>
         {/* <li>
           <a href="/notification">My Alerts</a>

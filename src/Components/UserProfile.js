@@ -3,6 +3,9 @@ import axios from "axios";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+
+import { Multiselect } from "multiselect-react-dropdown";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import '../style/User.css';
 import '../style/Sidebar.css'
@@ -158,17 +161,34 @@ class UserProfile extends React.Component {
       }
     render(){
       if(sessionStorage.getItem('loggedIn')){
+        const  objectArray= [
+          { key: "Any", cat: "Any" },
+          { key: "Appartments/Studios", cat: "Appartments/Studios" },
+          { key: "Industrial Buildings", cat: "Industrial Buildings" },
+          { key: "Houses", cat: "Houses" },
+          { key: "Villas", cat: "Villas" },
+          { key: "Buildings", cat: "Buildings" },
+          { key: "Bungalows", cat: "Bungalows" },
+          { key: "Offices", cat: "Offices" },
+          { key: "Shops", cat: "Shops" },
+        ];
+        const  objtArray= [
+          { key: "Any", cat: "Any" },
+          { key: "Electricity", cat: "electricity" },
+          { key: "Elevator", cat: "elevator" },
+          { key: "Parking", cat: "parking" },
+        ];
         return(
             <div className="editProfile">
             <Row className="row"> 
             <UserSidebar/>
             <Col>
             <Card className="smallCard">
-                <CardHeader style={{backgroundColor:"white",height:"300px"}}>
+                <CardHeader style={{backgroundColor:"white",height:"280px"}}>
                 <img className="image" src={this.state.image} />
               
                 <Dialog open={this.state.openD} onClose={this.handleClose}  aria-labelledby="form-dialog-title">
-                <DialogContent style={{width:"300px",height:"200px"}}>
+                <DialogContent style={{width:"250px",height:"150px"}}>
                 <input onChange={(e) => this.addImage(e.target.files) } type="file" id="image" ref="productimage" />
                 </DialogContent>
                 <DialogActions>
@@ -182,14 +202,14 @@ class UserProfile extends React.Component {
               </Dialog>
                 <Row>
                     <Col>
-                    <a onClick={this.ChangePic}><label style={{fontSize:"10px"}}>Change Profile Picture</label></a>
-                <h2><label>{this.state.first_name} {this.state.last_name}</label></h2></Col>
+                    <a onClick={this.ChangePic}><label style={{fontSize:"12px"}}>Change Profile Picture</label></a><br />
+                <label >{this.state.first_name} {this.state.last_name}</label></Col>
                 </Row>
                 </CardHeader>
-                <CardBody>
-                
+                <CardBody style={{height:"50px"}}>
+  
                     <Row>
-                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/> My Bids</Col>
+                        <Col><MDBIcon icon="gavel" style={{color:"#804000"}}/> My Items</Col>
                         <Col><MDBIcon icon="trophy" style={{color:"#ffbb33"}}/> Won Bids</Col>
                         <Col><MDBIcon icon="heart" style={{color:"red"}}/> Favorites</Col>
                     </Row>
@@ -200,7 +220,18 @@ class UserProfile extends React.Component {
                     </Row>
                 </CardBody>
                 <button id="btn-logout" onClick={this.logout}>Logout</button>
-                </Card>    
+                </Card> 
+                <Card className="smallCaard">
+                  <CardHeader style={{backgroundColor:"white"}}>
+                  <CardTitle tag="h5">Interests</CardTitle>
+                  </CardHeader>
+                  <MDBIcon icon="plus" style={{marginLeft:"280px",marginTop:"10px",color:"#32b69b"}}>
+                  <i> Add</i>
+                  </MDBIcon>
+                  <CardBody>
+                  display interest
+                  </CardBody>
+                  </Card>  
             </Col>
             <Col>
               <Card className="card-user">
