@@ -45,7 +45,8 @@ class ItemDetails extends React.Component {
       country: "",
       state: "",
       users_id: 0,
-      id: 0,
+      actual_close_date:"",
+      id: this.props.match.params.id,
       item: this.props.item,
       setOpenDet: this.props.openDet,
       coordinates: [],
@@ -58,6 +59,7 @@ class ItemDetails extends React.Component {
   async componentDidMount() {
     await this.getItemDetails();
     await this.getBidsHistory();
+    
   }
 
   getUser() {
@@ -106,6 +108,7 @@ class ItemDetails extends React.Component {
         auction_categories_id: res.data.item[0].auction_categories_id,
         images: res.data.item[0].auction_images,
         users_id: res.data.item[0].users_id,
+        actual_close_date:res.data.item[0].actual_close_date
       });
     });
     await this.getUser();
@@ -387,7 +390,9 @@ class ItemDetails extends React.Component {
                   </MDBRow>
                   <MDBRow>
                     <MDBCol>
+                      {this.state.actual_close_date?<p>Auction closed</p>:
                       <h4 style={{ color: "grey" }}>{this.rendarTimeLaps()}</h4>
+  }
                     </MDBCol>
                   </MDBRow>
                   <br />
@@ -400,7 +405,7 @@ class ItemDetails extends React.Component {
                     {maxbids.map((i, ind) => {
                       if (i.item_id == this.state.id)
                         return (
-                          <MDBRow id={ind}>
+                          <MDBRow key={ind}>
                             <i id={ind} style={{ color: "white" }}>,,,,,,,</i>
                             <>{i.username}</>{" "}
                             <i id={ind} style={{ color: "white" }}>,,,,,,,</i>{" "}

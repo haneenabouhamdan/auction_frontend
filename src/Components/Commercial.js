@@ -8,6 +8,7 @@ import { Multiselect } from "multiselect-react-dropdown";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
+import CountBids from "./CountBids";
 import AddBid from "./AddBid";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
@@ -147,13 +148,12 @@ class ComItems extends React.Component {
   };
   renderItems() {
     const data = this.state.bids;
-    let max = 0;
     const maxbids = this.state.lists;
     return (
       <React.Fragment>
        
         <div>
-          {data.map((item, index) => (
+          {data.map((item, index) => {let max = 0; return(
             <MDBRow className="items">
               <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
@@ -222,7 +222,11 @@ class ComItems extends React.Component {
                     {this.state.electricity == "0" ? " " : " electricity "}
                   </div>
                 </MDBRow>
-                <MDBRow><p></p></MDBRow>
+                <MDBRow>
+                  <MDBCol>
+                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  </MDBCol>
+                  </MDBRow>
                 
                 <MDBRow>
                 <MDBCol className="bidss">
@@ -246,7 +250,7 @@ class ComItems extends React.Component {
                 <hr style={{height:"3px",color:"grey"}}/>
               </MDBCol>
             </MDBRow>
-          ))}
+          )})}
         </div>
         <div className="pag">
           <Pagination

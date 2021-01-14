@@ -1,10 +1,12 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 import CountBids from "../Components/CountBids";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 import welcome from "../images/welcome.jpeg";
 import { MDBIcon } from "mdbreact";
 import "../style/MyAuctions.css";
 import MainCategories from "./MainCategories";
+import Near from '../Components/Near'
 import firebase from "../utils/firebase";
 import { Button, Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import axios from "axios";
@@ -21,6 +23,8 @@ class welcomePage extends React.Component {
       last_name:"",
       first_name:"",
       itemslist:[],
+      longitude:0,
+      latitude:0
     };
   }
   
@@ -40,11 +44,12 @@ class welcomePage extends React.Component {
   }
   getAuctions() {
     axios.defaults.withCredentials = true;
-    axios.get("/api/getUserAuctions").then((res) => {
+    axios.get("/api/getUAuctions").then((res) => {
       console.log(res.data.items);
       this.setState({ auctions: res.data.items });
     });
   }
+
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -60,9 +65,9 @@ class welcomePage extends React.Component {
       const items = [];
       list.map((i)=>{
         if(i.user_id==this.state.user_id)
-        items.push(i.item_id);
+        items.push(i);
       })
-      // console.log(items.length)
+      // console.log(items)
       this.setState({itemslist:items})
     });
   };
@@ -77,6 +82,7 @@ class welcomePage extends React.Component {
 // }
 //   )
 // }
+
   rendarTimeLaps(item) {
     var now = new Date().getTime();
     var countDownDate = new Date(item.planned_close_date).getTime();
@@ -104,12 +110,12 @@ class welcomePage extends React.Component {
   };
   renderItems() {
     const data = this.state.auctions;
-    let max = 0,ind=0;
+    let ind=0;
     const maxbids = this.state.lists;
     return(
     <Row>
   
-      {data.map((item, index) => (
+      {data.map((item, index) =>{let max = 0; return(
           <Row className="xsmall" key={index}>
             <Col>
               <img className="cover" src={item.auction_images[0].path} />
@@ -133,7 +139,9 @@ class welcomePage extends React.Component {
               {this.rendarTimeLaps(item)}
             </Col>
             <Col>
-              <CountBids id={item.id} /> bids <br />
+            
+              <CountBids id={item.id} />
+               bids <br />
               {maxbids.map((i, ind) => {
                 if (i.item_id == item.id)
                   if (i.price > max) {
@@ -148,11 +156,11 @@ class welcomePage extends React.Component {
               </h6>
             </Col>
           </Row>
-        ))}
+      )})}
     </Row>
     )
   }
-  
+
   render() {
     const data = this.state.auctions;
     return (
@@ -180,6 +188,11 @@ class welcomePage extends React.Component {
             <button className="buts">
               <MDBIcon icon="search"></MDBIcon>
             </button>
+             {/* <DropdownButton className="locs" title="Address, city, state, country..." id="location" onSelect={()=>this.handleSelectcat}> 
+                    <Dropdown.Item eventKey="1"><MDBIcon icon="map-pin"/> Current Location</Dropdown.Item>
+                   </DropdownButton> */}
+                   {/* <Near /> */}
+            
           </div>
         </div>
         <MainCategories />

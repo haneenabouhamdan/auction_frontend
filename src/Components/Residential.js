@@ -9,6 +9,7 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
 import AddBid from "./AddBid";
+import CountBids from "./CountBids";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
 let win="";
@@ -154,13 +155,13 @@ class ResItems extends React.Component {
   };
   renderItems() {
     const data = this.state.bids;
-    let max = 0;
     const maxbids = this.state.lists;
     return (
       <React.Fragment>
        
         <div>
-          {data.map((item, index) => (
+          {data.map((item, index) => {let max = 0; return(
+
         
             <MDBRow className="items" key={index}>
               <MDBCol md="4">
@@ -230,7 +231,11 @@ class ResItems extends React.Component {
                     {this.state.electricity == "0" ? " " : " electricity "}
                   </div>
                 </MDBRow>
-                <MDBRow><p></p></MDBRow>
+                <MDBRow>
+                  <MDBCol>
+                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  </MDBCol>
+                  </MDBRow>
                 
                 <MDBRow>
                 <MDBCol className="bidss">
@@ -243,11 +248,12 @@ class ResItems extends React.Component {
                     {maxbids.map((i,indice) => {
                       // ind=indice
                       if(i.item_id ==item.id)
-                       if(i.price > max){max=i.price; win=i.user_id}
+                       if(i.price > max){ max=i.price; win=i.user_id}
                       
                       })}
-                    <h6 style={{marginLeft:"5px"}} id={index.ind}> $ {this.numberWithCommas(max)}</h6>
-                 
+                      <div key={index}>
+                    <h6 style={{marginLeft:"5px"}} > $ {this.numberWithCommas(max)}</h6>
+                    </div>
                   </MDBCol>
                   <MDBCol>
                   <i>Your Bid</i><br/>
@@ -257,7 +263,7 @@ class ResItems extends React.Component {
                 <hr style={{height:"3px",color:"grey"}}/>
               </MDBCol>
             </MDBRow>
-          ))}
+          )})}
         </div>
         <div className="pag">
           <Pagination
@@ -368,18 +374,18 @@ class ResItems extends React.Component {
     }
   };
  async filter(pageNumber){
-    // if(this.state.services){
-    //   const data=this.state.services;
-    //  data.map((i)=>{
-    //     if(i.cat="electricity")
-    //     this.setState({electricity:1});
-    //     if(i.cat="elevator")
-    //     this.setState({elevator:1});
-    //     if(i.cat="parking")
-    //     this.setState({parking:1})
-    //   }
-    //   )
-    // }
+   if(this.state.services){
+      const data=this.state.services;
+     data.map((i)=>{
+        if(i.cat="electricity")
+        this.setState({electricity:true});
+        if(i.cat="elevator")
+        this.setState({elevator:true});
+        if(i.cat="parking")
+        this.setState({parking:true})
+      }
+      )
+    }
     let formData={
       "type":this.state.types,
       "category":this.state.category,
@@ -392,9 +398,11 @@ class ResItems extends React.Component {
       "parking":this.state.parking,
       "cat":this.state.cat
     }
+    console.log(this.state.types)
     axios.defaults.withCredentials=true;
     axios.post(`/api/filter?page=${pageNumber}`,formData).then((res)=>{
-      console.log(res);
+      console.log(res.data.item.data);
+      this.setState({bids:res.data.item.data})
     })
   }
   // handleClickL() {
@@ -438,10 +446,10 @@ class ResItems extends React.Component {
         <MDBRow  class="h-100">
           <MDBCol md="8" >
           <div className="filters"> 
-                <DropdownButton  title="category" id="category" onSelect={()=>this.handleSelectcat}> 
-                    <Dropdown.Item eventKey="1"><button className="removv" onClick={this.handleClickH}>House</button></Dropdown.Item>
-                    <Dropdown.Item eventKey="2"><button className="removv" onClick={this.handleClickL}>Land</button></Dropdown.Item> 
-                    <Dropdown.Item eventKey="3"><button className="removv" onClick={this.handleClickA}>any</button></Dropdown.Item> 
+                <DropdownButton  title="category" id="category" onSelect={this.handleSelectcat}> 
+                    <Dropdown.Item eventKey="1">House</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Land</Dropdown.Item> 
+                    <Dropdown.Item eventKey="3">any</Dropdown.Item> 
                     </DropdownButton>
                     <DropdownButton  title="Area" id="area" onSelect={this.handleSelectarea}>
                    <Dropdown.Item eventKey="1">Any</Dropdown.Item>

@@ -7,6 +7,7 @@ import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import "../App.css";
 import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
+import CountBids from "./CountBids";
 import { MDBIcon } from "mdbreact";
 import UserSidebar from "./UserSidebar";
 let win = 0;
@@ -38,10 +39,7 @@ class UserItems extends React.Component {
 
     this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
   }
-  async componentDidMount() {
-    await this.getAllItems();
-    await this.getBidsHistory();
-  }
+
   handlePageChange(pageNumber) {
     this.setState({ activePage: pageNumber });
   }
@@ -56,6 +54,7 @@ class UserItems extends React.Component {
     });
   };
   async componentDidMount() {
+    // await this.getAllItems();
     await this.getOwner();
     await this.getUserItems();
     await this.getBidsHistory();
@@ -210,7 +209,8 @@ class UserItems extends React.Component {
   }
   handleClickOpenDet = (item) => {
     console.log(item);
-    this.props.history.push("/itemDetails/".concat(item.id));
+   this.props.history.push('/itemDetails/'.concat(item.id))
+
   };
 
   forcerender = () => {
@@ -225,11 +225,11 @@ class UserItems extends React.Component {
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
     await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then((res) => {
-      console.log(res);
+      // console.log(res);
       this.setState({
-        bids: res.data.items,
+        bids: res.data.items.data,
         per_page: res.data.items.per_page,
-        total: 1,
+        total: res.data.items.total,
         activePage: res.data.items.current_page,
       });
     });
@@ -257,14 +257,13 @@ class UserItems extends React.Component {
 
   renderItems() {
     const data = this.state.bids;
-    let max = 0;
     const maxbids = this.state.lists;
     return (
       <React.Fragment>
         <div>
-          {data.map((item, index) => (
+          {data.map((item, index) => {let max = 0; return(
             <MDBRow className="items" key={index}>
-              <MDBCol md="4" onClick={() => this.handleClickOpenDet(item)} >
+              <MDBCol md="4" >
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
 
@@ -278,7 +277,7 @@ class UserItems extends React.Component {
                     <MDBIcon icon="trash" />
                   </button>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow  onClick={() => this.handleClickOpenDet(item)}>
                   {item.actual_close_date ? (
                     <h5 style={{ color: "grey", marginLeft: "15px" }}>
                       Auction Closed
@@ -337,8 +336,11 @@ class UserItems extends React.Component {
                   </div>
                 </MDBRow>
                 <MDBRow>
-                  <p></p>
-                </MDBRow>
+                  <MDBCol>
+                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  </MDBCol>
+                  </MDBRow>
+                
 
                 <MDBRow>
                   <MDBCol className="bidss">
@@ -352,17 +354,16 @@ class UserItems extends React.Component {
                   <MDBCol className="bidss">
                     <i>Current Bid</i>
                     <br />
-                    {maxbids.map((i, ind) => {
-                      if (i.item_id == item.id)
-                        if (i.price > max) {
-                          max = i.price;
-                          win = i.user_id;
-                        }
+                  
+                  {maxbids.map((i) => {
+                    // ind=indice
+                    if(i.item_id ==item.id)
+                     if(i.price > max){ max=i.price; win=i.user_id}
+                    
                     })}
-                    <h6 style={{ marginLeft: "5px" }} id={index.ind}>
-                      {" "}
-                      $ {this.numberWithCommas(max)}
-                    </h6>
+                    <div key={index}>
+                  <h6 style={{marginLeft:"5px"}} > $ {this.numberWithCommas(max)}</h6>
+                  </div>
                   </MDBCol>
                   <MDBCol>
                     {item.actual_close_date === null ? (
@@ -381,7 +382,7 @@ class UserItems extends React.Component {
                 <hr style={{ height: "3px", color: "grey" }} />
               </MDBCol>
             </MDBRow>
-          ))}
+          )})}
         </div>
         <div className="pag">
           <Pagination

@@ -9,6 +9,7 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
 import AddBid from "./AddBid";
+import CountBids from "./CountBids";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
 class IndItems extends React.Component {
@@ -145,14 +146,13 @@ class IndItems extends React.Component {
   };
   renderItems() {
     const data = this.state.bids;
-    let max = 0;
     const maxbids = this.state.lists;
     return (
       <React.Fragment>
        
         <div>
-          {data.map((item, index) => (
-            <MDBRow className="items" onClick={()=>this.handleClickOpenDet(item)}>
+          {data.map((item, index) => {let max = 0; return(
+            <MDBRow className="items">
               <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
@@ -170,7 +170,7 @@ class IndItems extends React.Component {
                     />
                   </button>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow  onClick={()=>this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px"}}>{this.rendarTimeLaps(item)}</h5>
                 </MDBRow>
                 <MDBRow style={{marginTop:"20px"}} > </MDBRow>
@@ -220,7 +220,11 @@ class IndItems extends React.Component {
                     {this.state.electricity == "0" ? " " : " electricity "}
                   </div>
                 </MDBRow>
-                <MDBRow><p></p></MDBRow>
+                <MDBRow>
+                  <MDBCol>
+                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  </MDBCol>
+                  </MDBRow>
                 
                 <MDBRow>
                 <MDBCol className="bidss">
@@ -244,7 +248,7 @@ class IndItems extends React.Component {
                 <hr style={{height:"3px",color:"grey"}}/>
               </MDBCol>
             </MDBRow>
-          ))}
+          )})}
         </div>
         <div className="pag">
           <Pagination

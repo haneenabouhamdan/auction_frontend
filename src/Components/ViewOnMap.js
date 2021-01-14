@@ -64,12 +64,12 @@ class SearchableMap extends React.Component {
         getFillColor: [255, 0, 0, 128],
         getRadius: 1000,
         pointRadiusMinPixels: 10,
-        pointRadiusMaxPixels: 10,
+        pointRadiusMaxPixels: 10
       }),
-    });
-    console.log(event.result.geometry.coordinates[1]);
-    console.log(event.result.geometry.coordinates[0]);
-  };
+    })
+    console.log(event.result.geometry.coordinates[1])
+    console.log(event.result.geometry.coordinates[0])
+  }
   numberWithCommas(x) {
     if (x) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }

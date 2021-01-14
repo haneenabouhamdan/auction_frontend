@@ -6,29 +6,34 @@ class CountBids extends React.Component {
     this.state = {
        num:0
     }
-    // this.getCountBids=this.getCountBids.bind(this)
+    this.getCountBids=this.getCountBids.bind(this)
   }
   componentDidMount(){
       this.getCountBids();
   }
 getCountBids=()=> {
-  const id = this.props.id;
-  console.log(id)
-    firebase.database().ref('Bids').orderByChild('item_id').equalTo(id).on("value", function(snapshot) {
-      var totalRecord =  snapshot.numChildren();
-      console.log("Total Record : "+totalRecord);
-      return totalRecord;
-    // this.setState({num:totalRecord})
-  })
-  
+  const ids = this.props.id;
+  const bidsref = firebase.database().ref("Bids");
+  bidsref.on("value", (snapshot) => {
+    const lists = snapshot.val();
+    const list = [];
+    for (let id in lists) {
+      // console.log(lists[id]);
+      if(lists[id].item_id==ids)
+      list.push(lists[id]);
+    }
+    // console.log(list.length)
+    this.setState({ num: list.length });
+  });
 }
 
 render(){
     return(
-        <i key={this.props.id}>
-            {()=>this.getCountBids()}
+        <strong key={this.props.id} style={{color:"grey"}}>
+            {/* {()=>this.getCountBids()} */}
+            {this.state.num}
             
-        </i>
+        </strong>
     )
 }
 } 

@@ -130,8 +130,8 @@ class Favorites extends React.Component {
     });
   };
   handleClickOpenDet = (item) => {
-    console.log("test");
-    this.setState({ setOpenDet: true, item: item });
+    this.props.history.push('/itemDetails/'.concat(item.id))
+
   };
   remFav = (id) => {
     let formData = {

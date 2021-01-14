@@ -24,7 +24,7 @@ class AddBid extends React.Component{
         componentDidMount() {
             axios.defaults.withCredentials=true;
               axios.get('/api/user').then((response)=>{
-                console.log(response)
+                // console.log(response)
                  this.setState({
                   first_name:response.data.first_name,
                   last_name:response.data.last_name,

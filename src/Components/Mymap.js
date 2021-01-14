@@ -31,11 +31,11 @@ class SearchableMap extends React.Component {
     this.setState({
       viewport: { ...this.state.viewport, ...viewport }
     })
+   
   }
   // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
   handleGeocoderViewportChange = viewport => {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
     return this.handleViewportChange({
       ...viewport,
       ...geocoderDefaultOverrides

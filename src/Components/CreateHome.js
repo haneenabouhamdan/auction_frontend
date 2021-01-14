@@ -248,7 +248,7 @@ class CreateHome extends React.Component {
           owner: response.data.owner,
         });
       });
-    this.sendNot();
+    // this.sendNot();
     const templateId = "template_rn864da";
     emails.map((i) => {
       console.log(i);
