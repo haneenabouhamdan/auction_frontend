@@ -127,12 +127,55 @@ forcerender = ()=>{
     })
   }, 3000);
 }
+async closeAuc(id, win) {
+  const lists = this.state.lists;
+  this.setState({ closed: true });
+  let today = new Date();
+  let day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
+  let month = today.getMonth() + 1;
+  let todayDB =
+    today.getFullYear() +
+    "-" +
+    month +
+    "-" +
+    day +
+    " " +
+    today.getHours() +
+    ":" +
+    today.getMinutes() +
+    ":" +
+    today.getSeconds();
+  let formData = {
+    auction_id: id,
+    closeDate: todayDB,
+  };
+  // console.log(this.state.winner_name);
+  await this.getUserByFullName(win.username);
+  axios.defaults.withCredentials = true;
+  await axios.post(`/api/closeAuc`, formData).then((res) => {
+    // window.location.reload();
+  });
+  const templateId = "template_u5lgbco";
 
+  this.sendFeedback(templateId, {
+    send_to: this.state.winner_email,
+    owner_email: this.state.owner_email,
+    owner_tel: this.state.owner_tel,
+    owner_name: this.state.owner_name,
+    to_name: this.state.winner_name,
+    message_html: this.state.feedback,
+    from_name: this.state.name,
+    reply_to: this.state.email,
+    owner_loc: this.state.location,
+  });
+}
 rendarTimeLaps(){
+  let va =this.props.item
     var now = new Date().getTime();
     var countDownDate = new Date(this.state.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if(timeleft < 0){
+      this.closeAuc()
       return "Auction Ended"
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));

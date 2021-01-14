@@ -11,6 +11,7 @@ import Navbar from "../Components/Navbar";
 import AddBid from "./AddBid";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
+let win="";
 class ComItems extends React.Component {
   constructor(props) {
     super(props);
@@ -129,6 +130,7 @@ class ComItems extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
+      this.closeAuc(item.id,win);
       return "Auction Ended";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -152,7 +154,7 @@ class ComItems extends React.Component {
        
         <div>
           {data.map((item, index) => (
-            <MDBRow className="items" onClick={()=>this.handleClickOpenDet(item)}>
+            <MDBRow className="items">
               <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
@@ -170,7 +172,7 @@ class ComItems extends React.Component {
                     />
                   </button>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow onClick={()=>this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px"}}>{this.rendarTimeLaps(item)}</h5>
                 </MDBRow>
                 <MDBRow style={{marginTop:"20px"}} > </MDBRow>

@@ -158,7 +158,8 @@ class UserProfile extends React.Component {
   onChangelat = (e) => {
     this.setState({ latitude: e });
   };
-  editProfile = () => {
+  editProfile(){
+    // console.log("hi")
     let formData1 = {
       fist_name: this.state.first_name,
       last_name: this.state.last_name,
@@ -173,12 +174,12 @@ class UserProfile extends React.Component {
     axios.defaults.withCredentials = true;
     axios.get("/sanctum/csrf-cookie").then(() => {
       axios.post("/api/users/edit", formData1).then((response) => {
-        // console.log(response);
+        console.log(response);
       });
     });
   };
   addInterests=()=> {
-    console.log(this.state.category)
+    // console.log(this.state.category)
     let formData = {
       category: this.state.category,
       longitude: this.state.longitude,
@@ -632,7 +633,7 @@ class UserProfile extends React.Component {
                             className="btn-round"
                             color="primary"
                             type="submit"
-                            onClick={() => this.editProfile()}
+                            onClick={() => this.editProfile}
                           >
                             Update Account
                           </button>

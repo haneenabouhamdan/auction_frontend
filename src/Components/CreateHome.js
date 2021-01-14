@@ -57,6 +57,9 @@ class CreateHome extends React.Component {
       name: "D.P.M",
       email: "DPM@gmail.com",
       owner: 0,
+      image:"",
+      first:"",
+      last:"",
       setOpen: false,
     };
   }
@@ -67,7 +70,7 @@ class CreateHome extends React.Component {
         image: response.data.image,
         first: response.data.first_name,
         last: response.data.last_name,
-        owner: response.data.id,
+        owner: response.data.id
       });
     });
     this.getEmails();
@@ -123,18 +126,19 @@ class CreateHome extends React.Component {
     this.setState({ latitude: e });
     // console.log(this.state.latitude)
   };
-  sendNot = () => {
+  sendNot(){
     const notsref = firebase.database().ref("Notifications");
-
+    console.log("hoo")
     const not = {
-      date: this.state.date,
       message: this.state.message,
       closeDate: this.state.planned_close_date,
       item_id: this.state.item_id,
       owner: this.state.first + " " + this.state.last,
       owner_id: this.state.owner,
       image: this.state.image,
+      flag:0
     };
+  
     notsref.push(not);
   };
   handleSelectcat = (e) => {
@@ -244,7 +248,7 @@ class CreateHome extends React.Component {
           owner: response.data.owner,
         });
       });
-    // this.sendNot();
+    this.sendNot();
     const templateId = "template_rn864da";
     emails.map((i) => {
       console.log(i);

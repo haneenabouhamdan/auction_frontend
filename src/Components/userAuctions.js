@@ -9,6 +9,7 @@ import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
 import { MDBIcon } from "mdbreact";
 import UserSidebar from "./UserSidebar";
+let win = 0;
 class UserItems extends React.Component {
   constructor(props) {
     super(props);
@@ -63,10 +64,10 @@ class UserItems extends React.Component {
     this.setState({ activePage: pageNumber });
   }
   handleClickOpen = () => {
-    this.props.history.push('/home');
+    this.props.history.push("/home");
   };
   handleClickOpenL = () => {
-    this.props.history.push('/land');
+    this.props.history.push("/land");
   };
   countDownDate(date) {
     return new Date(date).getTime();
@@ -80,20 +81,20 @@ class UserItems extends React.Component {
       window.location.reload();
     });
   };
-  getUserByFullName(name) {
-    let str = name.split(" ");
-    this.setState({ winner_name: name });
-    let formData = {
-      fname: str[0],
-      lname: name.slice(name.indexOf(" ")),
-    };
-    axios.defaults.withCredentials = true;
-    axios.post(`/api/getUserByFullname`, formData).then((res) => {
-      // console.log(res.data.email[0].email)
-      this.setState({ winner_email: res.data.email[0].email });
-      // console.log(this.state.winner_email)
-    });
-  }
+  // getUserByFullName(name) {
+  //   let str = name.split(" ");
+  //   this.setState({ winner_name: name });
+  //   let formData = {
+  //     fname: str[0],
+  //     lname: name.slice(name.indexOf(" ")),
+  //   };
+  //   axios.defaults.withCredentials = true;
+  //   axios.post(`/api/getUserByFullname`, formData).then((res) => {
+  //     // console.log(res.data.email[0].email)
+  //     this.setState({ winner_email: res.data.email[0].email });
+  //     // console.log(this.state.winner_email)
+  //   });
+  // }
   getOwner = () => {
     axios.defaults.withCredentials = true;
     axios.get(`/api/user`).then((res) => {
@@ -119,7 +120,7 @@ class UserItems extends React.Component {
         )
       );
   }
-  async closeAuc(id, win) {
+  async closeAuc(id) {
     const lists = this.state.lists;
     this.setState({ closed: true });
     let today = new Date();
@@ -141,12 +142,21 @@ class UserItems extends React.Component {
       auction_id: id,
       closeDate: todayDB,
     };
-    // console.log(this.state.winner_name);
-    await this.getUserByFullName(win.username);
+    await this.getMailById(win);
     axios.defaults.withCredentials = true;
     await axios.post(`/api/closeAuc`, formData).then((res) => {
-      // window.location.reload();
     });
+   await this.sendemail();
+  }
+  getMailById = (id) => {
+    axios.defaults.withCredentials = true;
+    axios.get(`/api/getEmail/`.concat(id)).then((res) => {
+      
+      this.setState({winner_email:res.data.email[0].email})
+    });
+  };
+ async sendemail  () {
+  
     const templateId = "template_u5lgbco";
 
     this.sendFeedback(templateId, {
@@ -160,7 +170,7 @@ class UserItems extends React.Component {
       reply_to: this.state.email,
       owner_loc: this.state.location,
     });
-  }
+  };
   getBidsHistory = () => {
     const bidsref = firebase.database().ref("Bids");
     bidsref.on("value", (snapshot) => {
@@ -202,18 +212,7 @@ class UserItems extends React.Component {
     console.log(item);
     this.props.history.push("/itemDetails/".concat(item.id));
   };
-  getBidsHistory = () => {
-    const bidsref = firebase.database().ref("Bids");
-    bidsref.on("value", (snapshot) => {
-      const lists = snapshot.val();
-      const list = [];
-      for (let id in lists) {
-        list.push(lists[id]);
-      }
-      // console.log(list)
-      this.setState({ lists: list });
-    });
-  };
+
   forcerender = () => {
     setInterval(() => {
       this.setState({
@@ -226,10 +225,11 @@ class UserItems extends React.Component {
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
     await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then((res) => {
+      console.log(res);
       this.setState({
-        bids: res.data.items.data,
+        bids: res.data.items,
         per_page: res.data.items.per_page,
-        total: res.data.items.total,
+        total: 1,
         activePage: res.data.items.current_page,
       });
     });
@@ -239,7 +239,8 @@ class UserItems extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
-      return "Auction Ended";
+      this.closeAuc(item.id, win);
+      return "Auction Closed";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
     var hours = Math.floor(
@@ -253,6 +254,7 @@ class UserItems extends React.Component {
   closeDialogDet = () => {
     this.setState({ setOpenDet: false });
   };
+
   renderItems() {
     const data = this.state.bids;
     let max = 0;
@@ -261,11 +263,8 @@ class UserItems extends React.Component {
       <React.Fragment>
         <div>
           {data.map((item, index) => (
-            <MDBRow
-              className="items"
-              onClick={() => this.handleClickOpenDet(item)}
-            >
-              <MDBCol md="4">
+            <MDBRow className="items" key={index}>
+              <MDBCol md="4" onClick={() => this.handleClickOpenDet(item)} >
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
 
@@ -280,9 +279,15 @@ class UserItems extends React.Component {
                   </button>
                 </MDBRow>
                 <MDBRow>
-                  <h5 style={{ color: "grey", marginLeft: "15px" }}>
-                    {this.rendarTimeLaps(item)}
-                  </h5>
+                  {item.actual_close_date ? (
+                    <h5 style={{ color: "grey", marginLeft: "15px" }}>
+                      Auction Closed
+                    </h5>
+                  ) : (
+                    <h5 style={{ color: "grey", marginLeft: "15px" }}>
+                      {this.rendarTimeLaps(item)}
+                    </h5>
+                  )}
                 </MDBRow>
                 <MDBRow style={{ marginTop: "20px" }}> </MDBRow>
                 {item.bedrooms > 0 ? (
@@ -349,12 +354,28 @@ class UserItems extends React.Component {
                     <br />
                     {maxbids.map((i, ind) => {
                       if (i.item_id == item.id)
-                        if (i.price > max) max = i.price;
+                        if (i.price > max) {
+                          max = i.price;
+                          win = i.user_id;
+                        }
                     })}
                     <h6 style={{ marginLeft: "5px" }} id={index.ind}>
                       {" "}
                       $ {this.numberWithCommas(max)}
                     </h6>
+                  </MDBCol>
+                  <MDBCol>
+                    {item.actual_close_date === null ? (
+                      <button
+                        type="submit"
+                        onClick={() => this.closeAuc(item.id)}
+                        className="close"
+                      >
+                        <MDBIcon icon="gavel" /> Close Auction{" "}
+                      </button>
+                    ) : (
+                      <p>{/* Auction Closed :<></> */}</p>
+                    )}
                   </MDBCol>
                 </MDBRow>
                 <hr style={{ height: "3px", color: "grey" }} />
@@ -416,10 +437,15 @@ class UserItems extends React.Component {
               </DropdownButton>
             </MDBRow>
             <div style={{ marginTop: "20px", marginLeft: "50px" }}>
-              {bids && this.renderItems()}
+              {this.renderItems()}
             </div>
           </MDBCol>
         </MDBRow>
+        {/* <div>
+          <MDBIcon icon="sign-alt-out" style={{backgroundColor:"black",
+          height:"50px",marginLeft:"500px"
+        }} onClick={this.logout}/>
+        </div> */}
       </div>
     );
   }

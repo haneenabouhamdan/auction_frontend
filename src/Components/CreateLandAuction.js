@@ -119,6 +119,7 @@ class CreateLandAuction extends React.Component {
       owner: this.state.first + " " + this.state.last,
       owner_id: this.state.owner,
       image: this.state.image,
+      flag:0,
     };
     notsref.push(not);
   };

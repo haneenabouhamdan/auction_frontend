@@ -10,7 +10,7 @@ import Gallery from "./gallery";
 import Navbar from "./Navbar";
 import { CardBody, Button, Card, Input, CardHeader } from "reactstrap";
 import AddBidD from "./AddBidD";
-
+let win="";
 class ItemDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -79,7 +79,7 @@ class ItemDetails extends React.Component {
   }
   async getItemDetails() {
     const data = this.props.match.params.id;
-    // console.log(data.users_id)
+    console.log(data.users_id)
     axios.defaults.withCredentials = true;
     await axios.get("/api/getDetails/".concat(data)).then((res) => {
       console.log(res.data.item[0]);
@@ -124,12 +124,55 @@ class ItemDetails extends React.Component {
       });
     }, 3000);
   };
-
+  async closeAuc(id, win) {
+    const lists = this.state.lists;
+    this.setState({ closed: true });
+    let today = new Date();
+    let day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
+    let month = today.getMonth() + 1;
+    let todayDB =
+      today.getFullYear() +
+      "-" +
+      month +
+      "-" +
+      day +
+      " " +
+      today.getHours() +
+      ":" +
+      today.getMinutes() +
+      ":" +
+      today.getSeconds();
+    let formData = {
+      auction_id: id,
+      closeDate: todayDB,
+    };
+    // console.log(this.state.winner_name);
+    await this.getUserByFullName(win.username);
+    axios.defaults.withCredentials = true;
+    await axios.post(`/api/closeAuc`, formData).then((res) => {
+      // window.location.reload();
+    });
+    const templateId = "template_u5lgbco";
+  
+    this.sendFeedback(templateId, {
+      send_to: this.state.winner_email,
+      owner_email: this.state.owner_email,
+      owner_tel: this.state.owner_tel,
+      owner_name: this.state.owner_name,
+      to_name: this.state.winner_name,
+      message_html: this.state.feedback,
+      from_name: this.state.name,
+      reply_to: this.state.email,
+      owner_loc: this.state.location,
+    });
+  }
   rendarTimeLaps() {
+    const data = this.props.match.params.id;
     var now = new Date().getTime();
     var countDownDate = new Date(this.state.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
+      this.closeAuc(data,win);
       return <h4 style={{fontWeight:"300"}}>Auction Ended</h4>;
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -160,6 +203,7 @@ class ItemDetails extends React.Component {
       username: this.state.first_name + " " + this.state.last_name,
       price: this.state.price,
       item_id: this.props.item_id,
+      user_id:this.state.user_id
     };
     if (this.state.balance > this.state.price) {
       bidsref.push(bid);
@@ -331,7 +375,7 @@ class ItemDetails extends React.Component {
                 <h4>
                   <i style={{ color: "#32b69b" }}> Let's start bidding !</i>
                 </h4>
-              </CardHeader>
+              </CardHeader >
               <CardBody>
                 <MDBCol>
                   <MDBRow>
@@ -357,9 +401,9 @@ class ItemDetails extends React.Component {
                       if (i.item_id == this.state.id)
                         return (
                           <MDBRow id={ind}>
-                            <i style={{ color: "white" }}>,,,,,,,</i>
+                            <i id={ind} style={{ color: "white" }}>,,,,,,,</i>
                             <>{i.username}</>{" "}
-                            <i style={{ color: "white" }}>,,,,,,,</i>{" "}
+                            <i id={ind} style={{ color: "white" }}>,,,,,,,</i>{" "}
                             {this.numberWithCommas(i.price)} $
                           </MDBRow>
                         );
@@ -382,7 +426,7 @@ class ItemDetails extends React.Component {
                     </h5>
                     {maxbids.map((i, ind) => {
                       if (i.item_id == this.state.id)
-                        if (i.price > max) max = i.price;
+                        if (i.price > max){ max = i.price; win=i.username;}
                     })}
                     <h5 style={{ marginLeft: "30px" }}>
                       ${this.numberWithCommas(max)}

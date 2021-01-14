@@ -48,10 +48,11 @@ class Navbar extends Component {
         sessionStorage.removeItem("loggedIn");
       });
     });
-    window.location.reload();
+    // window.location.reload();
   };
   login = (e) => {
-    <Redirect to="/login" />;
+    this.props.history.push('/login')
+    // <Redirect to="/login" />;
   };
   render() {
     return (

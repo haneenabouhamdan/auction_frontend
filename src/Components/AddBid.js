@@ -24,27 +24,29 @@ class AddBid extends React.Component{
         componentDidMount() {
             axios.defaults.withCredentials=true;
               axios.get('/api/user').then((response)=>{
+                console.log(response)
                  this.setState({
                   first_name:response.data.first_name,
                   last_name:response.data.last_name,
-                  balance:response.data.balance,
+                  user_id:response.data.id,
                  })
                 })
+               
               }
      submitBid=()=>{
         const bidsref = firebase.database().ref("Bids"); 
         const bid = {
-            date:this.state.date,
             username:this.state.first_name+" "+this.state.last_name,
             price:this.state.price,
             item_id:this.props.item_id,
+            user_id:this.state.user_id
         }
-        if(this.state.balance > this.state.price){
+        // if(this.state.balance > this.state.price){
         bidsref.push(bid);
-        }
-        else{
-          this.setState({error:true})
-        }
+        // }
+        // else{
+        //   this.setState({error:true})
+        // }
         this.setState({price:""})
      } 
      closeDialogDet = () => {
@@ -57,12 +59,6 @@ class AddBid extends React.Component{
        
         return(
             <div>
-                { this.state.error ? 
-                <Alert color="secondary" >
-                <strong>Error !</strong> You don't have enough credit to submit this bid!! 
-                <button style={{border:"0",backgroundColor:"grey"}}onClick={this.closeDialogDet}>x</button></Alert>
-              : <></>
-                }
                 <input type="number" value={this.state.price} className="bid" name="price" placeholder="$" onChange={this.handleOnchange}/>
             
                 <button type="submit" className="subid" onClick={this.submitBid}>Bid</button>

@@ -21,7 +21,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-
+let win="";
 class Favorites extends React.Component {
   constructor(props) {
     super(props);
@@ -105,6 +105,7 @@ class Favorites extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
+      this.closeAuc(item.id,win);
       return "Auction Ended";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -154,7 +155,7 @@ class Favorites extends React.Component {
           {data.map((item, index) => (
             <MDBRow
               className="items"
-              onClick={() => this.handleClickOpenDet(item)}
+              
             >
               <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
@@ -170,7 +171,7 @@ class Favorites extends React.Component {
                     <MDBIcon fas icon="minus-circle" />
                   </button>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow onClick={()=>this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px" }}>
                     {this.rendarTimeLaps(item)}
                   </h5>
@@ -258,6 +259,7 @@ class Favorites extends React.Component {
             </MDBRow>
           ))}
         </div>
+        {this.state.favbids?
         <div className="pag">
           <Pagination
             activePage={this.state.current_page}
@@ -271,14 +273,31 @@ class Favorites extends React.Component {
             }}
           />
         </div>
+        :<></>}
       </React.Fragment>
     );
   }
   render() {
     const bids = this.state;
-    if (this.state.favbids.length < 0) {
-      return <div></div>;
+    if (this.state.favbids.length == 0) {
+      return (
+      <div class="h-100">
+        <MDBRow class="h-100">
+          <MDBCol md="2">
+            <UserSidebar />
+          </MDBCol>
+          <MDBCol md="9">
+            <div style={{marginTop:"100px",marginLeft:"100px"}}>
+        <h1 style={{color:"#32b69b"}}>You don't have favorites yet.</h1>
+     
+            </div>
+          </MDBCol>
+        </MDBRow>
+      </div>
+      
+      )
     }
+    else{
     return (
       <div class="h-100">
         <MDBRow class="h-100">
@@ -286,7 +305,7 @@ class Favorites extends React.Component {
             <UserSidebar />
           </MDBCol>
           <MDBCol md="9">
-            <div>sorting</div>
+            {/* <div>sorting</div> */}
             <div style={{ marginTop: "20px", marginLeft: "50px" }}>
               {bids && this.renderUserItems()}
             </div>
@@ -295,5 +314,6 @@ class Favorites extends React.Component {
       </div>
     );
   }
+}
 }
 export default Favorites;

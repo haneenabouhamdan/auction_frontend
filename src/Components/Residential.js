@@ -11,6 +11,7 @@ import Navbar from "../Components/Navbar";
 import AddBid from "./AddBid";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
+let win="";
 class ResItems extends React.Component {
   constructor(props) {
     super(props);
@@ -25,22 +26,23 @@ class ResItems extends React.Component {
       user: "",
       setOpenDet: false,
       item: "",
-      category: 0,
+      category: 'a',
       cat:1,
-      beds:0,
-      electricity:0,
-      elevator:0,
-      parking:0,
-      baths:0,
-      area_min: 0,
-      area_max: 0,
-      services: "",
+      beds:'a',
+      electricity:'a',
+      elevator:'a',
+      parking:'a',
+      baths:'a',
+      area_min: 'a',
+      area_max: 'a',
+      services: 'a',
       fl: true,
       services: [],
-      types: [],
+      types: 'a',
     };
 
     this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
+    this.filter=this.filter.bind(this)
   }
   async componentDidMount() {
     await this.getAllItems();
@@ -135,6 +137,7 @@ class ResItems extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
+      this.closeAuc(item.id,win);
       return "Auction Ended";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -158,7 +161,8 @@ class ResItems extends React.Component {
        
         <div>
           {data.map((item, index) => (
-            <MDBRow className="items" onClick={()=>this.handleClickOpenDet(item)}>
+        
+            <MDBRow className="items" key={index}>
               <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
@@ -176,7 +180,7 @@ class ResItems extends React.Component {
                     />
                   </button>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow onClick={()=>this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px"}}>{this.rendarTimeLaps(item)}</h5>
                 </MDBRow>
                 <MDBRow style={{marginTop:"20px"}} > </MDBRow>
@@ -235,12 +239,15 @@ class ResItems extends React.Component {
                   </MDBCol>
                   <MDBCol className="bidss">
                   <i>Current Bid</i><br/>
-                    {maxbids.map((i,ind) => {
+                  
+                    {maxbids.map((i,indice) => {
+                      // ind=indice
                       if(i.item_id ==item.id)
-                       if(i.price > max) max=i.price;
-                    })}
+                       if(i.price > max){max=i.price; win=i.user_id}
+                      
+                      })}
                     <h6 style={{marginLeft:"5px"}} id={index.ind}> $ {this.numberWithCommas(max)}</h6>
-             
+                 
                   </MDBCol>
                   <MDBCol>
                   <i>Your Bid</i><br/>
@@ -275,13 +282,13 @@ class ResItems extends React.Component {
   handleSelectcat = (e) => {
     switch (e) {
       case "1":
-        this.setState({ category: 0 });
-        break;
-      case "2":
         this.setState({ category: 1 });
         break;
+      case "2":
+        this.setState({ category: 0 });
+        break;
       case "3":
-        this.setState({ category: 2 });
+        this.setState({ category: 'a' });
         break;
     }
   };
@@ -361,17 +368,18 @@ class ResItems extends React.Component {
     }
   };
  async filter(pageNumber){
-    if(this.state.services){
-      this.state.services.map((i)=>{
-        if(i.cat="electricity")
-        this.setState({electricity:0});
-        if(i.cat="elevator")
-        this.setState({elevator:1});
-        if(i.cat="parking")
-        this.setState({parking:1})
-      }
-      )
-    }
+    // if(this.state.services){
+    //   const data=this.state.services;
+    //  data.map((i)=>{
+    //     if(i.cat="electricity")
+    //     this.setState({electricity:1});
+    //     if(i.cat="elevator")
+    //     this.setState({elevator:1});
+    //     if(i.cat="parking")
+    //     this.setState({parking:1})
+    //   }
+    //   )
+    // }
     let formData={
       "type":this.state.types,
       "category":this.state.category,
