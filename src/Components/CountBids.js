@@ -19,7 +19,7 @@ getCountBids=()=> {
     const list = [];
     for (let id in lists) {
       // console.log(lists[id]);
-      if(lists[id].item_id==ids)
+      if(lists[id].item_id === ids)
       list.push(lists[id]);
     }
     // console.log(list.length)

@@ -2,18 +2,18 @@ import React from "react";
 import axios from "axios";
 import "../App.css";
 import firebase from "../utils/firebase";
-import {MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import {  MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ViewOnMapd from "./ViewOnMapd";
 import Gallery from "./gallery";
 import Navbar from "./Navbar";
 import { CardBody, Card, CardHeader } from "reactstrap";
-import AddBidD from "./AddBidD";
 let win="";
-class ItemDetails extends React.Component {
+class WonDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       longitude: "",
+      highest:0,
       latitude: "",
       area: "",
       description: "",
@@ -56,11 +56,37 @@ class ItemDetails extends React.Component {
   }
   async componentDidMount() {
     await this.getItemDetails();
+       await this.getWinner(this.state.id);
     await this.getBidsHistory();
-    // await this.getUser();
+ 
     
   }
-
+//   getWin(id){
+//     axios.defaults.withCredentials = true;
+//     axios.get(`/api/getWin/`+id).then((res) => {
+//         // console.log(res)
+//         this.setState({
+//             winner_name:res.data.first_name + " " + res.data.last_name,
+//   })
+// })
+// }
+ getWinner(id){
+    axios.defaults.withCredentials=true;
+   axios.get(`/api/getTheWinner/`+id).then((res)=>{
+      console.log(res);
+      this.setState({highest:res.data.item[0].price})
+      axios.defaults.withCredentials = true;
+      let uid=res.data.item[0].winners_id;
+      console.log(uid)
+    axios.get(`/api/getWin/`+uid).then((res) => {
+          // console.log(res)
+          this.setState({
+              winner_name:res.data.first_name + " " + res.data.last_name,
+    })
+  })
+     
+    })
+  }
   getUser() {
     axios.defaults.withCredentials = true;
     axios.get("/api/getUser/".concat(this.state.users_id)).then((res) => {
@@ -127,7 +153,6 @@ class ItemDetails extends React.Component {
     }, 3000);
   };
   async closeAuc(id, win) {
-    const lists = this.state.lists;
     this.setState({ closed: true });
     let today = new Date();
     let day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
@@ -198,6 +223,7 @@ class ItemDetails extends React.Component {
       this.setState({ lists: list });
     });
   };
+
   submitBid = () => {
     const bidsref = firebase.database().ref("Bids");
     const bid = {
@@ -216,8 +242,6 @@ class ItemDetails extends React.Component {
   };
   render() {
     const data = this.state.images;
-    let max = 0;
-    let d= this.props.match.params.id;
     const maxbids = this.state.lists;
     var c = new Object();
     c.longitude = this.state.longitude;
@@ -258,7 +282,7 @@ class ItemDetails extends React.Component {
                   </p>
                   <p>
                     Electricity :{" "}
-                    {this.state.electricity == "0" ? (
+                    {this.state.electricity === "0" ? (
                       <MDBIcon icon="times" style={{ color: "grey" }} />
                     ) : (
                       <MDBIcon icon="check" style={{ color: "grey" }} />
@@ -272,7 +296,7 @@ class ItemDetails extends React.Component {
                   </p>
                   <p>
                     Elevator :{" "}
-                    {this.state.elevator == "0" ? (
+                    {this.state.elevator === "0" ? (
                       <MDBIcon icon="times" style={{ color: "grey" }} />
                     ) : (
                       <MDBIcon icon="check" style={{ color: "grey" }} />
@@ -286,7 +310,7 @@ class ItemDetails extends React.Component {
                   </p>
                   <p>
                     Heating :{" "}
-                    {this.state.heating_cooling == "0" ? (
+                    {this.state.heating_cooling === "0" ? (
                       <MDBIcon icon="times" style={{ color: "grey" }} />
                     ) : (
                       <MDBIcon icon="check" style={{ color: "grey" }} />
@@ -347,6 +371,7 @@ class ItemDetails extends React.Component {
             
                 <MDBCol>
                   <img
+                  alt="p"
                     style={{
                       width: "70px",
                       height: "70px",
@@ -360,8 +385,7 @@ class ItemDetails extends React.Component {
                   {this.state.first_name} {this.state.last_name}
                   <br />
                   <MDBIcon icon="envelope" style={{ color: "grey" }} /> :{" "}
-                  {this.state.email} 
-                  <br />
+                  {this.state.email} <br />
                   <MDBIcon icon="phone-alt" style={{ color: "grey" }} /> :{" "}
                   {this.state.phone}
                   <br />
@@ -404,7 +428,7 @@ class ItemDetails extends React.Component {
                       </h6>
                     </i>
                     {maxbids.map((i, ind) => {
-                      if (i.item_id == this.state.id)
+                      if (i.item_id === this.state.id)
                         return (
                           <MDBRow key={ind}>
                             <i id={ind} style={{ color: "white" }}>,,,,,,,</i>
@@ -422,7 +446,7 @@ class ItemDetails extends React.Component {
                     </h6>
                     <h6>
                       <i style={{ color: "#32b69b", marginLeft: "40px" }}>
-                        Current Bid
+                        Highest Bid
                       </i>
                     </h6>
                   </MDBRow>
@@ -430,17 +454,17 @@ class ItemDetails extends React.Component {
                     <h5>
                       ${this.numberWithCommas(this.state.starting_price)}+
                     </h5>
-                    {maxbids.map((i, ind) => {
-                      if (i.item_id == this.state.id)
-                        if (i.price > max){ max = i.price; win=i.username;}
-                    })}
+                  
                     <h5 style={{ marginLeft: "30px" }}>
-                      ${this.numberWithCommas(max)}
+                      ${this.numberWithCommas(this.state.highest)}
                     </h5>
+                  </MDBRow>
+                  <MDBRow>
+                
                   </MDBRow>
                   <br />
                 </MDBCol>
-                <AddBidD item_id={d} />
+               
               </CardBody>
             </Card>
           </MDBCol>
@@ -449,4 +473,4 @@ class ItemDetails extends React.Component {
     );
   }
 }
-export default ItemDetails;
+export default WonDetails;

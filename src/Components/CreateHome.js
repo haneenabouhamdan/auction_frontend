@@ -1,12 +1,11 @@
 import React from "react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
 import "../style/MyAuctions.css";
 
 import firebase from "../utils/firebase";
 
-import { MDBIcon, MDBRow, MDBCol } from "mdbreact";
+import {  MDBRow, MDBCol } from "mdbreact";
 
 import UserSidebar from "./UserSidebar";
 import {
@@ -58,8 +57,6 @@ class CreateHome extends React.Component {
       email: "DPM@gmail.com",
       owner: 0,
       image:"",
-      first:"",
-      last:"",
       setOpen: false,
     };
   }

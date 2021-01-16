@@ -14,7 +14,6 @@ import {
 import { BrowserRouter as Router, Redirect } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
-import Notification from "./Notification";
 import "mdbreact/dist/css/mdb.css";
 import axios from "axios";
 import "../App.css";
@@ -60,16 +59,17 @@ class Navbar extends Component {
         <MDBNavbar expand="md" className="nabar">
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
+          {sessionStorage.getItem("loggedIn") ? (
             <MDBNavbarNav left>
               <MDBNavItem
                 active
-                style={{ marginTop: "20px", marginRight: "15px" }}
+                style={{ marginTop: "10px", marginRight: "15px" }}
               >
                 <a href="/" style={{ color: "white" }}>
                   Home
                 </a>
               </MDBNavItem>
-              <MDBNavItem active style={{ marginTop: "20px" }}>
+              <MDBNavItem active style={{ marginTop: "10px" }}>
                 <a href="/userprofile" style={{ color: "white" }}>
                   Profile
                 </a>
@@ -78,6 +78,26 @@ class Navbar extends Component {
                 <MDBNavLink to="#!" className="Navv"></MDBNavLink>
               </MDBNavItem>
             </MDBNavbarNav>
+          ):(
+            <MDBNavbarNav left>
+            <MDBNavItem
+              active
+              style={{ marginTop: "10px", marginRight: "15px" }}
+            >
+              <a href="/" style={{ color: "white" }}>
+                Home
+              </a>
+            </MDBNavItem>
+            <MDBNavItem active style={{ marginTop: "20px" }}>
+                <a href="/userprofile" style={{ color: "#32b69b" }}>
+                  profile
+                </a>
+              </MDBNavItem>
+            <MDBNavItem>
+              <MDBNavLink to="#!" className="Navv"></MDBNavLink>
+            </MDBNavItem>
+          </MDBNavbarNav>
+          )}
             <MDBNavbarNav left>
               <MDBNavItem>
                 <a href="/welcomePage">
@@ -91,7 +111,6 @@ class Navbar extends Component {
               <MDBNavItem>
                 <p></p>
                 <p></p>
-                {/* <Notification/> */}
               </MDBNavItem>
 
               <MDBNavItem>

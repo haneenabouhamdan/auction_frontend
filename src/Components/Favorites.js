@@ -4,24 +4,11 @@ import Slideshow from "./Slideshow";
 import Pagination from "react-js-pagination";
 import "../style/MyAuctions.css";
 import firebase from "../utils/firebase";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { MDBRow, MDBCol } from "mdbreact";
 import AddBid from "./AddBid";
 import UserSidebar from "./UserSidebar";
 import { MDBIcon } from "mdbreact";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
-} from "reactstrap";
-let win="";
+let win = "";
 class Favorites extends React.Component {
   constructor(props) {
     super(props);
@@ -105,7 +92,7 @@ class Favorites extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
-      this.closeAuc(item.id,win);
+      this.closeAuc(item.id, win);
       return "Auction Ended";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -130,8 +117,7 @@ class Favorites extends React.Component {
     });
   };
   handleClickOpenDet = (item) => {
-    this.props.history.push('/itemDetails/'.concat(item.id))
-
+    this.props.history.push("/itemDetails/".concat(item.id));
   };
   remFav = (id) => {
     let formData = {
@@ -145,7 +131,7 @@ class Favorites extends React.Component {
   };
   renderUserItems() {
     const data = this.state.favbids;
-    const active = this.state.activePage;
+    // const active = this.state.activePage;
     let max = 0;
     const maxbids = this.state.lists;
 
@@ -153,10 +139,7 @@ class Favorites extends React.Component {
       <React.Fragment>
         <div>
           {data.map((item, index) => (
-            <MDBRow
-              className="items"
-              
-            >
+            <MDBRow className="items">
               <MDBCol md="4">
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
@@ -171,7 +154,7 @@ class Favorites extends React.Component {
                     <MDBIcon fas icon="minus-circle" />
                   </button>
                 </MDBRow>
-                <MDBRow onClick={()=>this.handleClickOpenDet(item)}>
+                <MDBRow onClick={() => this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px" }}>
                     {this.rendarTimeLaps(item)}
                   </h5>
@@ -214,13 +197,13 @@ class Favorites extends React.Component {
                 )}
                 <MDBRow>
                   <div className="servic">
-                    {this.state.elevator == "0" ? " " : " elevator "}
+                    {this.state.elevator === "0" ? " " : " elevator "}
                     <strong> . </strong>
-                    {this.state.heating_cooling == "0"
+                    {this.state.heating_cooling === "0"
                       ? " "
                       : " heating and cooling "}
                     <strong> . </strong>
-                    {this.state.electricity == "0" ? " " : " electricity "}
+                    {this.state.electricity === "0" ? " " : " electricity "}
                   </div>
                 </MDBRow>
                 <MDBRow>
@@ -240,7 +223,7 @@ class Favorites extends React.Component {
                     <i>Current Bid</i>
                     <br />
                     {maxbids.map((i, ind) => {
-                      if (i.item_id == item.id)
+                      if (i.item_id === item.id)
                         if (i.price > max) max = i.price;
                     })}
                     <h6 style={{ marginLeft: "5px" }} id={index.ind}>
@@ -259,61 +242,62 @@ class Favorites extends React.Component {
             </MDBRow>
           ))}
         </div>
-        {this.state.favbids?
-        <div className="pag">
-          <Pagination
-            activePage={this.state.current_page}
-            itemsCountPerPage={this.state.per_page}
-            totalItemsCount={this.state.total}
-            pageRangeDisplayed={5}
-            itemClass="page-item"
-            linkClass="page-link"
-            onChange={(pageNumber) => {
-              this.getAllItems(pageNumber);
-            }}
-          />
-        </div>
-        :<></>}
+        {this.state.favbids ? (
+          <div className="pag">
+            <Pagination
+              activePage={this.state.current_page}
+              itemsCountPerPage={this.state.per_page}
+              totalItemsCount={this.state.total}
+              pageRangeDisplayed={5}
+              itemClass="page-item"
+              linkClass="page-link"
+              onChange={(pageNumber) => {
+                this.getAllItems(pageNumber);
+              }}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </React.Fragment>
     );
   }
   render() {
     const bids = this.state;
-    if (this.state.favbids.length == 0) {
+    if (this.state.favbids.length === 0) {
       return (
-      <div class="h-100">
-        <MDBRow class="h-100">
-          <MDBCol md="2">
-            <UserSidebar />
-          </MDBCol>
-          <MDBCol md="9">
-            <div style={{marginTop:"100px",marginLeft:"100px"}}>
-        <h1 style={{color:"#32b69b"}}>You don't have favorites yet.</h1>
-     
-            </div>
-          </MDBCol>
-        </MDBRow>
-      </div>
-      
-      )
+        <div class="h-100">
+          <MDBRow class="h-100">
+            <MDBCol md="2">
+              <UserSidebar />
+            </MDBCol>
+            <MDBCol md="9">
+              <div style={{ marginTop: "100px", marginLeft: "100px" }}>
+                <h1 style={{ color: "#32b69b" }}>
+                  You don't have favorites yet.
+                </h1>
+              </div>
+            </MDBCol>
+          </MDBRow>
+        </div>
+      );
+    } else {
+      return (
+        <div class="h-100">
+          <MDBRow class="h-100">
+            <MDBCol md="2">
+              <UserSidebar />
+            </MDBCol>
+            <MDBCol md="9">
+              {/* <div>sorting</div> */}
+              <div style={{ marginTop: "20px", marginLeft: "50px" }}>
+                {bids && this.renderUserItems()}
+              </div>
+            </MDBCol>
+          </MDBRow>
+        </div>
+      );
     }
-    else{
-    return (
-      <div class="h-100">
-        <MDBRow class="h-100">
-          <MDBCol md="2">
-            <UserSidebar />
-          </MDBCol>
-          <MDBCol md="9">
-            {/* <div>sorting</div> */}
-            <div style={{ marginTop: "20px", marginLeft: "50px" }}>
-              {bids && this.renderUserItems()}
-            </div>
-          </MDBCol>
-        </MDBRow>
-      </div>
-    );
   }
-}
 }
 export default Favorites;

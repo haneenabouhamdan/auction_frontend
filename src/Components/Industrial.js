@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import Slideshow from "./Slideshow";
 import Pagination from "react-js-pagination";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { MDBRow, MDBCol } from "mdbreact";
 import "../App.css";
 import { Multiselect } from "multiselect-react-dropdown";
 import { DropdownButton, Dropdown } from "react-bootstrap";
@@ -211,13 +211,13 @@ class IndItems extends React.Component {
                 )}
                 <MDBRow>
                   <div className="servic">
-                    {this.state.elevator == "0" ? " " : " elevator "}
+                    {this.state.elevator === "0" ? " " : " elevator "}
                     <strong> . </strong>
-                    {this.state.heating_cooling == "0"
+                    {this.state.heating_cooling === "0"
                       ? " "
                       : " heating and cooling "}
                     <strong> . </strong>
-                    {this.state.electricity == "0" ? " " : " electricity "}
+                    {this.state.electricity === "0" ? " " : " electricity "}
                   </div>
                 </MDBRow>
                 <MDBRow>
@@ -234,7 +234,7 @@ class IndItems extends React.Component {
                   <MDBCol className="bidss">
                   <i>Current Bid</i><br/>
                     {maxbids.map((i,ind) => {
-                      if(i.item_id ==item.id)
+                      if(i.item_id === item.id)
                        if(i.price > max) max=i.price;
                     })}
                     <h6 style={{marginLeft:"5px"}} id={index.ind}> $ {this.numberWithCommas(max)}</h6>

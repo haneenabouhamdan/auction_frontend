@@ -1,12 +1,10 @@
 import React from "react";
-import axios from "axios";
 import ind from '../images/ind.jpeg';
 import com from '../images/com.jpeg';
 import hom from '../images/hom.jpeg';
 import '../style/User.css';
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -29,7 +27,7 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/residentialitems'>
-                <img className="imageA" src={hom}/>
+                <img alt="p" className="imageA" src={hom}/>
                 </a>           
                 </CardHeader>
                 <CardBody>
@@ -45,7 +43,7 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/commercialitems'>
-                <img className="imageC" src={com} /></a>
+                <img alt="p" className="imageC" src={com} /></a>
                 </CardHeader>
                 <CardBody>
                 <h5>Commercial Properties </h5>
@@ -59,7 +57,7 @@ class MainCategories extends React.Component {
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/industrialItems'>
-                <img className="imageB" src={ind} /></a>
+                <img alt="p" className="imageB" src={ind} /></a>
                 <Row></Row>
                 </CardHeader>
                 <CardBody>

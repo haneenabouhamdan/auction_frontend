@@ -132,7 +132,6 @@ font-weight: 300;
 }
 .bidss{
 max-width:120px !important;
-margin-bottom: 20px !important;
 }
 .details{
   width:90% !important;
@@ -254,6 +253,11 @@ margin-bottom: 20px !important;
   border: 0px !important;
   height:45px;
 }
+.tit{
+  margin-top:50px;
+  color:#32b69b ;
+  font-weight: 300;
+}
 .type{
   width:255px;
   height:50px; 
@@ -262,6 +266,13 @@ margin-bottom: 20px !important;
   margin-left: 28px;
   background-color: white;
   margin-top:10px;
+}
+.flex{
+  margin-left: 3px;
+}
+
+.items{
+  margin-top: 5px;
 }
 #search_input{
   text-align: center;

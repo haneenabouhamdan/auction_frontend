@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import Slideshow from "./Slideshow";
 import Pagination from "react-js-pagination";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import {  MDBRow, MDBCol } from "mdbreact";
 import "../App.css";
 import { Multiselect } from "multiselect-react-dropdown";
 import { DropdownButton, Dropdown } from "react-bootstrap";
@@ -86,9 +86,11 @@ class ResItems extends React.Component {
     searchBox: {
       "border-bottom": "1px solid lightgrey",
       "border-radius": "2px",
-      height: "50px",
+      height: "46px",
+      marginLeft:"20px",
+      marginTop:"5px",
       color: "grey",
-      "font-weight": "200",
+      fontWeight: 300,
     },
     multiselectContainer: {
       color: "grey",
@@ -160,11 +162,9 @@ class ResItems extends React.Component {
       <React.Fragment>
        
         <div>
-          {data.map((item, index) => {let max = 0; return(
-
-        
+          {data.map((item, index) => {let max = 0; return(        
             <MDBRow className="items" key={index}>
-              <MDBCol md="4">
+              <MDBCol md="4" style={{marginTop:"10px"}}>
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
              
@@ -184,31 +184,31 @@ class ResItems extends React.Component {
                 <MDBRow onClick={()=>this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px"}}>{this.rendarTimeLaps(item)}</h5>
                 </MDBRow>
-                <MDBRow style={{marginTop:"20px"}} > </MDBRow>
+                <MDBRow style={{marginTop:"5px"}} > </MDBRow>
                 {item.bedrooms > 0 ? (
                   <div className="flex">
-                    {item.bedrooms} Beds <strong>. </strong>
+                    {item.bedrooms} Beds <label> • </label>
                   </div>
                 ) : (
                   <></>
                 )}
                 {item.bathrooms > 0 ? (
                   <div className="flex">
-                    {item.bathrooms} Baths <strong>. </strong>
+                    {item.bathrooms} Baths <label> • </label>
                   </div>
                 ) : (
                   <></>
                 )}
                 {item.diningrooms > 0 ? (
                   <div className="flex">
-                    {item.diningrooms} Dinings <strong>. </strong>
+                    {item.diningrooms} Dinings <label> • </label>
                   </div>
                 ) : (
                   <></>
                 )}
                 {item.parking > 0 ? (
                   <div className="flex">
-                    {item.parking} Parking <strong>. </strong>
+                    {item.parking} Parking <label>• </label>
                   </div>
                 ) : (
                   <></>
@@ -222,18 +222,18 @@ class ResItems extends React.Component {
                 )}
                 <MDBRow>
                   <div className="servic">
-                    {this.state.elevator == "0" ? " " : " elevator "}
-                    <strong> . </strong>
+                    {this.state.elevator == "0" ? " " : " Elevator "}
+                    <label> • </label>
                     {this.state.heating_cooling == "0"
                       ? " "
-                      : " heating and cooling "}
-                    <strong> . </strong>
-                    {this.state.electricity == "0" ? " " : " electricity "}
+                      : " Heating and cooling "}
+                    <label> • </label>
+                    {this.state.electricity == "0" ? " " : " Electricity "}
                   </div>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow style={{marginTop:"5px"}}>
                   <MDBCol>
-                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  <CountBids id={item.id}/> <label style={{color:"grey",fontWeight:300}}> Bids</label>
                   </MDBCol>
                   </MDBRow>
                 
@@ -255,10 +255,18 @@ class ResItems extends React.Component {
                     <h6 style={{marginLeft:"5px"}} > $ {this.numberWithCommas(max)}</h6>
                     </div>
                   </MDBCol>
+                  {sessionStorage.getItem('loggedIn')? (
                   <MDBCol>
                   <i>Your Bid</i><br/>
                   <AddBid item_id={item.id}/>
                   </MDBCol>
+                  ) :
+                  (
+                    <MDBCol>
+                   
+                    </MDBCol>
+                  )
+          }
                 </MDBRow>
                 <hr style={{height:"3px",color:"grey"}}/>
               </MDBCol>
@@ -484,7 +492,7 @@ class ResItems extends React.Component {
                       displayValue="key"
                       style={this.style}
                       showCheckbox={true}
-                      placeholder="Type"
+                      placeholder="TYPE"
                       onSelect={(selectedList, selectedItem)=>{
                         this.setState({
                           types: selectedList
@@ -503,7 +511,7 @@ class ResItems extends React.Component {
                       displayValue="key"
                       style={this.style}
                       showCheckbox={true}
-                      placeholder="Services"
+                      placeholder="SERVICES"
                       onSelect={(selectedList, selectedItem)=>{
                         this.setState({
                           services: selectedList

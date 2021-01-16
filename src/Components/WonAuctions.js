@@ -1,20 +1,20 @@
+
 import React from "react";
 import axios from "axios";
-import Slideshow from "./Slideshow";
-import { DropdownButton, Dropdown } from "react-bootstrap";
 import Pagination from "react-js-pagination";
-import {  MDBRow, MDBCol } from "mdbreact";
+import { MDBRow, MDBCol } from "mdbreact";
 import "../App.css";
+import Slideshow from "./Slideshow";
 import firebase from "../utils/firebase";
 import CountBids from "./CountBids";
 import { MDBIcon } from "mdbreact";
 import UserSidebar from "./UserSidebar";
 let win = 0;
-class UserItems extends React.Component {
+class WonItems extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bids: [],
+      won: [],
       activePage: 0,
       total: 0,
       per_page: 0,
@@ -38,6 +38,11 @@ class UserItems extends React.Component {
 
     this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
   }
+
+  handlePageChange(pageNumber) {
+    this.setState({ activePage: pageNumber });
+  }
+
   logout = (e) => {
     e.preventDefault();
     axios.get("/sanctum/csrf-cookie").then((response) => {
@@ -50,18 +55,9 @@ class UserItems extends React.Component {
   async componentDidMount() {
     // await this.getAllItems();
     await this.getOwner();
-    await this.getUserItems();
+    await this.getWonItems();
     await this.getBidsHistory();
   }
-  handlePageChange(pageNumber) {
-    this.setState({ activePage: pageNumber });
-  }
-  handleClickOpen = () => {
-    this.props.history.push("/home");
-  };
-  handleClickOpenL = () => {
-    this.props.history.push("/land");
-  };
 
   remAuc = (id) => {
     let formData = {
@@ -72,20 +68,7 @@ class UserItems extends React.Component {
       window.location.reload();
     });
   };
-  // getUserByFullName(name) {
-  //   let str = name.split(" ");
-  //   this.setState({ winner_name: name });
-  //   let formData = {
-  //     fname: str[0],
-  //     lname: name.slice(name.indexOf(" ")),
-  //   };
-  //   axios.defaults.withCredentials = true;
-  //   axios.post(`/api/getUserByFullname`, formData).then((res) => {
-  //     // console.log(res.data.email[0].email)
-  //     this.setState({ winner_email: res.data.email[0].email });
-  //     // console.log(this.state.winner_email)
-  //   });
-  // }
+
   getOwner = () => {
     axios.defaults.withCredentials = true;
     axios.get(`/api/user`).then((res) => {
@@ -97,6 +80,7 @@ class UserItems extends React.Component {
       });
     });
   };
+  
   sendFeedback(templateId, variables) {
     window.emailjs
       .send("service_02w05dq", templateId, variables)
@@ -112,6 +96,7 @@ class UserItems extends React.Component {
       );
   }
   async closeAuc(id,max) {
+    const lists = this.state.lists;
     this.setState({ closed: true });
     let today = new Date();
     let day = today.getDate() < 10 ? "0" + today.getDate() : today.getDate();
@@ -139,17 +124,6 @@ class UserItems extends React.Component {
     });
    
    await this.sendemail();
-  }
-  setWinner(win,id,price){
-    let formData={
-      Winner:win,
-      item_id:id,
-      price:price
-    }
-    axios.defaults.withCredentials=true;
-    axios.post(`/api/SetWinner`,formData).then((res)=>{
-      console.log(res)
-    })
   }
   getMailById = (id) => {
     axios.defaults.withCredentials = true;
@@ -213,7 +187,7 @@ class UserItems extends React.Component {
   }
   handleClickOpenDet = (item) => {
     console.log(item);
-   this.props.history.push('/itemDetails/'.concat(item.id))
+   this.props.history.push('/WonDetails/'.concat(item))
 
   };
 
@@ -224,17 +198,17 @@ class UserItems extends React.Component {
       });
     }, 3000);
   };
-  async getUserItems(pageNumber) {
+  async getWonItems(pageNumber) {
     //  console.log(pageNumber)
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
-    await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then((res) => {
-      // console.log(res);
+    await axios.get(`/api/getWon?page=${pageNumber}`).then((res) => {
+      console.log(res.data.item.data);
       this.setState({
-        bids: res.data.items.data,
-        per_page: res.data.items.per_page,
-        total: res.data.items.total,
-        activePage: res.data.items.current_page,
+        won: res.data.item.data,
+        per_page: res.data.item.per_page,
+        total: res.data.item.total,
+        activePage: res.data.item.current_page,
       });
     });
   }
@@ -242,6 +216,7 @@ class UserItems extends React.Component {
     var now = new Date().getTime();
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
+    // this.getWinner(item.item_id);
     if (timeleft < 0) {
       this.closeAuc(item.id, win);
       return "Auction Closed";
@@ -255,75 +230,64 @@ class UserItems extends React.Component {
     this.forcerender();
     return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
   }
-  closeDialogDet = () => {
-    this.setState({ setOpenDet: false });
-  };
 
   renderItems() {
-    const data = this.state.bids;
+    const data = this.state.won;
     const maxbids = this.state.lists;
     return (
       <React.Fragment>
         <div>
-          {data.map((item, index) => {let max = 0; return(
+          {data.map((item, index) => {
+            let max = 0; return(
             <MDBRow className="items" key={index}>
-              <MDBCol md="4" >
-                <Slideshow className="images" images={item.auction_images} />
+                <MDBCol md="4">
+                <Slideshow className="images" images={item.auction_items.auction_images} />
               </MDBCol>
 
               <MDBCol md="8" className="prop">
-                <MDBRow>
-                  <button
-                    type="submit"
-                    className="favo"
-                    onClick={() => this.remAuc(item.id)}
-                  >
-                    <MDBIcon icon="trash" />
-                  </button>
-                </MDBRow>
-                <MDBRow  onClick={() => this.handleClickOpenDet(item)}>
-                  {item.actual_close_date ? (
+                <MDBRow  onClick={() => this.handleClickOpenDet(item.auction_items.id)}>
+                  {item.auction_items.actual_close_date ? (
                     <h5 style={{ color: "grey", marginLeft: "15px" }}>
                       Auction Closed
                     </h5>
                   ) : (
                     <h5 style={{ color: "grey", marginLeft: "15px" }}>
-                      {this.rendarTimeLaps(item)}
+                      {this.rendarTimeLaps(item.auction_items)}
                     </h5>
                   )}
                 </MDBRow>
                 <MDBRow style={{ marginTop: "20px" }}> </MDBRow>
-                {item.bedrooms > 0 ? (
+                {item.auction_items.bedrooms > 0 ? (
                   <div className="flex">
-                    {item.bedrooms} Beds <strong>. </strong>
+                    {item.auction_items.bedrooms} Beds <strong>. </strong>
                   </div>
                 ) : (
                   <></>
                 )}
-                {item.bathrooms > 0 ? (
+                {item.auction_items.bathrooms > 0 ? (
                   <div className="flex">
-                    {item.bathrooms} Baths <strong>. </strong>
+                    {item.auction_items.bathrooms} Baths <strong>. </strong>
                   </div>
                 ) : (
                   <></>
                 )}
-                {item.diningrooms > 0 ? (
+                {item.auction_items.diningrooms > 0 ? (
                   <div className="flex">
-                    {item.diningrooms} Dinings <strong>. </strong>
+                    {item.auction_items.diningrooms} Dinings <strong>. </strong>
                   </div>
                 ) : (
                   <></>
                 )}
-                {item.parking > 0 ? (
+                {item.auction_items.parking > 0 ? (
                   <div className="flex">
-                    {item.parking} Parking <strong>. </strong>
+                    {item.auction_items.parking} Parking <strong>. </strong>
                   </div>
                 ) : (
                   <></>
                 )}
-                {item.area > 0 ? (
+                {item.auction_items.area > 0 ? (
                   <div className="flex">
-                    {this.numberWithCommas(item.area)} sqft{" "}
+                    {this.numberWithCommas(item.auction_items.area)} sqft{" "}
                   </div>
                 ) : (
                   <></>
@@ -341,7 +305,7 @@ class UserItems extends React.Component {
                 </MDBRow>
                 <MDBRow>
                   <MDBCol>
-                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  <CountBids id={item.auction_items.item_id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
                   </MDBCol>
                   </MDBRow>
                 
@@ -352,28 +316,28 @@ class UserItems extends React.Component {
                     <br />
                     <h6 style={{ marginLeft: "5px" }}>
                       {" "}
-                      ${this.numberWithCommas(item.starting_price)}+
+                      ${this.numberWithCommas(item.auction_items.starting_price)}+
                     </h6>
                   </MDBCol>
                   <MDBCol className="bidss">
-                    <i>Current Bid</i>
+                    <i>Final Bid</i>
                     <br />
                   
                   {maxbids.map((i) => {
                     // ind=indice
-                    if(i.item_id ===item.id)
+                    if(i.item_id === item.auction_items.id)
                      if(i.price > max){ max=i.price; win=i.user_id}
-                    // return max
+                    
                     })}
                     <div key={index}>
                   <h6 style={{marginLeft:"5px"}} > $ {this.numberWithCommas(max)}</h6>
                   </div>
                   </MDBCol>
                   <MDBCol>
-                    {item.actual_close_date === null ? (
+                    {item.auction_items.actual_close_date === null ? (
                       <button
                         type="submit"
-                        onClick={() => this.closeAuc(item.id,max)}
+                        onClick={() => this.closeAuc(item.auction_items.id,max)}
                         className="close"
                       >
                         <MDBIcon icon="gavel" /> Close Auction{" "}
@@ -406,6 +370,8 @@ class UserItems extends React.Component {
   }
 
   render() {
+    const bids = this.state;
+
     return (
       <div class="h-100">
         <MDBRow class="h-100">
@@ -413,44 +379,14 @@ class UserItems extends React.Component {
             <UserSidebar />
           </MDBCol>
           <MDBCol md="9">
-            <MDBRow>
-              <DropdownButton
-                title="Create Auction"
-                id="create"
-                style={{ marginLeft: "10px" }}
-              >
-                <Dropdown.Item href="">
-                  <a
-                    href="/home"
-                    className="drop"
-                    onClick={this.handleClickOpen}
-                  >
-                    Buildings
-                  </a>
-                </Dropdown.Item>
-                <Dropdown.Item href="">
-                  <a
-                    href="/land"
-                    className="drop"
-                    onClick={this.handleClickOpenL}
-                  >
-                    Lands
-                  </a>
-                </Dropdown.Item>
-              </DropdownButton>
-            </MDBRow>
+          <h1 className="tit">Congratulations for winning these auctions !</h1>
             <div style={{ marginTop: "20px", marginLeft: "50px" }}>
               {this.renderItems()}
             </div>
           </MDBCol>
         </MDBRow>
-        {/* <div>
-          <MDBIcon icon="sign-alt-out" style={{backgroundColor:"black",
-          height:"50px",marginLeft:"500px"
-        }} onClick={this.logout}/>
-        </div> */}
       </div>
     );
   }
 }
-export default UserItems;
+export default WonItems;

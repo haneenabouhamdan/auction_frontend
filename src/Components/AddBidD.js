@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from '../utils/firebase';
-import {Alert,Input,Button} from 'reactstrap';
 import '../App.css'
 import axios from 'axios';
 class AddBidD extends React.Component{
@@ -12,7 +11,6 @@ class AddBidD extends React.Component{
             first_name:"",
             last_name:"",
             item_id:0,
-            balance:0,
             error:false,
             date:new Date(),
             price:"",
@@ -27,7 +25,7 @@ class AddBidD extends React.Component{
                  this.setState({
                   first_name:response.data.first_name,
                   last_name:response.data.last_name,
-                  balance:response.data.balance,
+                  user_id:response.data.id,
                  })
                 })
               }
@@ -38,6 +36,7 @@ class AddBidD extends React.Component{
             username:this.state.first_name+" "+this.state.last_name,
             price:this.state.price,
             item_id:this.props.item_id,
+            user_id:this.state.user_id
         }
       
         bidsref.push(bid);

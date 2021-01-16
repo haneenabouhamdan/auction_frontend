@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from '../utils/firebase';
-import {Alert} from 'reactstrap';
 import '../App.css'
 import axios from 'axios';
 class AddBid extends React.Component{
@@ -54,7 +53,7 @@ class AddBid extends React.Component{
       };
     render(){
         if(!sessionStorage.getItem('loggedIn')){
-            return <div style={{marginBottom:"10px",color:"red"}}>Login To Submit A Bid !!</div>
+            return <div style={{marginBottom:"10px",color:"#92d1bb"}}>Login to Submit A Bid </div>
         }
        
         return(

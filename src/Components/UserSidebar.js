@@ -15,16 +15,16 @@ render(){
           </a>
         </li>
         <li>
-        <a href="/userprofile">Dashboard</a>
+        <a href="/userprofile"><MDBIcon icon="align-left"/> Dashboard</a>
         </li>
         <li>
-          <a href="/userauctions">My Auctions</a>
+          <a href="/userauctions"><MDBIcon icon="gavel"/> My Auctions</a>
         </li>
         <li>
-          <a href="#">Winning Bids</a>
+          <a href="/wonauctions"><MDBIcon icon="trophy"/> Won Bids</a>
         </li>
         <li>
-          <a href="/favorites">Favorite Bids</a>
+          <a href="/favorites"><MDBIcon icon="heart"/> Favorite Auctions</a>
         </li>
         {/* <li>
           <a href="/notification">My Alerts</a>

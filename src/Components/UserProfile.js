@@ -3,10 +3,7 @@ import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-
-import { Multiselect } from "multiselect-react-dropdown";
 import { DropdownButton, Dropdown } from "react-bootstrap";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import "../style/User.css";
 import "../style/Sidebar.css";
 import UserSidebar from "./UserSidebar";
@@ -16,7 +13,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   FormGroup,
   Form,
@@ -47,7 +43,14 @@ class UserProfile extends React.Component {
       category: "a",
       longitude: "a",
       latitude: "a",
-      area: "a",
+      area_min: "a",
+      wins:0,
+      area_max:"a",
+      beds:'a',
+      electricity:'a',
+      elevator:'a',
+      parking:'a',
+      baths:'a',
       type: "a",
       numBids: "",
       interests:[],
@@ -57,6 +60,7 @@ class UserProfile extends React.Component {
   componentDidMount() {
     this.getcount();
     this.getInterest();
+    this.countWins();
     this.getfavcount();
     axios.defaults.withCredentials = true;
     axios.get("/api/user").then((response) => {
@@ -217,6 +221,7 @@ class UserProfile extends React.Component {
       x.style.display = "none";
     }
   }
+
   handleSelectcat = (e) => {
     switch (e) {
       case "1":
@@ -259,6 +264,13 @@ class UserProfile extends React.Component {
         break;
     }
   };
+  countWins=()=>{
+axios.defaults.withCredentials=true;
+axios.get('/api/countwins').then((res)=>{
+  // console.log(res);
+  this.setState({wins:res.data.item})
+})
+  }
   del(id){
     let form={
       "id":id
@@ -267,6 +279,7 @@ class UserProfile extends React.Component {
     axios.post('/api/deleteInterest',form).then((res)=>
     console.log(res))
   }
+
   render() {
     const data=this.state.interests;
     if (sessionStorage.getItem("loggedIn")) {
@@ -346,7 +359,7 @@ class UserProfile extends React.Component {
                   </Row>
                   <Row>
                     <Col>{this.state.numBids}</Col>
-                    <Col>0</Col>
+                    <Col>{this.state.wins}</Col>
                     <Col>{this.state.numFavBids}</Col>
                   </Row>
                 </CardBody>
@@ -468,7 +481,7 @@ class UserProfile extends React.Component {
                         <Col>-</Col>}
                         {i.type == null ?<Col style={{width:"110px"}}>-</Col>:
                         i.type=='1'?
-                        <Col style={{width:"110px"}}>Appatment/Studio</Col>:
+                        <Col style={{width:"110px"}}>Appartment/Studio</Col>:
                         i.type=='2'?
                         <Col style={{width:"110px"}}>Industrial Buildings</Col>:
                         i.type=='3'?

@@ -1,12 +1,11 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 import CountBids from "../Components/CountBids";
-import { DropdownButton, Dropdown } from "react-bootstrap";
 import welcome from "../images/welcome.jpeg";
 import { MDBIcon } from "mdbreact";
 import "../style/MyAuctions.css";
 import MainCategories from "./MainCategories";
-import Near from '../Components/Near'
+import Near from "../Components/Near";
 import firebase from "../utils/firebase";
 import { Button, Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import axios from "axios";
@@ -19,37 +18,119 @@ class welcomePage extends React.Component {
       auctions: [],
       lists: [],
       fl: true,
+      ttype: "",
       num: 0,
-      last_name:"",
-      first_name:"",
-      itemslist:[],
-      longitude:0,
-      latitude:0
+      last_name: "",
+      first_name: "",
+      itemslist: [],
+      category: 0,
+      longitude: "a",
+      latitude: "a",
+      area_min: "a",
+      area_max: "a",
+      area: 0,
+      beds: "a",
+      electricity: "a",
+      elevator: "a",
+      parking: "a",
+      baths: "a",
+      type: 0,
+      recoms:[],
+      types: "a",
     };
   }
-  
+  async getInterests() {
+    axios.defaults.withCredentials = true;
+    await axios.get(`/api/getInterests`).then((res) => {
+      // console.log(res)
+      if(res.data.items.length>0){
+      switch (res.data.items[0].type) {
+        case "1":
+          this.setState({ ttype: "Appartment/Studio" });
+          break;
+        case "2":
+          this.setState({ ttype: "Industrial Buildings" });
+          break;
+        case "3":
+          this.setState({ ttype: "Houses" });
+          break;
+        case "4":
+          this.setState({ ttype: "Villas" });
+          break;
+        case "5":
+          this.setState({ ttype: "Buildings" });
+          break;
+        case "6":
+          this.setState({ ttype: "Bungalows" });
+          break;
+        case "7":
+          this.setState({ ttype: "Offices" });
+          break;
+        case "8":
+          this.setState({ ttype: "Shops" });
+          break;
+      }
+      this.setState({
+        area: res.data.items[0].area,
+        type: res.data.items[0].type,
+      });
+    }
+  else{
+    this.setState({
+      area: 0,
+      type: 0,
+    });
+  }});
+
+    await this.recomend();
+  }
+  async recomend() {
+    let formData = {
+      type: this.state.ttype,
+      category: this.state.category,
+      area: this.state.area,
+    };
+    //  console.log(this.state.types)
+    axios.defaults.withCredentials = true;
+    axios.post(`/api/recomend`, formData).then((res) => {
+      // console.log(res.data.items);
+      this.setState({recoms:res.data.items})
+    });
+  }
   async componentDidMount() {
-    axios.defaults.withCredentials=true;
-     await   axios.get('/api/user').then((response)=>{
-      console.log(response)
-       this.setState({
-        first_name:response.data.first_name,
-        last_name:response.data.last_name,
-        user_id:response.data.id,
-       })
-      })
-     
+    axios.defaults.withCredentials = true;
+    await axios.get("/api/user").then((response) => {
+      // console.log(response)
+      this.setState({
+        first_name: response.data.first_name,
+        last_name: response.data.last_name,
+        user_id: response.data.id,
+      });
+    });
+    await this.getInterests();
     await this.getAuctions();
     await this.getBidsHistory();
+    // await this.recomend();
   }
+
   getAuctions() {
     axios.defaults.withCredentials = true;
     axios.get("/api/getUAuctions").then((res) => {
-      console.log(res.data.items);
+      // console.log(res.data.items);
       this.setState({ auctions: res.data.items });
     });
   }
-
+getParAuctions(){
+  const ids=this.state.itemslist;
+  let items=[];
+  ids.map((i)=>{
+  items.push(i.item_id);
+  })
+  axios.defaults.withCredentials=true;
+  axios.post('/api/getParAuctions',items).then((res)=>{
+    console.log(res);
+  })
+}
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -63,25 +144,13 @@ class welcomePage extends React.Component {
       }
       // this.setState({ lists: list });
       const items = [];
-      list.map((i)=>{
-        if(i.user_id==this.state.user_id)
-        items.push(i);
-      })
+      list.map((i) => {
+        if (i.user_id == this.state.user_id) items.push(i);
+      });
       // console.log(items)
-      this.setState({itemslist:items})
+      this.setState({ itemslist: items });
     });
   };
-// getItemsById=()=>{
-//   let formData={
-//     data:this.state.itemslist,
-//     n:this.state.itemslist.length
-//   }
-//   axios.defaults.withCredentials = true;
-//   axios.post("/api/getItemsById",formData).then((res) => {
-//     console.log(res)
-// }
-//   )
-// }
 
   rendarTimeLaps(item) {
     var now = new Date().getTime();
@@ -110,59 +179,120 @@ class welcomePage extends React.Component {
   };
   renderItems() {
     const data = this.state.auctions;
-    let ind=0;
+    let ind = 0;
     const maxbids = this.state.lists;
-    return(
-    <Row>
-  
-      {data.map((item, index) =>{let max = 0; return(
-          <Row className="xsmall" key={index}>
-            <Col>
-              <img className="cover" src={item.auction_images[0].path} />
-            </Col>
-            <Col>
-              {item.auction_categories_id === 1 ? (
-                <i>Residential</i>
-              ) : item.auction_categories_id === 2 ? (
-                <i>Commercial</i>
-              ) : item.auction_categories_id === 3 ? (
-                <i>Industrial</i>
-              ) : (
-                <i>Any</i>
-              )}
-              <br />
-              {item.type}
-            </Col>
-            <Col>
-              <i>{item.area} sqft </i>
-              <br />
-              {this.rendarTimeLaps(item)}
-            </Col>
-            <Col>
-            
-              <CountBids id={item.id} />
-               bids <br />
-              {maxbids.map((i, ind) => {
-                if (i.item_id == item.id)
-                  if (i.price > max) {
-                    max = i.price;
-                    win = i.username;
-                    ind=ind;
-                  }
-              })}
-              <h6 style={{ marginLeft: "5px" }} id={ind}>
-                {" "}
-                $ {this.numberWithCommas(max)}
-              </h6>
-            </Col>
-          </Row>
-      )})}
-    </Row>
-    )
+    return (
+      <Row>
+        {data.map((item, index) => {
+          let max = 0;
+          return (
+            <Row className="xsmall" key={index}>
+              <Col>
+                <img className="cover" src={item.auction_images[0].path} />
+              </Col>
+              <Col>
+                {item.auction_categories_id === 1 ? (
+                  <i>Residential</i>
+                ) : item.auction_categories_id === 2 ? (
+                  <i>Commercial</i>
+                ) : item.auction_categories_id === 3 ? (
+                  <i>Industrial</i>
+                ) : (
+                  <i>Any</i>
+                )}
+                <br />
+                {item.type}
+              </Col>
+              <Col>
+                <i>{item.area} sqft </i>
+                <br />
+                {this.rendarTimeLaps(item)}
+              </Col>
+              <Col>
+                <CountBids id={item.id} />
+                bids <br />
+                {maxbids.map((i, ind) => {
+                  if (i.item_id == item.id)
+                    if (i.price > max) {
+                      max = i.price;
+                      win = i.username;
+                      ind = ind;
+                    }
+                })}
+                <h6 style={{ marginLeft: "5px" }} id={ind}>
+                  {" "}
+                  $ {this.numberWithCommas(max)}
+                </h6>
+              </Col>
+            </Row>
+          );
+        })}
+      </Row>
+    );
+  }
+  renderRecoms() {
+    let ind = 0;
+    const maxbids = this.state.lists;
+    const recom=this.state.recoms;
+  if(recom.length>0){
+    return (
+      <Row>
+        {recom.map((item, index) => {
+          let max = 0;
+          return (
+            <Row className="xsmall" key={index}>
+              <Col>
+                <img className="cover" src={item.auction_images[0].path} />
+              </Col>
+              <Col>
+                {item.auction_categories_id === 1 ? (
+                  <i>Residential</i>
+                ) : item.auction_categories_id === 2 ? (
+                  <i>Commercial</i>
+                ) : item.auction_categories_id === 3 ? (
+                  <i>Industrial</i>
+                ) : (
+                  <i>Any</i>
+                )}
+                <br />
+                {item.type}
+              </Col>
+              <Col>
+                <i>{item.area} sqft </i>
+                <br />
+                {this.rendarTimeLaps(item)}
+              </Col>
+              <Col>
+                <CountBids id={item.id} />
+                bids <br />
+                {maxbids.map((i, ind) => {
+                  if (i.item_id == item.id)
+                    if (i.price > max) {
+                      max = i.price;
+                      win = i.username;
+                      ind = ind;
+                    }
+                })}
+                <h6 style={{ marginLeft: "5px" }} id={ind}>
+                  {" "}
+                  $ {this.numberWithCommas(max)}
+                </h6>
+              </Col>
+            </Row>
+          );
+        })}
+      </Row>
+    );
+      }
+      else{
+       return <Row style={{color:"#32b69b",marginLeft:"80px"}}>Oops!! there is no recommendations,<br />please make sure
+           that you have at least one interest on your profile</Row>
+      }
   }
 
   render() {
     const data = this.state.auctions;
+    const rec=this.state.itemslist;
     return (
       <div className="home">
         <Navbar />
@@ -176,23 +306,8 @@ class welcomePage extends React.Component {
         >
           <h2 style={{ color: "transparent" }}>nbkn</h2>
           <div className="boxSearch">
-            <h6 style={{ color: "transparent" }}>nbkn</h6>
-            <h1>
-              <strong>Bid, Win and Close with confidence !! </strong>
-            </h1>
-            <input
-              type="text"
-              className="locs"
-              placeholder=" Address, city, state, country..."
-            />
-            <button className="buts">
-              <MDBIcon icon="search"></MDBIcon>
-            </button>
-             {/* <DropdownButton className="locs" title="Address, city, state, country..." id="location" onSelect={()=>this.handleSelectcat}> 
-                    <Dropdown.Item eventKey="1"><MDBIcon icon="map-pin"/> Current Location</Dropdown.Item>
-                   </DropdownButton> */}
-                   {/* <Near /> */}
-            
+           
+            {/* <Near /> */}
           </div>
         </div>
         <MainCategories />
@@ -223,7 +338,11 @@ class welcomePage extends React.Component {
                 >
                   <h3>Recomended for you </h3>
                 </CardHeader>
-                <CardBody></CardBody>
+                <CardBody>
+                <Row>
+                {rec && this.renderRecoms()}
+                </Row>
+                </CardBody>
               </Card>
             </Col>
           </Row>

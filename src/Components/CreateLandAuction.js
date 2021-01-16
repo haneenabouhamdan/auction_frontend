@@ -1,11 +1,8 @@
 import React from "react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
 import firebase from "../utils/firebase";
 import "../style/MyAuctions.css";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import {
   Card,
   CardHeader,
@@ -17,7 +14,7 @@ import {
 } from "reactstrap";
 import "../App.css";
 import SearchableMap from "./Mymap";
-import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import { MDBRow, MDBCol } from "mdbreact";
 
 import UserSidebar from "./UserSidebar";
 import { DropdownButton, Dropdown } from "react-bootstrap";
@@ -50,7 +47,6 @@ class CreateLandAuction extends React.Component {
       item_id: 0,
       image: "",
       images: [],
-      emails: [],
       feedback: "",
       emails: [],
       send_to: "",
@@ -119,7 +115,7 @@ class CreateLandAuction extends React.Component {
       owner: this.state.first + " " + this.state.last,
       owner_id: this.state.owner,
       image: this.state.image,
-      flag:0,
+      flag: 0,
     };
     notsref.push(not);
   };
@@ -201,7 +197,7 @@ class CreateLandAuction extends React.Component {
         });
       });
     // this.sendNot();
-   
+
     const templateId = "template_rn864da";
     emails.map((i) => {
       console.log(i);
@@ -222,7 +218,7 @@ class CreateLandAuction extends React.Component {
       Balcony: 0,
       type: "",
       parking: 0,
-      description:"",
+      description: "",
       elevator: false,
       electricity: false,
       heating_cooling: false,
@@ -233,7 +229,7 @@ class CreateLandAuction extends React.Component {
       final_price: 0,
       auction_categories_id: "",
       images: [],
-    })
+    });
   };
 
   render() {
@@ -329,7 +325,6 @@ class CreateLandAuction extends React.Component {
                   <Dropdown.Item eventKey="4">Agricultural</Dropdown.Item>
                   <Dropdown.Item eventKey="5">Others</Dropdown.Item>
                 </DropdownButton>
-              
 
                 <div className="img images">
                   <ImageUploading

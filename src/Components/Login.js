@@ -356,11 +356,6 @@ class Login extends React.Component {
                 </div>
                 <label className="message">{this.state.CountryErr}</label>
 
-                {/* <div style={{display:"flex",width:"350px"}}>
-        <MDBIcon fas icon="hand-holding-usd" style={{padding: "10px",marginTop:"5px"}}/>
-        <input type="text" onChange={this.handleChange} value={this.state.balance} name ="balance" placeholder="Balance"  /></div>
-        <label className="message">{ this.state.balanceErr }</label> */}
-
                 <div style={{ display: "flex", width: "400px" }}>
                   <MDBIcon
                     fas
@@ -389,9 +384,7 @@ class Login extends React.Component {
                   />
                 </div>
                 <label className="message">{this.state.passErr}</label>
-                {/* <a onClick={this.handleClickOpen}>
-         Choose Location
-        </a> */}
+              
                 <br />
                 <button className="buttonlogin" onClick={this.onSubmitt}>
                   Sign Up
@@ -406,7 +399,7 @@ class Login extends React.Component {
                   <MDBIcon
                     fas
                     icon="envelope"
-                    style={{ padding: "10px", marginTop: "10px" }}
+                    style={{ padding: "10px", marginTop: "5px" }}
                   />
                   <input
                     type="email"
@@ -420,7 +413,7 @@ class Login extends React.Component {
                   <MDBIcon
                     fas
                     icon="lock"
-                    style={{ padding: "10px", marginTop: "10px" }}
+                    style={{ padding: "10px", marginTop: "5px" }}
                   />
                   <input
                     onChange={this.handleChange}

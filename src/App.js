@@ -16,6 +16,8 @@ import IndItems from './Components/Industrial';
 import ItemDetails from './Components/ItemDetails';
 import UserItems from './Components/userAuctions';
 import Favorites from './Components/Favorites';
+import WonItems from './Components/WonAuctions';
+import WonDetails from './Components/WonDetails';
 
 const history = createBrowserHistory();
 
@@ -39,6 +41,8 @@ function App() {
         <Route exact path="/logout" component={Login} /> 
         <Route exact path="/residentialitems" component={ResItems} /> 
         <Route exact path="/commercialitems" component={ComItems} /> 
+        <Route exact path="/wonauctions" component={WonItems}/>
+        <Route exact path="/WonDetails/:id" component={WonDetails}/>
         <Route exact path="/industrialitems" component={IndItems} /> 
         <Route exact path="/itemDetails/:id" component={ItemDetails}/>
         <Route exact path="/userprofile" component={UserProfile} /> 

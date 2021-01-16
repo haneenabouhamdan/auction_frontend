@@ -9,7 +9,7 @@ function handleClick(value){
     v.className="enlarge";
   }
     const imagelist = images.map((value)=>{
-           return  <img id={value.id} className="img" onClick={handleClick(value.id)} src={value.path}/>
+           return  <img id={value.id} alt="i" className="img" onClick={handleClick(value.id)} src={value.path}/>
     }     
     );
     
