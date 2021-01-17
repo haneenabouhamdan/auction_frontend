@@ -32,6 +32,7 @@ class Navbar extends Component {
   };
 
   componentDidMount() {
+    if(sessionStorage.getItem('logged In')){
     axios.defaults.withCredentials = true;
     axios.get("/api/user").then((response) => {
       this.setState({
@@ -40,6 +41,7 @@ class Navbar extends Component {
       });
     });
   }
+}
   logout = (e) => {
     e.preventDefault();
     axios.get("/sanctum/csrf-cookie").then((response) => {
@@ -98,6 +100,11 @@ class Navbar extends Component {
             </MDBNavItem>
           </MDBNavbarNav>
           )}
+          <MDBNavbarNav left>
+              <MDBNavItem>
+             
+              </MDBNavItem>
+            </MDBNavbarNav>
             <MDBNavbarNav left>
               <MDBNavItem>
                 <a href="/welcomePage">
@@ -105,6 +112,11 @@ class Navbar extends Component {
                     <MDBIcon fas icon="home" className="Navv" /> D.P.M
                   </h3>
                 </a>
+              </MDBNavItem>
+            </MDBNavbarNav>
+            <MDBNavbarNav right>
+              <MDBNavItem>
+             
               </MDBNavItem>
             </MDBNavbarNav>
             <MDBNavbarNav right>

@@ -94,13 +94,11 @@ class SearchableMap extends React.Component {
               longitude={Number(item.longitude)}
               latitude={Number(item.latitude)}
             >
-              <h3>
-                <h6 style={{ backgroundColor: "white" }}>
-                  {this.numberWithCommas(item.area)} sqft<br/>
-                  {this.numberWithCommas(item.starting_price)} $ <br/>
-                </h6>
-                <MDBIcon icon="map-marker-alt" />
-              </h3>
+                <div style={{ backgroundColor: "white",borderRadius:"10px",boxShadow: '2px 2px 2px #0000 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1)' }}>
+                 {this.numberWithCommas(item.area)} sqft<br/>
+                 $ {this.numberWithCommas(item.starting_price)} <br/>
+                </div>
+               <h4><MDBIcon icon="map-marker-alt" /></h4> 
             </Marker>
           ))}
           <div

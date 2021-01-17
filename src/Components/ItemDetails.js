@@ -4,6 +4,8 @@ import "../App.css";
 import firebase from "../utils/firebase";
 import {MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ViewOnMapd from "./ViewOnMapd";
+// import SmartGallery from 'react-smart-gallery';
+import SGallery from './ImageGallery';
 import Gallery from "./gallery";
 import Navbar from "./Navbar";
 import { CardBody, Card, CardHeader } from "reactstrap";
@@ -63,7 +65,7 @@ class ItemDetails extends React.Component {
 
   getUser() {
     axios.defaults.withCredentials = true;
-    axios.get("/api/getUser/".concat(this.state.users_id)).then((res) => {
+    axios.get("/api/getUser/".concat(this.state.owner_id)).then((res) => {
       console.log(res);
       this.setState({
         first_name: res.data.user.first_name,
@@ -83,7 +85,6 @@ class ItemDetails extends React.Component {
     console.log(data.users_id)
     axios.defaults.withCredentials = true;
     await axios.get("/api/getDetails/".concat(data)).then((res) => {
-      console.log(res.data.item[0]);
       this.setState({
         longitude: res.data.item[0].longitude,
         latitude: res.data.item[0].latitude,
@@ -110,6 +111,7 @@ class ItemDetails extends React.Component {
         actual_close_date:res.data.item[0].actual_close_date
       });
     });
+   
     await this.getUser();
   }
   numberWithCommas(x) {
@@ -233,7 +235,8 @@ class ItemDetails extends React.Component {
           <MDBCol md="10">
             
             <div className="details">
-              <Gallery images={data} />
+              {/* <Gallery images={data} /> */}
+              <SGallery images={data} />
             </div>
           </MDBCol>
         </MDBRow>
@@ -406,11 +409,11 @@ class ItemDetails extends React.Component {
                     {maxbids.map((i, ind) => {
                       if (i.item_id == this.state.id)
                         return (
-                          <MDBRow key={ind}>
+                          <MDBRow key={ind} style={{width:"280px"}}>
                             <i id={ind} style={{ color: "white" }}>,,,,,,,</i>
                             <>{i.username}</>{" "}
-                            <i id={ind} style={{ color: "white" }}>,,,,,,,</i>{" "}
-                            {this.numberWithCommas(i.price)} $
+                            <i id={ind} style={{ marginTop:"10px",color: "white" }}>,,,,,</i>{" "}
+                            $ {this.numberWithCommas(i.price)}
                           </MDBRow>
                         );
                     })}

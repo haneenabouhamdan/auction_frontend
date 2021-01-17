@@ -23,7 +23,7 @@ class MainCategories extends React.Component {
             <div style={{padding:"20px",marginLeft:"30px"}}>  
              <div>
             <Row className="row">
-            <Col className="MCol">
+            <Col className="MCol" style={{width:"400px"}}>
             <Card className="MsmallCard">
                 <CardHeader style={{backgroundColor:"white",height:"150px"}}>
                 <a href='/residentialitems'>

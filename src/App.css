@@ -3,7 +3,10 @@ body {
   margin: 0;
   padding: 0;
 overflow-x: hidden; 
-/* overflow-y:hidden; */
+
+}
+body{
+  overflow-y:hidden;
 }
 
 .App {
@@ -76,6 +79,16 @@ overflow-x: hidden;
  height: 230px !important;
  padding: 10px;
 }
+.itemms{
+  height: 230px !important;
+  /* width:600px; */
+
+ padding: 10px;
+ display: flex;
+}
+.itemms i{
+  color:#32b69b;
+}
 .images{
   height: 300px !important;
   padding: 12px;
@@ -133,15 +146,19 @@ font-weight: 300;
 .bidss{
 max-width:120px !important;
 }
+.biss{
+  max-width:180px !important;
+}
 .details{
   width:90% !important;
-  margin-top: 20px;
+  margin-top: 70px;
   margin-left: 150px;
   overflow-x: hidden; 
   overflow-y: auto; 
   text-align:justify; 
-  padding: 20px;
-  height:490px !important;
+  /* padding: 20px; */
+  height:520px !important;
+  border-radius: 20px;
 }
 .enlarge {
   transform:scale(3,3);
@@ -297,6 +314,7 @@ max-width:120px !important;
   width: 600px;
 
 }
+
 .searchbtn{
   border:0;
   background-color: #32b69b  !important;
@@ -382,9 +400,16 @@ max-width:120px !important;
   margin-left: 260px;
   margin-top: 30px;
 }
+.imagess{
+  width:250px;
+  margin-top: 30px;
+}
 .loc{
   margin-right: 300px;
   font-weight: 300;
+}
+.its{
+  display: flex;
 }
 .closee{
   margin-top: 30px;

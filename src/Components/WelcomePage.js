@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../Components/Navbar";
 import CountBids from "../Components/CountBids";
 import welcome from "../images/welcome.jpeg";
+import w1 from "../images/w1.jpeg"
 import { MDBIcon } from "mdbreact";
 import "../style/MyAuctions.css";
 import MainCategories from "./MainCategories";
@@ -289,6 +290,9 @@ getParAuctions(){
            that you have at least one interest on your profile</Row>
       }
   }
+  drag=()=>{
+    window.scrollTo(0,document.body.scrollHeight);
+  }
 
   render() {
     const data = this.state.auctions;
@@ -300,52 +304,29 @@ getParAuctions(){
         <div
           className="search"
           style={{
-            backgroundImage: `url(${welcome})`,
-            backgroundSize: "100% 600px",
+            backgroundImage: `url(${w1})`,
+            backgroundSize: "100% 450px",
+            overflow:"none"
           }}
         >
-          <h2 style={{ color: "transparent" }}>nbkn</h2>
-          <div className="boxSearch">
-           
-            {/* <Near /> */}
+          <div style={{float:"left",width:"300px",height:"400px"}}>
+            <div id="near">Go<br /> Near</div>
+            <br />
+          <button id="nearby" onClick={this.drag}>Explore nearby auctions</button>
+         
           </div>
+        </div>
+        <div style={{width:"100%"}}>
+        <h3 style={{marginTop:"30px",marginLeft:"30px",opacity:0.8,fontWeight:350,textAlign:"center"}}>Find available properties by category</h3>
+      
         </div>
         <MainCategories />
         <hr />
-
-        <div style={{ padding: "20px", marginLeft: "30px" }}>
-          <Row className="row">
-            <Col className="MCol">
-              <Card className="lCard">
-                <CardHeader
-                  style={{ backgroundColor: "white", height: "80px" }}
-                >
-                  <h3>Your Activities</h3>
-                </CardHeader>
-                <CardBody>
-                  <Row>
-                    <Col>Active Auctions</Col>
-                  </Row>
-                  {data && this.renderItems()}
-                </CardBody>
-              </Card>
-            </Col>
-            {/* </Row> */}
-            <Col className="MCol">
-              <Card className="lCard">
-                <CardHeader
-                  style={{ backgroundColor: "white", height: "80px" }}
-                >
-                  <h3>Recomended for you </h3>
-                </CardHeader>
-                <CardBody>
-                <Row>
-                {rec && this.renderRecoms()}
-                </Row>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+        <div style={{width:"100%"}}>
+        <h3 style={{marginTop:"30px",marginLeft:"30px",opacity:0.8,fontWeight:350,textAlign:"center"}}>Explore nearby auctions to your location</h3>
+        </div>
+        <div style={{ marginLeft: "20px",width:"100%" }}>
+           <Near/>
         </div>
       </div>
     );

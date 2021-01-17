@@ -48,7 +48,7 @@ class AddBidD extends React.Component{
       };
     render(){
         if(!sessionStorage.getItem('loggedIn')){
-            return <div style={{marginBottom:"10px",color:"red"}}>Login To Submit A Bid !!</div>
+            return <div style={{marginBottom:"10px",color:"#50a685"}}>Login To Submit A Bid </div>
         }
        
         return(

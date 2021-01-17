@@ -215,9 +215,9 @@
   margin-right: 10px;
 }
 .MsmallCard{
-  margin-top: 30px;
+  margin-top: 10px;
   text-align: center;
-  height: auto;
+  height: 360px;
   padding: .4375rem .75rem;
   font-size: .8125rem;
   line-height: 1.5;
@@ -226,7 +226,7 @@
   border: 1px solid #e1e5eb;
   font-weight: 300;
   border-radius: .35rem; 
-  width:350px;
+  width:360px;
   box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
 }
 #dialogAct{
