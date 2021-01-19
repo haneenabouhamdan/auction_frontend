@@ -140,7 +140,6 @@ class ResItems extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
-      this.closeAuc(item.id,win);
       return "Auction Ended";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));

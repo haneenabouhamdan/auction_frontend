@@ -27,6 +27,9 @@ class UserItems extends React.Component {
       winner_email: "",
       owner_email: "",
       owner_tel: "",
+      elevator:0,
+      electricity:0,
+      elevator:0,
       owner_name: "",
       location: "",
       feedback: "",
@@ -330,13 +333,13 @@ class UserItems extends React.Component {
                 )}
                 <MDBRow>
                   <div className="servic">
-                    {this.state.elevator === "0" ? " " : " elevator "}
+                    {item.elevator === 0 ? " " : " elevator "}
                     <strong> . </strong>
-                    {this.state.heating_cooling === "0"
+                    {item.heating_cooling === 0
                       ? " "
                       : " heating and cooling "}
                     <strong> . </strong>
-                    {this.state.electricity === "0" ? " " : " electricity "}
+                    {item.electricity === 0 ? " " : " electricity "}
                   </div>
                 </MDBRow>
                 <MDBRow>

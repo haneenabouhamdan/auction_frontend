@@ -2,18 +2,18 @@ import React from "react";
 import axios from "axios";
 import Slideshow from "./Slideshow";
 import Pagination from "react-js-pagination";
-import { MDBRow, MDBCol } from "mdbreact";
+import {  MDBRow, MDBCol } from "mdbreact";
 import "../App.css";
 import { Multiselect } from "multiselect-react-dropdown";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import firebase from "../utils/firebase";
 import Navbar from "../Components/Navbar";
-import CountBids from "./CountBids";
 import AddBid from "./AddBid";
+import CountBids from "./CountBids";
 import { MDBIcon } from "mdbreact";
 import ViewOnMap from "./ViewOnMap";
 let win="";
-class ComItems extends React.Component {
+class ResItems extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,16 +27,23 @@ class ComItems extends React.Component {
       user: "",
       setOpenDet: false,
       item: "",
-      category: 0,
-      area_min: 0,
-      area_max: 0,
-      Services: "",
+      category: 'a',
+      cat:1,
+      beds:'a',
+      electricity:'a',
+      elevator:'a',
+      parking:'a',
+      baths:'a',
+      area_min: 'a',
+      area_max: 'a',
+      services: 'a',
       fl: true,
       services: [],
-      types: [],
+      types: 'a',
     };
 
     this.rendarTimeLaps = this.rendarTimeLaps.bind(this);
+    this.filter=this.filter.bind(this)
   }
   async componentDidMount() {
     await this.getAllItems();
@@ -50,7 +57,7 @@ class ComItems extends React.Component {
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
     await axios
-      .get(`/api/getCommercialItems?page=${pageNumber}`)
+      .get(`/api//getCommercialItems?page=${pageNumber}`)
       .then((res) => {
         const coor = res.data.items.data;
         coor.map((item) => {
@@ -79,9 +86,11 @@ class ComItems extends React.Component {
     searchBox: {
       "border-bottom": "1px solid lightgrey",
       "border-radius": "2px",
-      height: "50px",
+      height: "46px",
+      marginLeft:"20px",
+      marginTop:"5px",
       color: "grey",
-      "font-weight": "200",
+      fontWeight: 300,
     },
     multiselectContainer: {
       color: "grey",
@@ -153,9 +162,9 @@ class ComItems extends React.Component {
       <React.Fragment>
        
         <div>
-          {data.map((item, index) => {let max = 0; return(
-            <MDBRow className="items">
-              <MDBCol md="4">
+          {data.map((item, index) => {let max = 0; return(        
+            <MDBRow className="items" key={index}>
+              <MDBCol md="4" style={{marginTop:"10px"}}>
                 <Slideshow className="images" images={item.auction_images} />
               </MDBCol>
              
@@ -168,7 +177,6 @@ class ComItems extends React.Component {
                   >
                     <img
                       style={{ width: "20px", height: "20px" }}
-                      alt="Commercial"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAO0AAADVCAMAAACMuod9AAAAhFBMVEX///8AAAD8/Pz5+fnt7e3Ly8v29vb6+vrc3NwqKiowMDAlJSXg4ODz8/NISEjk5OTT09NNTU1YWFg+Pj7Hx8eYmJgmJiavr68aGho4ODi3t7cWFhZycnJERERhYWFra2uDg4N5eXkeHh6jo6OQkJBlZWVUVFS+vr4LCwuAgICpqamLi4uDYST4AAAJBUlEQVR4nO2da2PiKhCGU2/bxtZbdW3V3aqttav///+deKtmeIdcGBKg5/0YY+AJMAwMkCgqq357Ovm3GD3H3W43fh69rSbTdr/009hUBqdUHtYv627c2yz2u+19UzwZne53i/gOK17sBkKpPE5Xz0wqX38n445QMvo8vH8yWbjq8/3RMJXWdJOZyuu+LULEarBfZ2bipPmyfBH3J685U7l72wrSpdSa5EU9A09aJVJp7rjqy2gl1XJu1R4Vy8RRo6J17XFVIpV4Ksw6eyiRi4MeZgVSGQxLpnI3aQiyzsvmItE8L++gZ5DK3YcQb7tsuV70O0997pdpKSm9C7Ca5yLRKMteNZYCqXSNe6SJQC4OmmhT2QqlsjFyOR5NK/FVMe9wNP+KpXJXxCgSSRXsSVzxjkVT2ZRk7RjZSKAh9OYlWmxK92VgB9K5gBnp/JFPZVccdpf1zPloPx33W51jP9dp9cfT/SizX6bN6j4z673lbvvYejqm0mz127OPTTfrP4uisPr6FS+3uE9pbZfcWPCkj9Ttels8X8zwgPmpPdG3sl4xV0NnJXs7fe/Z2ukcwNv3rqs/8UQ/auzMdGPC7lMBWD67+QY2rQlfp0ffd2lM/jKPqWlONcOl/OMv1nL08g8nx+xDhuc7PrgbXvKbmfs3Y1wun8NiI0l2RDPUwnaLOQithRkuk8m4uBfaZizWUANbfKzKevJ52i7T+MuNmBk79MnBLkul0sZ90vpX5j9x11Pa3X7C1h1nT+NLZwi/vD9Zf5vCvxn42tEMPhFpb5DK/Qt64lvGn+ArL9J5qWrlHEgZjk5hC9SO8JvoHyuzXCTiu4mrXs1eaaJ39FhdN4LMscQECNu1fuuvQCpt9GA+ioKcG5np6azGuxRJpQ+ePOJufgQ3SwUf9P7/R/YDcqn1pT6b6zpBPEJuHl43Q6GftCqiJ4CLfSpQjyXDSjyuHGxSuurjYV0G98mGlKAREYaFbRdhqE6PbDY43ApSUW9Sp6EyHBGZjIjDIt9cTUMxUbF4NhCuPCxyZqiXr/YQZYKvmaK4NmCjSBlzLMkNv+kN0jHRs9K4dmCBt592S5XugXVBTHWLawkWdKbp4ZUynWWlHh91NYfWYKNIWTNxO+WqGGSJoQCnS2IWYfVA1IrNLWbkkhWbsKr38HL96Ym+CWvrck4aWIdVPcOrE0z7YxtdbUoD27BRtCJM10gn9SwsF20i+QWRVErhXjwM6kh3rWelCtFZ9ctMIu2dLDkWFYvOTVw8CFqRBVda1Ska9DxVZVrDzecY3RCdC9vCqzZWSdahBixF0pxfMh7ij4jPtD5eJIFlk/iEW6Kj2IPvT5ttKBVZjXwc+iD6BurOo6BI6GMZKVELiRCFKyKORC+5RCLbNsd6VYuO+5JLwTZbteG2lF7JOLDokshs24C6k191Z1BUpMed0TnPkIyUYqYmdKHFv7ozKCriFK9o/D4kk6wY5bdoT6t2SCLzFMNolb4wrjuDoiLTizEdAZVapu6u0nAvlNb+9FilSsN90S4paNq7/2kDEq3JP8lKzaNV+oLlregVq5OGewjbuyCzUH+o5xhGnOAisiRhQ0cF4cw4HkTm3Fb0gvwiqTpFQrUftLDDiO9dtKLNlMblAwl5nUR2No0VdyOoDpew9ZXAX0hGmYZwk0v/0lcK7111WKS/idVLIU06kk0zh4KkxW16WJJDImQ7cC2ceTgaGDkaYBIIeq47k2IiQ4BT9JLukbK3oLNikTD8KTBAG671ZWoVia78Pvet5B2EsvCCLlU911m65TaMOWXqEr+er1Pb9VlrLqVEV/h9N1C6HSwIX5kwXecXqakOIaxJe5rrrnJlN1gAhUuRbkY7dAFk5vZ656Xsb74Ztyt7n+yvx7YrZe/A8vZXZdtqPZkUk3LgRyoGouywX9aTSyEpdZXYXfqz1+umOgoNMbtK4X55PB2n1GNln57yOvztdNWDL5QZCvXIFl+H9bn2TaunI/k5OlA6H7iaEZxo6OUUlXqkNRywg0O4PJzGUI+Kw8EedCSPdytawRH0TF8KTleZe4YLDk1jV26Ck5H8wgWwa/5ucMqLT7joSwoaS4tOIfIHF8Fqj4ZEx8L5gotgM5YarBBuJZ/0MBWCzdwkjg5LW3uAC79+klkrG+iEPvdxIWwOXxAdv+U8LoTNNUQHx2q5jguPjs05qPEOF8Lmnkj0DNcMlsHtVvs5rdwyqcYneYRrDsvg/nYQVwKWw80+f7liycDiUz6dw5WCZXAfnKrMcrCMV/XgUOlKwnK4zgQR4Nc3DKaFncaVhmVwYydw5WEdxrUB6yyuHdgEF30O5rVmXAgrsk8Nlm69uPZgHcS1CcvhSj29sOAXfQS3WzqFaxuWM1WSKeSWfdgEF32jpY5F+VXAOoNr10BdBStz1bjVlOxBDuBWB+sALoS1tmivUy9utbAJLvrifFWLmeGHFa0ux3yqD7fqkj0I4vbspnlUHbBMZbaPWw9sgovcDNu41bfZi2rArQ+2hspcJ2yCiz6DaQ+3XlgGd5j9v1KqG7ZS3PphK8R1ATaKmshUyeOCLyLWsnunElxXYBNc+5XZHdgEFy0SFNyY3XAJlsEV+/6ZY7B2cZ2DtYnrIGwU/VI+WyiEC2Fr3+HeQJbZHFfdZ+cCLLN82xC34SpsUplR1oxwHYZNTBXKnMH2XWygHIGVxnUclqnMm+z/ITldjU+CpqpU6XoAK4cLn+MaLFMmhXE9gWVwC7Zd2P5dhGVsaaETij2CNcf1CpapzLlxPYM1w8UGyu1DKErjNtDQ0XHY0m0XjpNdh2VwMw9lhnMg7sOWw/UWtgyux7DFcb2GjfAUGosLYw5efbqnAK7/sAVwQ4DFcVfwtXMYB/YONiduBzoV/sHmwg0HNgduKNX4pAxcuO7KW9gM3NBgtbjhweK1p8dz6UKEZXHDhMW4y1+BwjKr2UKFZdaNq/LwGFSoXLihwObCDQeW2Wx4qzDa7EUZuGHBZuCGVI1P0uCGB6vBDRGWxQ0TlsENFRbihgsLTvsKGVYp3bBhSemGDpvCDR/2BvcnwH7j/gzYM+5PgT3i/hzYKHqrB/Y/cPF6rR4pkrUAAAAASUVORK5CYII="
                     />
                   </button>
@@ -176,31 +184,31 @@ class ComItems extends React.Component {
                 <MDBRow onClick={()=>this.handleClickOpenDet(item)}>
                   <h5 style={{ color: "grey", marginLeft: "15px"}}>{this.rendarTimeLaps(item)}</h5>
                 </MDBRow>
-                <MDBRow style={{marginTop:"20px"}} > </MDBRow>
+                <MDBRow style={{marginTop:"5px"}} > </MDBRow>
                 {item.bedrooms > 0 ? (
                   <div className="flex">
-                    {item.bedrooms} Beds <strong>. </strong>
+                    {item.bedrooms} Beds <label> • </label>
                   </div>
                 ) : (
                   <></>
                 )}
                 {item.bathrooms > 0 ? (
                   <div className="flex">
-                    {item.bathrooms} Baths <strong>. </strong>
+                    {item.bathrooms} Baths <label> • </label>
                   </div>
                 ) : (
                   <></>
                 )}
                 {item.diningrooms > 0 ? (
                   <div className="flex">
-                    {item.diningrooms} Dinings <strong>. </strong>
+                    {item.diningrooms} Dinings <label> • </label>
                   </div>
                 ) : (
                   <></>
                 )}
                 {item.parking > 0 ? (
                   <div className="flex">
-                    {item.parking} Parking <strong>. </strong>
+                    {item.parking} Parking <label>• </label>
                   </div>
                 ) : (
                   <></>
@@ -214,18 +222,18 @@ class ComItems extends React.Component {
                 )}
                 <MDBRow>
                   <div className="servic">
-                    {this.state.elevator === "0" ? " " : " elevator "}
-                    <strong> . </strong>
-                    {this.state.heating_cooling === "0"
+                    {this.state.elevator == "0" ? " " : " Elevator "}
+                    <label> • </label>
+                    {this.state.heating_cooling == "0"
                       ? " "
-                      : " heating and cooling "}
-                    <strong> . </strong>
-                    {this.state.electricity === "0" ? " " : " electricity "}
+                      : " Heating and cooling "}
+                    <label> • </label>
+                    {this.state.electricity == "0" ? " " : " Electricity "}
                   </div>
                 </MDBRow>
-                <MDBRow>
+                <MDBRow style={{marginTop:"5px"}}>
                   <MDBCol>
-                  <CountBids id={item.id}/><strong style={{color:"grey",fontWeight:300}}> Bids</strong>
+                  <CountBids id={item.id}/> <label style={{color:"grey",fontWeight:300}}> Bids</label>
                   </MDBCol>
                   </MDBRow>
                 
@@ -236,17 +244,29 @@ class ComItems extends React.Component {
                   </MDBCol>
                   <MDBCol className="bidss">
                   <i>Current Bid</i><br/>
-                    {maxbids.map((i,ind) => {
-                      if(i.item_id ===item.id)
-                       if(i.price > max) max=i.price;
-                    })}
-                    <h6 style={{marginLeft:"5px"}} id={index.ind}> $ {this.numberWithCommas(max)}</h6>
-             
+                  
+                    {maxbids.map((i,indice) => {
+                      // ind=indice
+                      if(i.item_id ==item.id)
+                       if(i.price > max){ max=i.price; win=i.user_id}
+                      
+                      })}
+                      <div key={index}>
+                    <h6 style={{marginLeft:"5px"}} > $ {this.numberWithCommas(max)}</h6>
+                    </div>
                   </MDBCol>
+                  {sessionStorage.getItem('loggedIn')? (
                   <MDBCol>
                   <i>Your Bid</i><br/>
                   <AddBid item_id={item.id}/>
                   </MDBCol>
+                  ) :
+                  (
+                    <MDBCol>
+                   
+                    </MDBCol>
+                  )
+          }
                 </MDBRow>
                 <hr style={{height:"3px",color:"grey"}}/>
               </MDBCol>
@@ -271,17 +291,18 @@ class ComItems extends React.Component {
   }
   handleOnchange = (val) => {
     this.setState({ Services: val });
+    
   };
   handleSelectcat = (e) => {
     switch (e) {
       case "1":
-        this.setState({ category: 0 });
-        break;
-      case "2":
         this.setState({ category: 1 });
         break;
+      case "2":
+        this.setState({ category: 0 });
+        break;
       case "3":
-        this.setState({ category: 2 });
+        this.setState({ category: 'a' });
         break;
     }
   };
@@ -348,8 +369,8 @@ class ComItems extends React.Component {
         break;
       case "4":
         this.setState({
-          area_min: 10800,
-          area_max: 5500,
+          area_max: 10800,
+          area_min: 5500,
         });
         break;
       case "5":
@@ -360,20 +381,52 @@ class ComItems extends React.Component {
         break;
     }
   };
-  handleClickL() {
-    var x = document.getElementById("ddropdowntyypee");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
+ async filter(pageNumber){
+   if(this.state.services){
+      const data=this.state.services;
+     data.map((i)=>{
+        if(i.cat="electricity")
+        this.setState({electricity:true});
+        if(i.cat="elevator")
+        this.setState({elevator:true});
+        if(i.cat="parking")
+        this.setState({parking:true})
+      }
+      )
     }
-  }
-  handleClickH() {
-    var x = document.getElementById("ddropdowntyypee");
-    if (x.style.display === "none") {
-      x.style.display = "block";
+    let formData={
+      "type":this.state.types,
+      "category":this.state.category,
+      "area_min":this.state.area_min,
+      "area_max":this.state.area_max,
+      "beds":this.state.beds,
+      "baths":this.state.baths,
+      "electicity":this.state.electricity,
+      "elevator":this.state.elevator,
+      "parking":this.state.parking,
+      "cat":this.state.cat
     }
+    console.log(this.state.types)
+    axios.defaults.withCredentials=true;
+    axios.post(`/api/filter?page=${pageNumber}`,formData).then((res)=>{
+      console.log(res.data.item.data);
+      this.setState({bids:res.data.item.data})
+    })
   }
+  // handleClickL() {
+  //   var x = document.getElementById("ddropdowntyypee");
+  //   if (x.style.display === "none") {
+  //     x.style.display = "block";
+  //   } else {
+  //     x.style.display = "none";
+  //   }
+  // }
+  // handleClickH() {
+  //   var x = document.getElementById("ddropdowntyypee");
+  //   if (x.style.display === "none") {
+  //     x.style.display = "block";
+  //   }
+  // }
   render() {
     const bids = this.state;
     const  objectArray= [
@@ -401,10 +454,10 @@ class ComItems extends React.Component {
         <MDBRow  class="h-100">
           <MDBCol md="8" >
           <div className="filters"> 
-                <DropdownButton  title="category" id="category" onSelect={()=>this.handleSelectcat}> 
-                    <Dropdown.Item eventKey="1"><button className="removv" onClick={this.handleClickH}>House</button></Dropdown.Item>
-                    <Dropdown.Item eventKey="2"><button className="removv" onClick={this.handleClickL}>Land</button></Dropdown.Item> 
-                    <Dropdown.Item eventKey="3"><button className="removv" onClick={this.handleClickA}>any</button></Dropdown.Item> 
+                <DropdownButton  title="category" id="category" onSelect={this.handleSelectcat}> 
+                    <Dropdown.Item eventKey="1">House</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Land</Dropdown.Item> 
+                    <Dropdown.Item eventKey="3">any</Dropdown.Item> 
                     </DropdownButton>
                     <DropdownButton  title="Area" id="area" onSelect={this.handleSelectarea}>
                    <Dropdown.Item eventKey="1">Any</Dropdown.Item>
@@ -439,7 +492,7 @@ class ComItems extends React.Component {
                       displayValue="key"
                       style={this.style}
                       showCheckbox={true}
-                      placeholder="Type"
+                      placeholder="TYPE"
                       onSelect={(selectedList, selectedItem)=>{
                         this.setState({
                           types: selectedList
@@ -447,7 +500,7 @@ class ComItems extends React.Component {
                       }}
                       onRemove={(selectedList, removedItem)=>{
                         this.setState({
-                          services: selectedList
+                          types: selectedList
                         })
                       }}
                     />
@@ -458,7 +511,7 @@ class ComItems extends React.Component {
                       displayValue="key"
                       style={this.style}
                       showCheckbox={true}
-                      placeholder="Services"
+                      placeholder="SERVICES"
                       onSelect={(selectedList, selectedItem)=>{
                         this.setState({
                           services: selectedList
@@ -471,7 +524,7 @@ class ComItems extends React.Component {
                       }}
                     />
                     </div>
-                    <button className="searchbtn"><MDBIcon icon="search" /> Search</button>
+                    <button className="searchbtn" onClick={this.filter}><MDBIcon icon="search" /> Search</button>
                     </div>
                     <hr />
           <div style={{height:"400px" ,marginTop:"20px",overflowY:"scroll"}}>
@@ -487,4 +540,4 @@ class ComItems extends React.Component {
     );
   }
 }
-export default ComItems;
+export default ResItems;

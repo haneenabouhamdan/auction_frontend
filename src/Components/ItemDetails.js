@@ -4,9 +4,7 @@ import "../App.css";
 import firebase from "../utils/firebase";
 import {MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ViewOnMapd from "./ViewOnMapd";
-// import SmartGallery from 'react-smart-gallery';
 import SGallery from './ImageGallery';
-import Gallery from "./gallery";
 import Navbar from "./Navbar";
 import { CardBody, Card, CardHeader } from "reactstrap";
 import AddBidD from "./AddBidD";
@@ -409,12 +407,16 @@ class ItemDetails extends React.Component {
                     {maxbids.map((i, ind) => {
                       if (i.item_id == this.state.id)
                         return (
-                          <MDBRow key={ind} style={{width:"280px"}}>
-                            <i id={ind} style={{ color: "white" }}>,,,,,,,</i>
-                            <>{i.username}</>{" "}
-                            <i id={ind} style={{ marginTop:"10px",color: "white" }}>,,,,,</i>{" "}
+                          <div>
+                          <MDBRow key={ind} style={{width:"280px",fontWeight:400,marginTop:"5px"}}>
+                            <MDBCol>
+                            {i.username}
+                            </MDBCol>
+                            <MDBCol>
                             $ {this.numberWithCommas(i.price)}
+                            </MDBCol>
                           </MDBRow>
+                          </div>
                         );
                     })}
                   </MDBRow>
@@ -424,7 +426,7 @@ class ItemDetails extends React.Component {
                       <i style={{ color: "#32b69b" }}>Starting Bid</i>
                     </h6>
                     <h6>
-                      <i style={{ color: "#32b69b", marginLeft: "40px" }}>
+                      <i style={{ color: "#32b69b", marginLeft: "70px" }}>
                         Current Bid
                       </i>
                     </h6>
@@ -437,7 +439,7 @@ class ItemDetails extends React.Component {
                       if (i.item_id == this.state.id)
                         if (i.price > max){ max = i.price; win=i.username;}
                     })}
-                    <h5 style={{ marginLeft: "30px" }}>
+                    <h5 style={{ marginLeft: "60px" }}>
                       ${this.numberWithCommas(max)}
                     </h5>
                   </MDBRow>

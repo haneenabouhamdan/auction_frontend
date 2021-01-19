@@ -70,7 +70,6 @@ class Near extends React.Component {
     var countDownDate = new Date(item.planned_close_date).getTime();
     var timeleft = countDownDate - now;
     if (timeleft < 0) {
-      this.closeAuc(item.id, win);
       return "Auction Ended";
     }
     var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -123,7 +122,7 @@ class Near extends React.Component {
   }
   getitems = () => {
     const data = this.state.auctions;
-    console.log(data);
+    // console.log(data);
     const maxbids = this.state.lists;
     // var n=0;
     return (

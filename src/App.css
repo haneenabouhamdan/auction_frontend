@@ -50,7 +50,6 @@ body{
 .nabar{
   position: -webkit-sticky;
   position: sticky;
-  
 }
 .Navv{
   color:white!important;
@@ -237,7 +236,7 @@ max-width:120px !important;
 #fix{
   width: 280px; 
   margin-right: 40px;
-   height: 600px;
+   height: 800px;
 }
 #category{
   width:150px;

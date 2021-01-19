@@ -32,15 +32,16 @@ class Navbar extends Component {
   };
 
   componentDidMount() {
-    if(sessionStorage.getItem('logged In')){
+    // if(sessionStorage.getItem('logged In')){
     axios.defaults.withCredentials = true;
     axios.get("/api/user").then((response) => {
+      console.log(response)
       this.setState({
         first_name: response.data.first_name,
         last_name: response.data.last_name,
       });
     });
-  }
+  // }
 }
   logout = (e) => {
     e.preventDefault();
