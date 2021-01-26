@@ -129,7 +129,6 @@ getParAuctions(){
   })
   axios.defaults.withCredentials=true;
   axios.post('/api/getParAuctions',items).then((res)=>{
-    console.log(res);
   })
 }
   numberWithCommas(x) {
@@ -273,6 +272,7 @@ getParAuctions(){
                       win = i.username;
                       ind = ind;
                     }
+                    console.log(max)
                 })}
                 <h6 style={{ marginLeft: "5px" }} id={ind}>
                   {" "}

@@ -203,7 +203,7 @@ class WonItems extends React.Component {
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
     await axios.get(`/api/getWon?page=${pageNumber}`).then((res) => {
-      console.log(res.data.item.data);
+      console.log(res);
       this.setState({
         won: res.data.item.data,
         per_page: res.data.item.per_page,
@@ -379,10 +379,13 @@ class WonItems extends React.Component {
             <UserSidebar />
           </MDBCol>
           <MDBCol md="9">
+            {this.state.total === 0 ? <h1 className="tit">You did not won any auction yet !</h1> :
           <h1 className="tit">Congratulations for winning these auctions !</h1>
+    }
             <div style={{ marginTop: "20px", marginLeft: "50px" }}>
-              {this.renderItems()}
+              {()=>this.renderItems()}
             </div>
+            
           </MDBCol>
         </MDBRow>
       </div>

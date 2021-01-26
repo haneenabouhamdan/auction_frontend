@@ -134,7 +134,8 @@ class Login extends React.Component {
     } else {
       if (!this.validatePhoneNumber(this.state.phone)) {
         this.setState({
-          phoneErr: "Invalid phone number",
+          // phoneErr: "Invalid phone number",
+          phoneErr: " ",
         });
         error.push("phone number error");
       } else {

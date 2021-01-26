@@ -75,20 +75,20 @@ class UserItems extends React.Component {
       window.location.reload();
     });
   };
-  // getUserByFullName(name) {
-  //   let str = name.split(" ");
-  //   this.setState({ winner_name: name });
-  //   let formData = {
-  //     fname: str[0],
-  //     lname: name.slice(name.indexOf(" ")),
-  //   };
-  //   axios.defaults.withCredentials = true;
-  //   axios.post(`/api/getUserByFullname`, formData).then((res) => {
-  //     // console.log(res.data.email[0].email)
-  //     this.setState({ winner_email: res.data.email[0].email });
-  //     // console.log(this.state.winner_email)
-  //   });
-  // }
+  getUserByFullName(name) {
+    let str = name.split(" ");
+    this.setState({ winner_name: name });
+    let formData = {
+      fname: str[0],
+      lname: name.slice(name.indexOf(" ")),
+    };
+    axios.defaults.withCredentials = true;
+    axios.post(`/api/getUserByFullname`, formData).then((res) => {
+      // console.log(res.data.email[0].email)
+      this.setState({ winner_email: res.data.email[0].email });
+      // console.log(this.state.winner_email)
+    });
+  }
   getOwner = () => {
     axios.defaults.withCredentials = true;
     axios.get(`/api/user`).then((res) => {
@@ -232,7 +232,7 @@ class UserItems extends React.Component {
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
     await axios.get(`/api/getUserAuctions?page=${pageNumber}`).then((res) => {
-      // console.log(res);
+      // console.log(res.data.items.data);
       this.setState({
         bids: res.data.items.data,
         per_page: res.data.items.per_page,
@@ -443,15 +443,10 @@ class UserItems extends React.Component {
               </DropdownButton>
             </MDBRow>
             <div style={{ marginTop: "20px", marginLeft: "50px" }}>
-              {this.renderItems()}
+            {this.renderItems()}
             </div>
           </MDBCol>
         </MDBRow>
-        {/* <div>
-          <MDBIcon icon="sign-alt-out" style={{backgroundColor:"black",
-          height:"50px",marginLeft:"500px"
-        }} onClick={this.logout}/>
-        </div> */}
       </div>
     );
   }

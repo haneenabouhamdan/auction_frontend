@@ -7,12 +7,12 @@ render(){
 <div id="sidebar-wrapper">
       <ul className="sidebar-nav">
         <li className="sidebar-brand">
-          <a href="#">
+        
           <a href="/welcomePage">
             <h4>
               <MDBIcon fas icon="home" /> D.P.M</h4></a>
           <hr style={{color:'white',backgroundColor:'white'}}/>
-          </a>
+       
         </li>
         <li>
         <a href="/userprofile"><MDBIcon icon="align-left"/> Dashboard</a>

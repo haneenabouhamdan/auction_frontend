@@ -25,8 +25,12 @@ class Near extends React.Component {
       min: 0,
       item_id: 0,
     };
-    this.locate = this.locate.bind(this);
     this.handleClickOpenDet = this.handleClickOpenDet.bind(this);
+  }
+  async componentDidMount() {
+    await this.locate();
+    await this.near();
+    await this.getBidsHistory();
   }
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -35,17 +39,16 @@ class Near extends React.Component {
     return new Date(date).getTime();
   }
   handleClickOpenDet = (item) => {
-    this.props.history.push("/itemDetails/".concat(item));
+    window.location.assign("/itemDetails/".concat(item));
   };
   getBidsHistory = () => {
     const bidsref = firebase.database().ref("Bids");
     bidsref.on("value", (snapshot) => {
       const lists = snapshot.val();
-      const list = [];
-      for (let id in lists) {
-        list.push(lists[id]);
-      }
-      // console.log(list)
+    let list = [];
+    for (const  [key , value] of Object.entries(lists)) {
+        list.push(value);
+    }
       this.setState({ lists: list });
     });
   };
@@ -87,19 +90,19 @@ class Near extends React.Component {
     axios.get("/api/getAllAuctions").then((res) => {
       const coor = res.data.items.data;
       coor.map((item) => {
+        if(item.actual_close_date == null){
         let dist = 0;
         dist = this.getdistance(item.longitude, item.latitude);
         ob.push({ item, dist });
-      });
+      }
+      
+    });
       let list = ob.sort((a, b) => a.dist - b.dist);
       this.setState({ auctions: list });
       // console.log(list[0].item)
     });
   };
-  async componentDidMount() {
-    await this.locate();
-    await this.near();
-  }
+
   locate() {
     window.onload = function () {
       var startPos;
@@ -129,8 +132,8 @@ class Near extends React.Component {
       <React.Fragment>
         <div>
           {data.map((item, index) => {
-            if (index < 4) {
               let max = 0;
+            if (index < 4) {
               return (
                 <MDBRow className="itemms" key={index}>
                   <MDBCol md="4">
@@ -240,19 +243,16 @@ class Near extends React.Component {
                       <MDBCol className="biss">
                         <i>Current Bid</i>
                         <br />
-
-                        {maxbids.map((i) => {
-                          // ind=indice
-                          if (i.item_id === item.item.id)
+                        {maxbids.map((i,ind) => {
+                        if (i.item_id == item.item.id){ 
                             if (i.price > max) {
                               max = i.price;
                               win = i.user_id;
                             }
-                          // return max
+                          }
                         })}
                         <div key={index}>
                           <h6 style={{ marginLeft: "5px" }}>
-                            {" "}
                             $ {this.numberWithCommas(max)}
                           </h6>
                         </div>
@@ -270,8 +270,8 @@ class Near extends React.Component {
   };
   render() {
     return (
-      <div class="h-100">
-        <MDBRow class="h-100">
+      <div className="h-100">
+        <MDBRow className="h-100">
           <MDBCol md="8">
             <div style={{ marginTop: "20px", marginLeft: "20px" }}>
               {this.getitems()}

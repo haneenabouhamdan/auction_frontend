@@ -65,6 +65,7 @@ class Favorites extends React.Component {
     this.handlePageChange(pageNumber);
     axios.defaults.withCredentials = true;
     await axios.get(`/api/getFav?page=${pageNumber}`).then((res) => {
+     
       this.setState({
         favbids: res.data.items.data,
         per_page: res.data.items.per_page,
@@ -131,7 +132,6 @@ class Favorites extends React.Component {
   };
   renderUserItems() {
     const data = this.state.favbids;
-    // const active = this.state.activePage;
     let max = 0;
     const maxbids = this.state.lists;
 

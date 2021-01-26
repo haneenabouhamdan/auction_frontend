@@ -56,6 +56,7 @@ class UserProfile extends React.Component {
       interests:[],
       password_confirmation: "",
     };
+    this.editProfile=this.editProfile.bind(this);
   }
   componentDidMount() {
     this.getcount();
@@ -70,7 +71,7 @@ class UserProfile extends React.Component {
         email: response.data.email,
         password: response.data.password,
         phone: response.data.phone,
-        country: response.data.coutry,
+        country: response.data.country,
         state: response.data.state,
         balance: response.data.balance,
         date_of_birth: response.data.date_of_birth,
@@ -145,42 +146,30 @@ class UserProfile extends React.Component {
       });
     });
   };
-  onChangeRegion = (val) => {
-    console.log(val);
-    this.setState({
-      state: val,
-    });
-  };
-  onChangeCountry = (val) => {
-    this.setState({
-      country: val,
-    });
-  };
   onChangelong = (e) => {
     this.setState({ longitude: e });
   };
   onChangelat = (e) => {
     this.setState({ latitude: e });
   };
-  editProfile(){
-    // console.log("hi")
-    let formData1 = {
-      fist_name: this.state.first_name,
+  editProfile (e){
+    e.preventDefault();
+    let FormData = {
+      first_name: this.state.first_name,
       last_name: this.state.last_name,
       email: this.state.email,
       phone: this.state.phone,
-      password: this.state.password,
+      // "password": this.state.password,
+      image:this.state.image,
       balance: this.state.balance,
       country: this.state.country,
       state: this.state.state,
       date_of_birth: this.state.date_of_birth,
     };
     axios.defaults.withCredentials = true;
-    axios.get("/sanctum/csrf-cookie").then(() => {
-      axios.post("/api/users/edit", formData1).then((response) => {
+      axios.post("/api/users/edit", FormData).then((response) => {
         console.log(response);
       });
-    });
   };
   addInterests=()=> {
     // console.log(this.state.category)
@@ -210,7 +199,6 @@ class UserProfile extends React.Component {
       
      
       this.setState({ interests: list });
-      console.log(this.state.interests)
     })
   }
   showadd() {
@@ -389,10 +377,10 @@ axios.get('/api/countwins').then((res)=>{
                 <CardBody>
                   <div id="vis" style={{ display: "none" }}>
                     <Row>
-                      <SearchableMap
+                      {/* <SearchableMap
                         longitude={this.onChangelong}
                         latitude={this.onChangelat}
-                      />
+                      /> */}
                       <DropdownButton
                         title="Home Type"
                         id="categry"
@@ -474,7 +462,7 @@ axios.get('/api/countwins').then((res)=>{
                     <Row>
                     {data.map((i,ind)=>
                    
-                      <Row id={ind} style={{marginLeft:"7px"}}>
+                      <Row key={ind} style={{marginLeft:"15px"}}>
                         {i.category == null ?<Col style={{width:"110px"}}>-</Col>:
                         i.category=='1'?
                         <Col style={{width:"110px"}}>Houses</Col>:
@@ -517,7 +505,7 @@ axios.get('/api/countwins').then((res)=>{
                   <CardTitle tag="h5">Account Details</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Form>
+                  <Form onSubmit={this.editProfile}>
                     <Row>
                       <Col className="px-1" md="5">
                         <FormGroup>
@@ -643,10 +631,10 @@ axios.get('/api/countwins').then((res)=>{
                       <Col>
                         <div className="update ml-auto mr-auto">
                           <button
+                          type="submit"
+                          //  onClick={this.editProfile}
                             className="btn-round"
                             color="primary"
-                            type="submit"
-                            onClick={() => this.editProfile}
                           >
                             Update Account
                           </button>

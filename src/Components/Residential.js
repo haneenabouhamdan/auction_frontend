@@ -103,7 +103,6 @@ class ResItems extends React.Component {
     return new Date(date).getTime();
   }
   handleClickOpenDet = (item) => {
-    console.log(item);
    this.props.history.push('/itemDetails/'.concat(item.id))
 
   };
